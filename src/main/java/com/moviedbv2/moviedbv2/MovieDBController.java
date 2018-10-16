@@ -33,7 +33,7 @@ public class MovieDBController {
     public String index(Model model) {
         log.info("Index called...");
 
-        model.addAllAttributes("movies",movies);
+        //model.addAllAttributes("movies",movies);
 
         return INDEX;
     }
@@ -41,7 +41,7 @@ public class MovieDBController {
     @GetMapping("/createMovie")
     public String createMovie(Model model) {
         log.info("createMovie getmapping called...");
-        model.addAllAttributes("movies", new Movie());
+        //model.addAllAttributes("movies", new Movie());
 
         return CREATEMOVIE;
     }
@@ -63,7 +63,7 @@ public class MovieDBController {
     @GetMapping("/editMovie")
     public String editMovie(Model Model) {
         log.info("Edit movie called...");
-    
+
         return EDITMOVIE;
     }
 
