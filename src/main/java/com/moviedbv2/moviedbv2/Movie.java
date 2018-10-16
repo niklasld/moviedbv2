@@ -10,7 +10,8 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie( int movieDuration, int movieYear, String movieTitle, String movieGenre, String moviePosterLink, String movieTrailerLink) {
+    public Movie(int movieId, int movieDuration, int movieYear, String movieTitle, String movieGenre, String moviePosterLink, String movieTrailerLink) {
+        this.movieId = movieId;
         this.movieDuration = movieDuration;
         this.movieYear = movieYear;
         this.movieTitle = movieTitle;

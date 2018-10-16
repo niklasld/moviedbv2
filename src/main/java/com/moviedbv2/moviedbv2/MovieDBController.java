@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Logger;
 //autowired?
@@ -22,18 +23,21 @@ public class MovieDBController {
 
     Logger log = Logger.getLogger(MovieDBController.class.getName());
 
-    HashMap<Integer, Movie> movies = new HashMap<>();
-    HashMap<Integer, Actor> actors = new HashMap<>();
-
+    //HashMap<Integer, Movie> movies = new HashMap<>();
+    //HashMap<Integer, Actor> actors = new HashMap<>();
+    ArrayList<Movie> movies = new ArrayList<>();
     public MovieDBController() {
-
+        //temp solutiun
+        movies.add(new Movie(0,120,1992,"Peters Rejse","Horror","http://","http://"));
+        movies.add(new Movie(1,120,1992,"Peters Rejse2","Horror","http://","http://"));
+        movies.add(new Movie(2,120,1992,"Peters Rejse3","Porno","http://","http://"));
     }
 
     @GetMapping("/")
     public String index(Model model) {
         log.info("Index called...");
 
-        //model.addAllAttributes("movies",movies);
+        model.addAttribute("movies",movies);
 
         return INDEX;
     }
