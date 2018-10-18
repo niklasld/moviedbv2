@@ -1,16 +1,24 @@
 package com.moviedbv2.moviedbv2;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Logger;
 //autowired?
+
 @Controller
 public class MovieDBController {
+
+    @Autowired
+    MovieDBRepo movieDBRepo;
+    MovieDBService movieDBService;
 
     private final String INDEX = "index";
     private final String CREATEMOVIE = "createmovie";
@@ -42,12 +50,19 @@ public class MovieDBController {
         return INDEX;
     }
 
-    @GetMapping("/createMovie")
+    @GetMapping("/createmovie")
     public String createMovie(Model model) {
         log.info("createMovie getmapping called...");
-        //model.addAllAttributes("movies", new Movie());
+        model.addAllAttributes("movie", new Movie());
 
         return CREATEMOVIE;
+    }
+
+    @PostMapping("/createmovie")
+    public String createMovie(@ModelAttribute Movie movie, Model model){
+        log.info("create movie postmapping called");
+        movieDBService.save(movie);
+        model.addAttribute("movie",movieDBService.fetchAll());
     }
 
     @GetMapping("display/{id}")
