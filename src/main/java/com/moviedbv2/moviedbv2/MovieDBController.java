@@ -9,16 +9,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Logger;
-//autowired?
+
 
 @Controller
 public class MovieDBController {
 
     @Autowired
-    MovieDBRepo movieDBRepo;
-    MovieDBService movieDBService;
+    MovieDBRepoFace movieDBRepoFace;
+    MovieDBServiceFace movieDBServiceFace;
 
     private final String INDEX = "index";
     private final String CREATEMOVIE = "createmovie";
@@ -33,17 +32,19 @@ public class MovieDBController {
 
     //HashMap<Integer, Movie> movies = new HashMap<>();
     //HashMap<Integer, Actor> actors = new HashMap<>();
-    ArrayList<Movie> movies = new ArrayList<>();
+
     public MovieDBController() {
         //temp solutiun
-        movies.add(new Movie(0,120,1992,"Peters Rejse","Horror","http://","http://"));
-        movies.add(new Movie(1,120,1992,"Peters Rejse2","Horror","http://","http://"));
-        movies.add(new Movie(2,120,1992,"Peters Rejse3","Porno","http://","http://"));
+        //movies.add(new Movie(0,120,1992,"Peters Rejse","Horror","http://","http://"));
+        //movies.add(new Movie(1,120,1992,"Peters Rejse2","Horror","http://","http://"));
+        //movies.add(new Movie(2,120,1992,"Peters Rejse3","Porno","http://","http://"))
     }
 
     @GetMapping("/")
     public String index(Model model) {
         log.info("Index called...");
+        //movies = movieDBService.fetchAll();
+        ArrayList<Movie> movies = movieDBRepoFace.getMovies();
 
         model.addAttribute("movies",movies);
 
@@ -53,7 +54,7 @@ public class MovieDBController {
     @GetMapping("/createmovie")
     public String createMovie(Model model) {
         log.info("createMovie getmapping called...");
-        model.addAllAttributes("movie", new Movie());
+        //model.addAllAttributes("movie", new Movie());
 
         return CREATEMOVIE;
     }
@@ -61,8 +62,9 @@ public class MovieDBController {
     @PostMapping("/createmovie")
     public String createMovie(@ModelAttribute Movie movie, Model model){
         log.info("create movie postmapping called");
-        movieDBService.save(movie);
-        model.addAttribute("movie",movieDBService.fetchAll());
+        //movieDBService.save(movie);
+        //model.addAttribute("movie",movieDBService.fetchAll());
+        return INDEX;
     }
 
     @GetMapping("display/{id}")
