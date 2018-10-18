@@ -12,6 +12,10 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.*;
+
+
+import java.util.List;
 import java.util.logging.Logger;
 
 
@@ -40,24 +44,31 @@ public class MovieDBController {
     MovieDBRepo movieDBRepo;
 
     public MovieDBController() {
-        //temp solutiun
-        //movies.add(new Movie(0,120,1992,"Peters Rejse","Horror","http://","http://"));
-        //movies.add(new Movie(1,120,1992,"Peters Rejse2","Horror","http://","http://"));
-        //movies.add(new Movie(2,120,1992,"Peters Rejse3","Porno","http://","http://"))
+
+
     }
 
     @GetMapping("/")
     public String index(Model model) {
         log.info("Index called...");
         //movies = movieDBService.fetchAll();
-        ArrayList<Movie> movies = movieDBRepoFace.getMovies();
 
-        model.addAttribute("movies",movies);
+        List<Movie> movies = movieDBRepoFace.getMovies();
+        model.addAttribute("movies", movies);
 
         return INDEX;
     }
 
-    @GetMapping("/createmovie")
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public String index(@RequestParam("movieTitle")String title, Model model){
+        log.info("search title: " + title);
+
+        List<Movie> movies = movieDBRepoFace.searchMovie(title);
+        model.addAttribute("movies", movies);
+        return "index";
+    }
+
+    @GetMapping("/createMovie")
     public String createMovie(Model model) {
         log.info("createMovie getmapping called...");
         //model.addAllAttributes("movie", new Movie());
@@ -87,18 +98,23 @@ public class MovieDBController {
         return CREATEACTOR;
     }
 
-    @GetMapping("/editMovie")
-    public String editMovie(Model model) {
+    @GetMapping("/editMovie/{id}")
+    public String editMovie(@ModelAttribute Integer id, Model model) {
         log.info("Edit movie called...");
 
         //movieDBRepo.updateMovie(new Movie(5, 83, 1972, "peters rejse4",  "horror", "linken.dk", "linktrailer.com" ));
 
-        List<Movie> movies = movieDBRepo.getMovies();
+        //List<Movie> movies = movieDBRepo.getMovies();
 
-        model.addAttribute("movies", movies);
+        model.addAttribute("movie", movieDBRepoFace.findMovie(id));
 
 
         return EDITMOVIE;
+    }
+
+    @PutMapping
+    public String editMovie(Model model){
+
     }
 
     @GetMapping("/editActor")

@@ -1,0 +1,17 @@
+#logo{
+    color: #000000;
+    font-weight: bold;
+
+    padding: 5px 10px;
+
+    background-color: #E8B708;
+
+}
+
+.btn-light{
+    border: 1px solid #dee2e6;
+}
+
+.form-control{
+    max-width: 400px;
+}
