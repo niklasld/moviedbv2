@@ -14,7 +14,6 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -71,7 +70,7 @@ public class MovieDBController {
     @GetMapping("/createMovie")
     public String createMovie(Model model) {
         log.info("createMovie getmapping called...");
-        //model.addAllAttributes("movie", new Movie());
+        model.addAttribute("movie", new Movie());
 
         return CREATEMOVIE;
     }
@@ -79,8 +78,8 @@ public class MovieDBController {
     @PostMapping("/createmovie")
     public String createMovie(@ModelAttribute Movie movie, Model model){
         log.info("create movie postmapping called");
-        //movieDBService.save(movie);
-        //model.addAttribute("movie",movieDBService.fetchAll());
+        movieDBRepoFace.createMovie(movie);
+        model.addAttribute("movie",movieDBRepoFace.getMovies());
         return INDEX;
     }
 
@@ -98,9 +97,13 @@ public class MovieDBController {
         return CREATEACTOR;
     }
 
-    @GetMapping("/editMovie/{id}")
+    /*@GetMapping("/editMovie/{id}")
     public String editMovie(@ModelAttribute Integer id, Model model) {
-        log.info("Edit movie called...");
+        log.info("Edit movie called..."); */
+
+    @GetMapping("editMovie/{id}")
+    public String editMovie(@PathVariable("id") int id, Model Model) {
+        log.info("Edit movie called..."+id);
 
         //movieDBRepo.updateMovie(new Movie(5, 83, 1972, "peters rejse4",  "horror", "linken.dk", "linktrailer.com" ));
 

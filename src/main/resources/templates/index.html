@@ -56,21 +56,22 @@
                             <td th:text="${movies.movieDuration}" />
                             <td th:text="${movies.movieGenre}" />
                             <td>
-                                <a href="/display/${movies.movieId}" class="btn btn-light btn-sm">
+                                <a th:href="${'display/' + movies.movieId}" class="btn btn-light btn-sm">
                                     <span class="far fa-eye"></span> Details
                                 </a>
-                                <a href="/editMovie/${movies.movieId}" class="btn btn-light btn-sm">
+                                <a th:href="${'editMovie/' + movies.movieId}" class="btn btn-light btn-sm">
                                     <span class="fas fa-pen"></span> Edit
                                 </a>
-                                <a href="/deleteMovie/${movies.movieId}" class="btn btn-danger btn-sm">
+                                <a th:href="${'deleteMovie/' + movies.movieId}" class="btn btn-danger btn-sm">
                                     <span class="fas fa-trash-alt"></span> Delete
                                 </a>
+
                             </td>
                         </span>
                 </tr>
             </tbody>
         </table>
-        <a href="/create">
+        <a href="/createMovie">
             <button class="btn btn-success"><span class="fas fa-plus"></span> Create new movie</button>
         </a>
 
