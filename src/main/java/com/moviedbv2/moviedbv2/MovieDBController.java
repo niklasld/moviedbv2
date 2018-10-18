@@ -1,5 +1,6 @@
 package com.moviedbv2.moviedbv2;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Logger;
 //autowired?
 @Controller
@@ -26,6 +28,9 @@ public class MovieDBController {
     //HashMap<Integer, Movie> movies = new HashMap<>();
     //HashMap<Integer, Actor> actors = new HashMap<>();
     ArrayList<Movie> movies = new ArrayList<>();
+    @Autowired
+    MovieDBRepo movieDBRepo;
+
     public MovieDBController() {
         //temp solutiun
         movies.add(new Movie(0,120,1992,"Peters Rejse","Horror","http://","http://"));
@@ -65,8 +70,15 @@ public class MovieDBController {
     }
 
     @GetMapping("/editMovie")
-    public String editMovie(Model Model) {
+    public String editMovie(Model model) {
         log.info("Edit movie called...");
+
+        movieDBRepo.updateMovie(new Movie(5, 83, 1972, "peters rejse4",  "horror", "linken.dk", "linktrailer.com" ));
+
+        List<Movie> movies = movieDBRepo.getMovie();
+
+        model.addAttribute("movies", movies);
+
 
         return EDITMOVIE;
     }
