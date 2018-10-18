@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
+import org.springframework.web.bind.annotation.*;
+
+
+import java.util.List;
 import java.util.logging.Logger;
 
 
@@ -34,24 +38,31 @@ public class MovieDBController {
     //HashMap<Integer, Actor> actors = new HashMap<>();
 
     public MovieDBController() {
-        //temp solutiun
-        //movies.add(new Movie(0,120,1992,"Peters Rejse","Horror","http://","http://"));
-        //movies.add(new Movie(1,120,1992,"Peters Rejse2","Horror","http://","http://"));
-        //movies.add(new Movie(2,120,1992,"Peters Rejse3","Porno","http://","http://"))
+
+
     }
 
     @GetMapping("/")
     public String index(Model model) {
         log.info("Index called...");
         //movies = movieDBService.fetchAll();
-        ArrayList<Movie> movies = movieDBRepoFace.getMovies();
 
-        model.addAttribute("movies",movies);
+        List<Movie> movies = movieDBRepoFace.getMovies();
+        model.addAttribute("movies", movies);
 
         return INDEX;
     }
 
-    @GetMapping("/createmovie")
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public String index(@RequestParam("movieTitle")String title, Model model){
+        log.info("search title: " + title);
+
+        List<Movie> movies = movieDBRepoFace.searchMovie(title);
+        model.addAttribute("movies", movies);
+        return "index";
+    }
+
+    @GetMapping("/createMovie")
     public String createMovie(Model model) {
         log.info("createMovie getmapping called...");
         //model.addAllAttributes("movie", new Movie());

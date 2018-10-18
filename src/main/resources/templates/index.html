@@ -1,44 +1,80 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:href="http://www.w3.org/1999/xhtml">
 <head>
-    <link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <!--<link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>-->
+    <link rel="icon"  href="../static/image/LMDb_favicon.jpg" th:href="@{/image/LMDb_favicon.jpg}">
+    <link href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" th:href="@{https://use.fontawesome.com/releases/v5.4.1/css/all.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" href="../static/style/style.css" th:href="@{/style/style.css}">
     <meta charset="UTF-8">
-    <title>Movie Leek Database</title>
+    <title>LMDb - Index</title>
 </head>
 <body>
-<h1>Search Movie</h1>
+    <div class="container">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <!-- Brand/logo -->
+            <a class="navbar-brand" href="/">
+                <span id="logo">LMDb</span>
+            </a>
 
-<form method="get" action="/">
-    <input type="text" name="title" placeholder="Enter title here...">
-    <button type="submit" class="btn btn-primary">Search</button>
-</form>
-<table class="table table-striped table-hover">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Year</th>
-            <th>Duration</th>
-            <th>Genre</th>
-            <th>Settings</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr class="active" th:each="movies : ${movies}">
-                <span>
-                    <td th:text="${movies.movieTitle}" />
-                    <td th:text="${movies.movieYear}" />
-                    <td th:text="${movies.movieDuration}" />
-                    <td th:text="${movies.movieGenre}" />
-                    <td>
-                        <a href="/display/${movies.movieId}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                        <a href="/editMovie/${movies.movieId}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
-                        <a href="/deleteMovie/${movies.movieId}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
-                    </td>
-                </span>
-        </tr>
-    </tbody>
-</table>
-<script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+            <!-- Links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Search movie</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Actor List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Login</a>
+                </li>
+            </ul>
+        </nav>
 
+        <h1>Search Movie</h1>
+
+        <form class="form-inline" method="Post" th:action="@{/}">
+            <input type="text" class="form-control mr-sm-2"  th:name="movieTitle" placeholder="Search title"/>
+
+            <button class="btn btn-primary" type="submit" value="Search"><span class="fas fa-search"></span> Search</button>
+        </form>
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Title</th>
+                    <th>Year</th>
+                    <th>Duration</th>
+                    <th>Genre</th>
+                    <th>Settings</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="active" th:each="movies : ${movies}">
+                        <span>
+                            <td th:text="${movies.movieTitle}" />
+                            <td th:text="${movies.movieYear}" />
+                            <td th:text="${movies.movieDuration}" />
+                            <td th:text="${movies.movieGenre}" />
+                            <td>
+                                <a href="/display/${movies.movieId}" class="btn btn-light btn-sm">
+                                    <span class="far fa-eye"></span> Details
+                                </a>
+                                <a href="/editMovie/${movies.movieId}" class="btn btn-light btn-sm">
+                                    <span class="fas fa-pen"></span> Edit
+                                </a>
+                                <a href="/deleteMovie/${movies.movieId}" class="btn btn-danger btn-sm">
+                                    <span class="fas fa-trash-alt"></span> Delete
+                                </a>
+                            </td>
+                        </span>
+                </tr>
+            </tbody>
+        </table>
+        <a href="/create">
+            <button class="btn btn-success"><span class="fas fa-plus"></span> Create new movie</button>
+        </a>
+
+    </div>
+    <script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
 </body>
 </html>

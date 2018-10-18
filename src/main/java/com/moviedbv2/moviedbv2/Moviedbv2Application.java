@@ -4,7 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
+
 @ComponentScan({"com.moviedbv2.moviedbv2"})
+
 @SpringBootApplication
 public class Moviedbv2Application {
 
