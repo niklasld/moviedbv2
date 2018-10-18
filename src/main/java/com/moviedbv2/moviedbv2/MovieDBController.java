@@ -85,9 +85,9 @@ public class MovieDBController {
         return CREATEACTOR;
     }
 
-    @GetMapping("/editMovie")
-    public String editMovie(Model Model) {
-        log.info("Edit movie called...");
+    @GetMapping("editMovie/{id}")
+    public String editMovie(@PathVariable("id") int id, Model Model) {
+        log.info("Edit movie called..."+id);
 
         return EDITMOVIE;
     }
