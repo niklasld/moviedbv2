@@ -110,7 +110,7 @@ public class MovieDBRepo implements MovieDBRepoFace {
 
     @Override
     public Movie findMovie(int id) {
-        String sql = "SELECT * FROM movies WHERE idMovies = ?";
+        String sql = "SELECT * FROM moviedb.movies WHERE idMovies = ?";
 
         RowMapper<Movie> rowMapper = new BeanPropertyRowMapper<>(Movie.class);
 

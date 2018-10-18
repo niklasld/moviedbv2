@@ -7,9 +7,14 @@
 </head>
 <body>
 <h1>Edit Movie</h1>
-<form action="/" th:action="@{/}" method = "post">
+<form th:action="@{/editmovie}" th:object="${movie}" th:method="put">
 
-    <input type = "text" th:title = "movieTitle" place = "Enter new movie title here..">
+    <input type="hidden" th:field="${movie.movieId}">
+
+    <label>Title</label>
+    <input type="text" th:field="${movie.movieTitle}">
+
+    <button type="submit">Save</button>
 
 </form>
 

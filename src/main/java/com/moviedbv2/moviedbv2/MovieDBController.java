@@ -38,9 +38,9 @@ public class MovieDBController {
 
     //HashMap<Integer, Movie> movies = new HashMap<>();
     //HashMap<Integer, Actor> actors = new HashMap<>();
-    ArrayList<Movie> movies = new ArrayList<>();
-    @Autowired
-    MovieDBRepo movieDBRepo;
+    //ArrayList<Movie> movies = new ArrayList<>();
+    //@Autowired
+    //MovieDBRepo movieDBRepo;
 
     public MovieDBController() {
 
@@ -101,15 +101,16 @@ public class MovieDBController {
     public String editMovie(@ModelAttribute Integer id, Model model) {
         log.info("Edit movie called..."); */
 
-    @GetMapping("editMovie/{id}")
-    public String editMovie(@PathVariable("id") int id, Model Model) {
+    @GetMapping("/editMovie/{id}")
+    public String editMovie(@PathVariable Integer id, Model model) {
         log.info("Edit movie called..."+id);
 
         //movieDBRepo.updateMovie(new Movie(5, 83, 1972, "peters rejse4",  "horror", "linken.dk", "linktrailer.com" ));
 
-        //List<Movie> movies = movieDBRepo.getMovies();
+        //List<Movie> movies = movieDBRepo.findMovie(id);
 
         model.addAttribute("movie", movieDBRepoFace.findMovie(id));
+
 
 
         return EDITMOVIE;
@@ -118,6 +119,7 @@ public class MovieDBController {
     @PutMapping
     public String editMovie(Model model){
 
+        return "editMovie";
     }
 
     @GetMapping("/editActor")
