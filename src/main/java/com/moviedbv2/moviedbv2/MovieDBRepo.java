@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Repository
 public class MovieDBRepo implements MovieDBRepoFace {
@@ -80,7 +81,21 @@ public class MovieDBRepo implements MovieDBRepoFace {
 
     @Override
     public Movie createMovie(Movie movie) {
-        return null;
+        Logger log = Logger.getLogger(MovieDBService.class.getName());
+
+        String sql = "INSERT INTO moviedb.movies VALUE(default, ?, ?, ?, ?, ?, ?)";
+        String movieTitle = movie.getMovieTitle();
+        int releaseYear = movie.getMovieYear();
+        String genre = movie.getMovieGenre();
+        int duration = movie.getMovieDuration();
+        String trailerLink = movie.getMovieTrailerLink();
+        String pictureLink = movie.getMoviePosterLink();
+
+        log.info("create movie"+movieTitle+releaseYear+genre+duration+trailerLink+pictureLink);
+        //this.template.update(sql, movie);
+        this.template.update(sql, movieTitle, releaseYear, genre, duration, trailerLink, pictureLink);
+
+        return movie;
     }
 
     @Override
