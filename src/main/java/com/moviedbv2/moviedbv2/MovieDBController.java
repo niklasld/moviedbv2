@@ -1,11 +1,15 @@
 package com.moviedbv2.moviedbv2;
 
+import com.moviedbv2.moviedbv2.Movie;
+import com.moviedbv2.moviedbv2.MovieDBRepoFace;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
+
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 import java.util.logging.Logger;
 //autowired?
@@ -23,23 +27,36 @@ public class MovieDBController {
 
     Logger log = Logger.getLogger(MovieDBController.class.getName());
 
+    @Autowired
+    MovieDBRepoFace movieDBRepoFace;
+
     //HashMap<Integer, Movie> movies = new HashMap<>();
     //HashMap<Integer, Actor> actors = new HashMap<>();
     ArrayList<Movie> movies = new ArrayList<>();
     public MovieDBController() {
         //temp solutiun
-        movies.add(new Movie(0,120,1992,"Peters Rejse","Horror","http://","http://"));
+        /*movies.add(new Movie(0,120,1992,"Peters Rejse","Horror","http://","http://"));
         movies.add(new Movie(1,120,1992,"Peters Rejse2","Horror","http://","http://"));
-        movies.add(new Movie(2,120,1992,"Peters Rejse3","Porno","http://","http://"));
+        movies.add(new Movie(2,120,1992,"Peters Rejse3","Porno","http://","http://"));*/
     }
 
     @GetMapping("/")
     public String index(Model model) {
         log.info("Index called...");
 
-        model.addAttribute("movies",movies);
+        List<Movie> movies = movieDBRepoFace.getMovies();
+        model.addAttribute("movies", movies);
 
         return INDEX;
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public String index(@RequestParam("movieTitle")String title, Model model){
+        log.info("search title: " + title);
+
+        List<Movie> movies = movieDBRepoFace.searchMovie(title);
+        model.addAttribute("movies", movies);
+        return "index";
     }
 
     @GetMapping("/createMovie")
