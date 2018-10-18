@@ -46,4 +46,6 @@ public class MovieDBRepo implements MovieDBRepoFace {
 
         });
     }
+
+    public void updateMovie
 }
