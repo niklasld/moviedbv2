@@ -1,6 +1,8 @@
 /target/
 !.mvn/wrapper/maven-wrapper.jar
 
+application-dev.properties
+
 ### STS ###
 .apt_generated
 .classpath
@@ -15,7 +17,6 @@
 *.iws
 *.iml
 *.ipr
-application-dev.properties
 
 ### NetBeans ###
 /nbproject/private/
