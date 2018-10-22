@@ -7,13 +7,28 @@
 </head>
 <body>
 <h1>Edit Movie</h1>
-<form th:action="@{/editmovie}" th:object="${movie}" th:method="put">
+<form th:method="put" th:action="@{/editmovie}" th:object="${movie}">
 
     <input type="hidden" th:field="${movie.movieId}">
 
     <label>Title</label>
-    <input type="text" th:field="${movie.movieTitle}">
+    <input type="text" class="form-control mr-sm-2"  th:field="${movie.movieTitle}">
 
+    <input type="number" class="form-control mr-sm-2"  th:field="${movie.movieDuration}"/>
+    </tr>
+    <tr>
+        <input type="number" class="form-control mr-sm-2"  th:field="${movie.movieYear}"/>
+    </tr>
+    <tr>
+    </tr>
+    <tr>
+        <input type="text" class="form-control mr-sm-2"  th:field="${movie.movieGenre}"/>
+    </tr>
+    <tr>
+        <input type="text" class="form-control mr-sm-2"  th:field="${movie.moviePosterLink}"/>
+    </tr>
+    <tr>
+        <input type="text" class="form-control mr-sm-2"  th:field="${movie.movieTrailerLink}"/>
     <button type="submit">Save</button>
 
 </form>

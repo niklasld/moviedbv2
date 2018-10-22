@@ -63,7 +63,7 @@ public class MovieDBController {
         log.info("search title: " + title);
 
         List<Movie> movies = movieDBRepoFace.searchMovie(title);
-        model.addAttribute("movies", movies);
+            model.addAttribute("movies", movies);
         return "index";
     }
 
@@ -79,8 +79,8 @@ public class MovieDBController {
     public String createMovie(@ModelAttribute Movie movie, Model model){
         log.info("create movie postmapping called");
         movieDBRepoFace.createMovie(movie);
-        model.addAttribute("movie",movieDBRepoFace.getMovies());
-        return INDEX;
+        model.addAttribute("movies",movieDBRepoFace.getMovies());
+        return "redirect:/";
     }
 
     @GetMapping("display/{id}")
@@ -105,21 +105,18 @@ public class MovieDBController {
     public String editMovie(@PathVariable Integer id, Model model) {
         log.info("Edit movie called..."+id);
 
-        //movieDBRepo.updateMovie(new Movie(5, 83, 1972, "peters rejse4",  "horror", "linken.dk", "linktrailer.com" ));
-
-        //List<Movie> movies = movieDBRepo.findMovie(id);
-
         model.addAttribute("movie", movieDBRepoFace.findMovie(id));
-
-
 
         return EDITMOVIE;
     }
 
-    @PutMapping
-    public String editMovie(Model model){
+    @PutMapping("/editmovie")
+    public String editMovie(@ModelAttribute Movie movie, Model model){
 
-        return "editMovie";
+    movieDBRepoFace.updateMovie(movie);
+
+    model.addAttribute("movies", movieDBRepoFace.getMovies());
+    return "redirect:/";
     }
 
     @GetMapping("/editActor")
