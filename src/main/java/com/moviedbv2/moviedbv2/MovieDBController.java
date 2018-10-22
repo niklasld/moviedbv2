@@ -3,6 +3,15 @@ package com.moviedbv2.moviedbv2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.ArrayList;
+
+import java.util.List;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +38,9 @@ public class MovieDBController {
 
     //HashMap<Integer, Movie> movies = new HashMap<>();
     //HashMap<Integer, Actor> actors = new HashMap<>();
+    //ArrayList<Movie> movies = new ArrayList<>();
+    //@Autowired
+    //MovieDBRepo movieDBRepo;
 
     public MovieDBController() {
 
@@ -51,7 +63,7 @@ public class MovieDBController {
         log.info("search title: " + title);
 
         List<Movie> movies = movieDBRepoFace.searchMovie(title);
-        model.addAttribute("movies", movies);
+            model.addAttribute("movies", movies);
         return "index";
     }
 
@@ -67,8 +79,8 @@ public class MovieDBController {
     public String createMovie(@ModelAttribute Movie movie, Model model){
         log.info("create movie postmapping called");
         movieDBRepoFace.createMovie(movie);
-        model.addAttribute("movie",movieDBRepoFace.getMovies());
-        return INDEX;
+        model.addAttribute("movies",movieDBRepoFace.getMovies());
+        return "redirect:/";
     }
 
     @GetMapping("display/{id}")
@@ -85,18 +97,40 @@ public class MovieDBController {
         return CREATEACTOR;
     }
 
-    @GetMapping("editMovie/{id}")
-    public String editMovie(@PathVariable("id") int id, Model Model) {
+    /*@GetMapping("/editMovie/{id}")
+    public String editMovie(@ModelAttribute Integer id, Model model) {
+        log.info("Edit movie called..."); */
+
+    @GetMapping("/editMovie/{id}")
+    public String editMovie(@PathVariable Integer id, Model model) {
         log.info("Edit movie called..."+id);
+
+        model.addAttribute("movie", movieDBRepoFace.findMovie(id));
 
         return EDITMOVIE;
     }
 
+
     @GetMapping("/deleteMovie/{id}")
     public String deleteMovie(@PathVariable Integer id, Model model) {
-        log.info("Delete movie called id="+id);
+        log.info("Delete movie called id=" + id);
 
-        model.addAttribute("movie", movieDBRepoFace.findMovie(id));
+        return  DELETEMOVIE;
+    }
+
+    @PutMapping("/editmovie")
+    public String editMovie(@ModelAttribute Movie movie, Model model){
+
+    movieDBRepoFace.updateMovie(movie);
+
+    model.addAttribute("movies", movieDBRepoFace.getMovies());
+    return "redirect:/";
+    }
+
+    @GetMapping("/editActor")
+    public String editActor(Model model) {
+        log.info("Edit actor Called");
+
         return DELETEMOVIE;
     }
 
@@ -109,12 +143,5 @@ public class MovieDBController {
 
         model.addAttribute("movies", movieDBRepoFace.getMovies());
         return DELETEMOVIE;
-    }
-
-    @GetMapping("/editActor")
-    public String editActor(Model model) {
-        log.info("Edit actor Called");
-
-        return EDITACTOR;
     }
 }
