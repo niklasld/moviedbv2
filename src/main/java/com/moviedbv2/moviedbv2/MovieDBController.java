@@ -92,24 +92,29 @@ public class MovieDBController {
         return EDITMOVIE;
     }
 
+    @GetMapping("/deleteMovie/{id}")
+    public String deleteMovie(@PathVariable Integer id, Model model) {
+        log.info("Delete movie called id="+id);
+
+        model.addAttribute("movie", movieDBRepoFace.findMovie(id));
+        return DELETEMOVIE;
+    }
+
+    @PutMapping("/deleteMovie")
+    public String deleteMovie(@ModelAttribute Movie movie, Model model) {
+        //log.info("delete actor called id = "+id);
+        int movieId = movie.getMovieId();
+
+        movieDBRepoFace.deleteMovie(movieId);
+
+        model.addAttribute("movies", movieDBRepoFace.getMovies());
+        return DELETEMOVIE;
+    }
+
     @GetMapping("/editActor")
     public String editActor(Model model) {
         log.info("Edit actor Called");
 
         return EDITACTOR;
-    }
-
-    @GetMapping("/deleteMovie/{id}")
-    public String deleteMovie(@PathVariable("id") int id, Model model) {
-        log.info("Delete movie called id="+id);
-
-        return DELETEMOVIE;
-    }
-
-    @GetMapping("/deleteActor/{id}")
-    public String deleteActor(@PathVariable("id") int id, Model model) {
-        log.info("delete actor called id = "+id);
-
-        return DELETEACTOR;
     }
 }

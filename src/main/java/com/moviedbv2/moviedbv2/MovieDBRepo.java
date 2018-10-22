@@ -105,6 +105,8 @@ public class MovieDBRepo implements MovieDBRepoFace {
 
     @Override
     public void deleteMovie(int id) {
+        String sql = "DELETE from movies WHERE idmovies = ?";
+        this.template.update(sql,id);
 
     }
 
