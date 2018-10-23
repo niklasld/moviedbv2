@@ -104,10 +104,10 @@ public class MovieDBRepo implements MovieDBRepoFace {
 
 
     @Override
-    public List<Movie> searchMovie(String title) {
-        String sql = "SELECT * FROM movies WHERE movieTitle LIKE ?";
+    public List<Movie> searchMovie(String search) {
+        String sql = "SELECT * FROM movies WHERE movieTitle LIKE ? OR movieGenre LIKE ?";
 
-        title = "%" + title + "%";
+        search = "%" + search + "%";
 
         // Fra sql til list.
         // Manuelt i stedet.
@@ -131,7 +131,7 @@ public class MovieDBRepo implements MovieDBRepoFace {
                 }
                 return movies;
             }
-        }, title);
+        }, search, search);
 
     }
 
