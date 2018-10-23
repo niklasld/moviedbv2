@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.*;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -117,12 +118,21 @@ public class MovieDBRepo implements MovieDBRepoFace {
 
 
     }
+
     @Override
     public void deleteMovie(int id) {
-        String sql = "DELETE from movies WHERE idmovies = ?";
-        this.template.update(sql,id);
-
+        String sql = "DELETE FROM movies WHERE movieId=?";
+        this.template.update(sql, id);
     }
+
+
+    /*@Override
+    public void deleteMovie(int id) {
+        String sql = "DELETE from movies WHERE movieId = ?";
+        RowMapper<Movie> rowMapper = new BeanPropertyRowMapper<>(Movie.class);
+        this.template.queryForObject(sql,rowMapper,id);
+
+    }*/
 
     @Override
     public Movie findMovie(int id) {
