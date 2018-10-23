@@ -36,12 +36,6 @@ public class MovieDBController {
 
     Logger log = Logger.getLogger(MovieDBController.class.getName());
 
-    //HashMap<Integer, Movie> movies = new HashMap<>();
-    //HashMap<Integer, Actor> actors = new HashMap<>();
-    //ArrayList<Movie> movies = new ArrayList<>();
-    //@Autowired
-    //MovieDBRepo movieDBRepo;
-
     public MovieDBController() {
 
 
@@ -97,10 +91,6 @@ public class MovieDBController {
         return CREATEACTOR;
     }
 
-    /*@GetMapping("/editMovie/{id}")
-    public String editMovie(@ModelAttribute Integer id, Model model) {
-        log.info("Edit movie called..."); */
-
     @GetMapping("/editMovie/{id}")
     public String editMovie(@PathVariable Integer id, Model model) {
         log.info("Edit movie called..."+id);
@@ -108,6 +98,24 @@ public class MovieDBController {
         model.addAttribute("movie", movieDBRepoFace.findMovie(id));
 
         return EDITMOVIE;
+    }
+
+    @GetMapping("/deleteMovie/{id}")
+    public String deleteMovie(@PathVariable Integer id, Model model) {
+        log.info("Delete movie wits id: "+id+"?");
+        model.addAttribute("movie", movieDBRepoFace.findMovie(id));
+        return DELETEMOVIE;
+    }
+
+    @PutMapping("/deleteMovie")
+    public String delete(@ModelAttribute Movie movie, Model model) {
+        log.info("delete confirmed deleting movie "+movie.getMovieId());
+        int id = movie.getMovieId();
+
+        movieDBRepoFace.deleteMovie(id);
+
+        model.addAttribute("movies", movieDBRepoFace.getMovies());
+        return "redirect:/";
     }
 
     @PutMapping("/editmovie")
@@ -122,21 +130,7 @@ public class MovieDBController {
     @GetMapping("/editActor")
     public String editActor(Model model) {
         log.info("Edit actor Called");
-
         return EDITACTOR;
-    }
 
-    @GetMapping("/deleteMovie/{id}")
-    public String deleteMovie(@PathVariable("id") int id, Model model) {
-        log.info("Delete movie called id="+id);
-
-        return DELETEMOVIE;
-    }
-
-    @GetMapping("/deleteActor/{id}")
-    public String deleteActor(@PathVariable("id") int id, Model model) {
-        log.info("delete actor called id = "+id);
-
-        return DELETEACTOR;
     }
 }
