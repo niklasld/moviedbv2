@@ -3,9 +3,37 @@
 <head>
     <link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/> <meta charset="UTF-8">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>editMovie</title>
 </head>
 <body>
+<h1>Edit Movie</h1>
+<form th:method="put" th:action="@{/editmovie}" th:object="${movie}">
 
+    <input type="hidden" th:field="${movie.movieId}">
+
+    <label>Title</label>
+    <input type="text" class="form-control mr-sm-2"  th:field="${movie.movieTitle}">
+
+    <input type="number" class="form-control mr-sm-2"  th:field="${movie.movieDuration}"/>
+    </tr>
+    <tr>
+        <input type="number" class="form-control mr-sm-2"  th:field="${movie.movieYear}"/>
+    </tr>
+    <tr>
+    </tr>
+    <tr>
+        <input type="text" class="form-control mr-sm-2"  th:field="${movie.movieGenre}"/>
+    </tr>
+    <tr>
+        <input type="text" class="form-control mr-sm-2"  th:field="${movie.moviePosterLink}"/>
+    </tr>
+    <tr>
+        <input type="text" class="form-control mr-sm-2"  th:field="${movie.movieTrailerLink}"/>
+    <button type="submit">Save</button>
+
+</form>
+
+
+</form>
 </body>
 </html>
