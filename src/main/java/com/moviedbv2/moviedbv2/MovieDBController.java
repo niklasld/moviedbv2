@@ -84,12 +84,24 @@ public class MovieDBController {
         return DISPLAY;
     }
 
+
+
     @GetMapping("/createActor")
     public String createActor(Model model) {
         log.info("Create actor called...");
 
         return CREATEACTOR;
     }
+
+    @PutMapping("/createActor")
+    public String createActor (){
+
+
+        return CREATEACTOR;
+    }
+
+
+
 
     @GetMapping("/editMovie/{id}")
     public String editMovie(@PathVariable Integer id, Model model) {

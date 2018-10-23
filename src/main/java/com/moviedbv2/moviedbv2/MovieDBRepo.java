@@ -5,7 +5,6 @@ import org.springframework.jdbc.core.*;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -81,6 +80,24 @@ public class MovieDBRepo implements MovieDBRepoFace {
         this.template.update(sql, movieTitle, movieYear, movieGenre, movieDuration, movieTrailerLink, moviePosterLink, movieId);
         return movie;
    }
+
+
+
+
+    @Override
+    public Actor createActor(Actor actor) {
+        return null;
+    }
+
+    public Actor createActor(int actorId, Actor actor){
+        String sql = "INSERT into actors values (default , ? ,?)";
+        this.template.update(sql, actorId);
+        return actor;
+
+    }
+
+
+
 
     @Override
     public void deleteMovie(int id) {
