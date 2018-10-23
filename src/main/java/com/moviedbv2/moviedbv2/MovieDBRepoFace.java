@@ -19,4 +19,5 @@ public interface MovieDBRepoFace {
     void deleteMovie(int id);
     Movie findMovie(int id);
     List<Movie> searchMovie(String title);
+
 }

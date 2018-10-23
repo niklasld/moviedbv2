@@ -3,9 +3,40 @@
 <head>
     <link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/> <meta charset="UTF-8">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Movie Details</title>
 </head>
 <body>
 
+<h1>Display Movie</h1>
+<form th:method="get" th:action="@{/display}" th:object="${movie}">
+
+    <input type="hidden" th:field="${movie.movieId}">
+
+    <label>Title</label>
+    <input type="text" class="form-control mr-sm-2"  th:field="${movie.movieTitle}">
+
+    <input type="number" class="form-control mr-sm-2"  th:field="${movie.movieDuration}"/>
+    </tr>
+    <tr>
+        <text type="number" class="form-control mr-sm-2"  th:field="${movie.movieYear}"/>
+    </tr>
+    <tr>
+    </tr>
+    <tr>
+        <input type="text" class="form-control mr-sm-2"  th:field="${movie.movieGenre}"/>
+    </tr>
+    <tr>
+
+
+</form>-->
+<tr class="active" th:each="movies : ${movies}">
+                        <span>
+                            <td th:text="${movies.movieTitle}" />
+                            <td th:text="${movies.movieYear}" />
+                            <td th:text="${movies.movieDuration}" />
+                            <td th:text="${movies.movieGenre}" />
+                            <td>
+
+        <img th:src="${movie.moviePosterLink}"/>
 </body>
 </html>

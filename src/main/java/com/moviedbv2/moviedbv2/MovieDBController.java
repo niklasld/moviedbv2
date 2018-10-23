@@ -81,6 +81,8 @@ public class MovieDBController {
     public String display(@PathVariable("id") int id, Model model) {
         log.info("Display called, id="+id);
 
+        model.addAttribute(("movie"), movieDBRepoFace.findMovie(id));
+
         return DISPLAY;
     }
 
