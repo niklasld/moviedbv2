@@ -19,37 +19,6 @@ public class MovieDBRepo implements MovieDBRepoFace {
     @Autowired
     JdbcTemplate template;
 
-
-    /*public ArrayList<Movie> getMovies() {
-        String sql = "SELECT * FROM movies";
-
-        return this.template.query(sql, new ResultSetExtractor<ArrayList<Movie>>() {
-
-            @Override
-            public ArrayList<Movie> extractData(ResultSet rs) throws SQLException, DataAccessException {
-
-                ArrayList<Movie> movie = new ArrayList<>();
-                int idMovies,  releaseYear, duration;
-                String title, genre, trailerLink, pictureLink;
-
-                while(rs.next()) {
-                    idMovies = rs.getInt("idmovies");
-                    title = rs.getString("title");
-                    releaseYear = rs.getInt("releaseyear");
-                    genre = rs.getString("genre");
-                    duration = rs.getInt("duration");
-                    trailerLink = rs.getString("trailerLink");
-                    pictureLink = rs.getString("pictureLink");
-
-                    movie.add(new Movie(idMovies,duration,releaseYear,title,genre,pictureLink,trailerLink));
-                }
-
-                return movie;
-            }
-
-        });
-    }*/
-
     @Override
     public List<Movie> getMovies() {
         String sql = "SELECT * FROM movies";
@@ -93,34 +62,13 @@ public class MovieDBRepo implements MovieDBRepoFace {
         String posterLink = movie.getMoviePosterLink();
 
         log.info("create movie"+movieTitle+releaseYear+genre+duration+trailerLink+posterLink);
-        //this.template.update(sql, movie);
         this.template.update(sql, movieTitle, releaseYear, genre, duration, trailerLink, posterLink);
 
         return movie;
     }
 
     @Override
-    public Movie updateMovie(Movie movie) {/*
-<<<<<<< HEAD
-=======
-
-        String sql = "UPDATE movies SET movieTitle = ?, movieYear = ?, movieGenre = ?, movieDuration = ?, movieTrailerLink = ?, moviePosterLink = ? WHERE movieId = ?";
-        String movieTitle = movie.getMovieTitle();
-        String movieGenre = movie.getMovieGenre();
-        String movieTrailerLink = movie.getMovieTrailerLink();
-        String moviePosterLink = movie.getMoviePosterLink();
-        int movieId = movie.getMovieId();
-        int movieYear = movie.getMovieYear();
-        int movieDuration = movie.getMovieDuration();
-        this.template.update(sql, movieTitle, movieYear, movieGenre, movieDuration, movieTrailerLink, moviePosterLink, movieId);
-        return movie;
-
-
-
-
-
-    }
->>>>>>> delete*/
+    public Movie updateMovie(Movie movie) {
 
         String sql = "UPDATE movies SET movieTitle = ?, movieYear = ?, movieGenre = ?, movieDuration = ?, movieTrailerLink = ?, moviePosterLink = ? WHERE movieId = ?";
         String movieTitle = movie.getMovieTitle();
@@ -140,14 +88,6 @@ public class MovieDBRepo implements MovieDBRepoFace {
         this.template.update(sql, id);
     }
 
-
-    /*@Override
-    public void deleteMovie(int id) {
-        String sql = "DELETE from movies WHERE movieId = ?";
-        RowMapper<Movie> rowMapper = new BeanPropertyRowMapper<>(Movie.class);
-        this.template.queryForObject(sql,rowMapper,id);
-
-    }*/
 
     @Override
     public Movie findMovie(int id) {

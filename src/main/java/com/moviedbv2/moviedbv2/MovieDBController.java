@@ -36,12 +36,6 @@ public class MovieDBController {
 
     Logger log = Logger.getLogger(MovieDBController.class.getName());
 
-    //HashMap<Integer, Movie> movies = new HashMap<>();
-    //HashMap<Integer, Actor> actors = new HashMap<>();
-    //ArrayList<Movie> movies = new ArrayList<>();
-    //@Autowired
-    //MovieDBRepo movieDBRepo;
-
     public MovieDBController() {
 
 
@@ -97,10 +91,6 @@ public class MovieDBController {
         return CREATEACTOR;
     }
 
-    /*@GetMapping("/editMovie/{id}")
-    public String editMovie(@ModelAttribute Integer id, Model model) {
-        log.info("Edit movie called..."); */
-
     @GetMapping("/editMovie/{id}")
     public String editMovie(@PathVariable Integer id, Model model) {
         log.info("Edit movie called..."+id);
@@ -117,16 +107,6 @@ public class MovieDBController {
         return DELETEMOVIE;
     }
 
-    /*
-    @PutMapping("/editmovie")
-    public String editMovie(@ModelAttribute Movie movie, Model model){
-
-    movieDBRepoFace.updateMovie(movie);
-
-    model.addAttribute("movies", movieDBRepoFace.getMovies());
-    return "redirect:/";
-    }*/
-
     @PutMapping("/deleteMovie")
     public String delete(@ModelAttribute Movie movie, Model model) {
         log.info("delete confirmed deleting movie "+movie.getMovieId());
@@ -137,24 +117,6 @@ public class MovieDBController {
         model.addAttribute("movies", movieDBRepoFace.getMovies());
         return "redirect:/";
     }
-
-    /*@GetMapping("/deleteMovie/{id}")
-    public String deleteMovie(@PathVariable Integer id, Model model) {
-        log.info("Delete movie called id=" + id);
-        model.addAttribute("movie",movieDBRepoFace.findMovie(id));
-        return  DELETEMOVIE;
-    }
-
-    @PostMapping("/deleteMovie")
-    public String deleteMovie(@ModelAttribute Movie movie, Model model) {
-        log.info("deleted movie called = "+movie);
-        int movieId = movie.getMovieId();
-
-        movieDBRepoFace.deleteMovie(movieId);
-
-        model.addAttribute("movies", movieDBRepoFace.getMovies());
-        return "redirect:/";
-    }*/
 
     @PutMapping("/editmovie")
     public String editMovie(@ModelAttribute Movie movie, Model model){
@@ -168,11 +130,7 @@ public class MovieDBController {
     @GetMapping("/editActor")
     public String editActor(Model model) {
         log.info("Edit actor Called");
-<<<<<<< HEAD
         return EDITACTOR;
-=======
 
-        return DELETEMOVIE;
->>>>>>> delete
     }
 }
