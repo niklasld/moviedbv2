@@ -138,7 +138,7 @@ public class MovieDBRepo implements MovieDBRepoFace {
 
     @Override
     public List<Movie> searchMovie(String title) {
-        String sql = "SELECT * FROM movies WHERE movieTitle LIKE ?";
+        String sql = "SELECT * FROM movies WHERE ((movieTitle LIKE '?') OR (movieGenre LiKE '?'))";
 
         title = "%" + title + "%";
 
