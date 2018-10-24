@@ -1,9 +1,11 @@
 package com.moviedbv2.moviedbv2;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.*;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -14,10 +16,6 @@ import java.util.logging.Logger;
 
 @Repository
 public class MovieDBRepo implements MovieDBRepoFace {
-
-    @Autowired
-    JdbcTemplate template;
-
     @Override
     public List<Movie> getMovies() {
         String sql = "SELECT * FROM movies";
@@ -47,6 +45,10 @@ public class MovieDBRepo implements MovieDBRepoFace {
         });
 
     }
+
+
+    @Autowired
+    JdbcTemplate template;
 
     @Override
     public Movie createMovie(Movie movie) {
@@ -147,10 +149,10 @@ public class MovieDBRepo implements MovieDBRepoFace {
 
 
     @Override
-    public List<Movie> searchMovie(String title) {
-        String sql = "SELECT * FROM movies WHERE movieTitle LIKE ?";
+    public List<Movie> searchMovie(String search) {
+        String sql = "SELECT * FROM movies WHERE movieTitle LIKE ? OR movieGenre LIKE ?";
 
-        title = "%" + title + "%";
+        search = "%" + search + "%";
 
         // Fra sql til list.
         // Manuelt i stedet.
@@ -174,7 +176,7 @@ public class MovieDBRepo implements MovieDBRepoFace {
                 }
                 return movies;
             }
-        }, title);
+        }, search, search);
 
     }
 

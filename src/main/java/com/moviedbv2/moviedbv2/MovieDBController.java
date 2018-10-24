@@ -3,15 +3,6 @@ package com.moviedbv2.moviedbv2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.ArrayList;
-
-import java.util.List;
-
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +15,7 @@ public class MovieDBController {
     @Autowired
     MovieDBRepoFace movieDBRepoFace;
     MovieDBServiceFace movieDBServiceFace;
+    ActorRepoFace actorRepoFace;
 
     private final String INDEX = "index";
     private final String CREATEMOVIE = "createmovie";
@@ -34,6 +26,7 @@ public class MovieDBController {
     private final String EDITACTOR = "editactor";
     private final String DELETEMOVIE = "deletemovie";
     private final String DELETEACTOR = "deleteactor";
+    private final String ADDACTORTOMOVIE = "addActorToMovie";
 
     Logger log = Logger.getLogger(MovieDBController.class.getName());
 
@@ -60,6 +53,13 @@ public class MovieDBController {
         List<Movie> movies = movieDBRepoFace.searchMovie(title);
             model.addAttribute("movies", movies);
         return "index";
+    }
+
+    @GetMapping("/addActorToMovie")
+    public String addActorToMovie(int movieId, Model model) {
+        log.info("Add actor to movie called for movie id: "+ movieId);
+        List<Actor> actors = actorRepoFace.getActors();
+        return ADDACTORTOMOVIE;
     }
 
     @GetMapping("/createMovie")

@@ -13,6 +13,7 @@ import java.util.List;
 @Repository
 
 public interface MovieDBRepoFace {
+    //Movies
     List<Movie> getMovies();
     Movie createMovie(Movie movie);
     Movie updateMovie(Movie movie);
@@ -22,5 +23,19 @@ public interface MovieDBRepoFace {
 
     void deleteMovie(int id);
     Movie findMovie(int id);
-    List<Movie> searchMovie(String title);
+    List<Movie> searchMovie(String search);
+
+    //Actors
+    /*List<Actor> getActors();
+    Actor createActor(Actor actor);
+    Actor updateActor(Actor actor);
+    void deleteActor(int id);
+    Actor findActor(int id);
+    List<Actor> searchActor(String name);*/
+
+    //Movie actor relation
+   /*List<Actor> getRelatedMovieActor();
+    List<Actor> getUnrelatedMovieActor();
+    void createRelation(int actorId, int movieId);
+    void removeRelation(int actorId, int movieId);*/
 }
