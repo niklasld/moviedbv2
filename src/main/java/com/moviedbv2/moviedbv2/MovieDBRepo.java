@@ -1,11 +1,12 @@
 package com.moviedbv2.moviedbv2;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.*;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,10 +16,6 @@ import java.util.logging.Logger;
 
 @Repository
 public class MovieDBRepo implements MovieDBRepoFace {
-
-    @Autowired
-    JdbcTemplate template;
-
     @Override
     public List<Movie> getMovies() {
         String sql = "SELECT * FROM movies";
@@ -48,6 +45,10 @@ public class MovieDBRepo implements MovieDBRepoFace {
         });
 
     }
+
+
+    @Autowired
+    JdbcTemplate template;
 
     @Override
     public Movie createMovie(Movie movie) {
@@ -82,6 +83,50 @@ public class MovieDBRepo implements MovieDBRepoFace {
         return movie;
    }
 
+
+
+    @Override
+    public List<Actor> getActors() {
+        String sql = "SELECT * FROM actors";
+
+        // Fra sql til list.
+        // Manuelt i stedet.
+        return this.template.query(sql, new ResultSetExtractor<List<Actor>>(){
+            @Override
+            public List<Actor> extractData(ResultSet rs) throws SQLException, DataAccessException {
+                int actorId;
+                String firstName, lastName;
+                ArrayList<Actor> actors = new ArrayList<>();
+
+                while(rs.next()){
+                    actorId = rs.getInt("actorId");
+                    firstName = rs.getString("firstName");
+                    lastName = rs.getString("lastName");
+
+                    actors.add(new Actor(actorId, firstName, lastName));
+                }
+                return actors;
+            }
+        });
+
+    }
+
+    @Override
+    public Actor createActor(Actor actor) {
+        Logger log = Logger.getLogger(MovieDBService.class.getName());
+
+        String sql = "INSERT INTO actors VALUE(default, ?, ?)";
+        String firstName= actor.getFirstName();
+        String lastName= actor.getLastName();
+
+        log.info("create actor" + firstName + lastName);
+        this.template.update(sql, firstName, lastName);
+
+        return actor;
+    }
+
+
+
     @Override
     public void deleteMovie(int id) {
         String sql = "DELETE FROM movies WHERE movieId=?";
@@ -104,10 +149,10 @@ public class MovieDBRepo implements MovieDBRepoFace {
 
 
     @Override
-    public List<Movie> searchMovie(String title) {
-        String sql = "SELECT * FROM movies WHERE movieTitle LIKE ?";
+    public List<Movie> searchMovie(String search) {
+        String sql = "SELECT * FROM movies WHERE movieTitle LIKE ? OR movieGenre LIKE ?";
 
-        title = "%" + title + "%";
+        search = "%" + search + "%";
 
         // Fra sql til list.
         // Manuelt i stedet.
@@ -131,7 +176,7 @@ public class MovieDBRepo implements MovieDBRepoFace {
                 }
                 return movies;
             }
-        }, title);
+        }, search, search);
 
     }
 
