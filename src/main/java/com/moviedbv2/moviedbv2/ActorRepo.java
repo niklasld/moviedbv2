@@ -14,31 +14,31 @@ import java.util.List;
 @Repository
 public class ActorRepo implements ActorRepoFace {
 
-        @Override
-        public List<Actor> getActors() {
-            String sql = "SELECT * FROM actors";
+    @Override
+    public List<Actor> getActors() {
+        String sql = "SELECT * FROM actors";
 
-            // Fra sql til list.
-            // Manuelt i stedet.
-            return this.template.query(sql, new ResultSetExtractor<List<Actor>>(){
-                @Override
-                public List<Actor> extractData(ResultSet rs) throws SQLException, DataAccessException {
-                    int actorId;
-                    String firstName, lastName;
-                    ArrayList<Actor> actors = new ArrayList<>();
+        // Fra sql til list.
+        // Manuelt i stedet.
+        return this.template.query(sql, new ResultSetExtractor<List<Actor>>(){
+            @Override
+            public List<Actor> extractData(ResultSet rs) throws SQLException, DataAccessException {
+                int actorId;
+                String firstName, lastName;
+                ArrayList<Actor> actors = new ArrayList<>();
 
-                    while(rs.next()){
-                        actorId = rs.getInt("actorId");
-                        firstName = rs.getString("firstName");
-                        lastName = rs.getString("lastName");
+                while(rs.next()){
+                    actorId = rs.getInt("actorId");
+                    firstName = rs.getString("firstName");
+                    lastName = rs.getString("lastName");
 
-                        actors.add(new Actor(actorId, firstName, lastName));
-                    }
-                    return actors;
+                    actors.add(new Actor(actorId, firstName, lastName));
                 }
-            });
+                return actors;
+            }
+        });
 
-        }
+    }
 
     @Autowired
     JdbcTemplate template;

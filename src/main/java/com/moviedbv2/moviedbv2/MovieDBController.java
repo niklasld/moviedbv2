@@ -26,7 +26,7 @@ public class MovieDBController {
     private final String EDITACTOR = "editactor";
     private final String DELETEMOVIE = "deletemovie";
     private final String DELETEACTOR = "deleteactor";
-    private final String ADDACTORTOMOVIE = "addActorToMovie";
+    private final String ADDACTORTOMOVIE = "addactortomovie";
 
     Logger log = Logger.getLogger(MovieDBController.class.getName());
 
@@ -51,14 +51,21 @@ public class MovieDBController {
         log.info("search title: " + title);
 
         List<Movie> movies = movieDBRepoFace.searchMovie(title);
-            model.addAttribute("movies", movies);
+        model.addAttribute("movies", movies);
+
         return "index";
     }
 
-    @GetMapping("/addActorToMovie")
-    public String addActorToMovie(int movieId, Model model) {
+    @GetMapping("/addactortomovie/{movieId}")
+    public String addActorToMovie(@PathVariable("movieId") int movieId, Model model) {
         log.info("Add actor to movie called for movie id: "+ movieId);
+
         List<Actor> actors = actorRepoFace.getActors();
+
+        model.addAttribute("movieid", movieId);
+        model.addAttribute("actors", actors);
+
+
         return ADDACTORTOMOVIE;
     }
 
@@ -91,7 +98,7 @@ public class MovieDBController {
         log.info("actors called...");
         //movies = movieDBService.fetchAll();
 
-        List<Actor> actors = movieDBRepoFace.getActors();
+        List<Actor> actors = actorRepoFace.getActors();
         model.addAttribute("actors", actors);
 
         return ACTORS;
@@ -102,7 +109,7 @@ public class MovieDBController {
     public String createActor(@ModelAttribute Actor actor, Model model) {
         log.info("Create actor called...");
         movieDBRepoFace.createActor(actor);
-        model.addAttribute("actor",movieDBRepoFace.getActors());
+        model.addAttribute("actor",actorRepoFace.getActors());
         return "redirect:/actors";
     }
 
