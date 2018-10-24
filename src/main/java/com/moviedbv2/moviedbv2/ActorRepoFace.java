@@ -10,6 +10,6 @@ public interface ActorRepoFace {
     Movie createActor(Actor actor);
     Movie updateActor(Actor actor);
     void deleteActor(int id);
-    Movie findActor(int id);
+    Actor findActor(int id);
     List<Movie> searchActor(String actor);
 }

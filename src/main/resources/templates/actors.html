@@ -43,6 +43,11 @@
             <th>First Name</th>
             <th>Last Name</th>
 
+
+
+            <th>Settings</th>
+
+
         </tr>
         </thead>
         <tbody>
@@ -50,6 +55,21 @@
                         <span>
                             <td th:text="${actor.firstName}" />
                             <td th:text="${actor.lastName}" />
+
+
+
+                                <td>
+                                    <a th:href="${'/#'}" class="btn btn-light btn-sm">
+                                        <span class="fas fa-pen"></span> Edit
+                                    </a>
+                                    <a th:href="${'/#'}" class="btn btn-danger btn-sm">
+                                        <span class="fas fa-trash-alt"></span> Delete
+                                    </a>
+                                </td>
+
+
+
+
                         </span>
         </tr>
         </tbody>

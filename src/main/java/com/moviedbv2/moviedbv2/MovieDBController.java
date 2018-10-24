@@ -157,4 +157,31 @@ public class MovieDBController {
         return EDITACTOR;
 
     }
+
+
+
+
+
+
+
+
+
+    @GetMapping("/deleteActor/{id}")
+    public String deleteActor(@PathVariable Integer id, Model model) {
+        log.info("Delete actor wits id: "+id+"?");
+        model.addAttribute("actor", actorRepoFace.findActor(id));
+        return DELETEACTOR;
+    }
+
+
+    @PutMapping("/deleteActor")
+    public String delete(@ModelAttribute Actor actor, Model model) {
+        log.info("delete confirmed deleting actor "+actor.getActorId());
+        int id = actor.getActorId();
+
+        actorRepoFace.deleteActor(id);
+
+        model.addAttribute("actors", actorRepoFace.getActors());
+        return "redirect:/";
+    }
 }

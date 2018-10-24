@@ -2,8 +2,10 @@ package com.moviedbv2.moviedbv2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -55,12 +57,21 @@ public class ActorRepo implements ActorRepoFace {
 
     @Override
     public void deleteActor(int id) {
+        String sql = "DELETE FROM actors WHERE actorId = ?";
+        this.template.update(sql, id);
 
     }
 
     @Override
-    public Movie findActor(int id) {
-        return null;
+    public Actor findActor(int id) {
+        String sql = "SELECT * FROM actors WHERE actorId = ?";
+
+        RowMapper<Actor> rowMapper = new BeanPropertyRowMapper<>(Actor.class);
+
+        Actor actor = template.queryForObject(sql, rowMapper, id);
+
+        return actor;
+
     }
 
     @Override
