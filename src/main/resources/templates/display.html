@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <div th:replace="fragments/head :: styles"></div>
-    <title>Title</title>
+<head th:include="fragments/head :: styles">
 </head>
 <body>
-    <div th:replace="fragments/header :: navbar"></div>
+    <div class="container">
+        <header th:include="fragments/header :: navbar"></header>
 
+    </div>
 </body>
 </html>

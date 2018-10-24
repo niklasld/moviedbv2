@@ -42,17 +42,21 @@ public class MovieDBController {
 
         List<Movie> movies = movieDBRepoFace.getMovies();
         model.addAttribute("movies", movies);
+        model.addAttribute("pageTitle", "index");
 
         return INDEX;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String index(@RequestParam("movieTitle")String title, Model model){
-        log.info("search title: " + title);
+    public String index(@RequestParam("movieTitle")String search, Model model){
+        log.info("search title: " + search);
 
-        List<Movie> movies = movieDBRepoFace.searchMovie(title);
-            model.addAttribute("movies", movies);
-        return "index";
+        List<Movie> movies = movieDBRepoFace.searchMovie(search);
+        model.addAttribute("movies", movies);
+        model.addAttribute("pageTitle", "Search for: " + search);
+
+
+        return INDEX;
     }
 
     @GetMapping("/addActorToMovie")
@@ -65,7 +69,9 @@ public class MovieDBController {
     @GetMapping("/createMovie")
     public String createMovie(Model model) {
         log.info("createMovie getmapping called...");
+
         model.addAttribute("movie", new Movie());
+        model.addAttribute("pageTitle", "Create movie");
 
         return CREATEMOVIE;
     }
@@ -73,14 +79,21 @@ public class MovieDBController {
     @PostMapping("/createMovie")
     public String createMovie(@ModelAttribute Movie movie, Model model){
         log.info("create movie postmapping called");
+
         movieDBRepoFace.createMovie(movie);
+
         model.addAttribute("movies",movieDBRepoFace.getMovies());
+        model.addAttribute("pageTitle", "Create movie");
+
         return "redirect:/";
     }
 
     @GetMapping("display/{id}")
     public String display(@PathVariable("id") int id, Model model) {
         log.info("Display called, id="+id);
+
+
+        model.addAttribute("pageTitle", "Movie details");
 
         return DISPLAY;
     }
@@ -120,6 +133,8 @@ public class MovieDBController {
         log.info("Edit movie called..."+id);
 
         model.addAttribute("movie", movieDBRepoFace.findMovie(id));
+        String movieTitle = movieDBRepoFace.findMovie(id).getMovieTitle();
+        model.addAttribute("pageTitle", "Edit movie (" + movieTitle + ")");
 
         return EDITMOVIE;
     }
@@ -127,7 +142,11 @@ public class MovieDBController {
     @GetMapping("/deleteMovie/{id}")
     public String deleteMovie(@PathVariable Integer id, Model model) {
         log.info("Delete movie wits id: "+id+"?");
+
         model.addAttribute("movie", movieDBRepoFace.findMovie(id));
+        String movieTitle = movieDBRepoFace.findMovie(id).getMovieTitle();
+        model.addAttribute("pageTitle", "Delete movie (" + movieTitle + ")");
+
         return DELETEMOVIE;
     }
 
@@ -139,16 +158,20 @@ public class MovieDBController {
         movieDBRepoFace.deleteMovie(id);
 
         model.addAttribute("movies", movieDBRepoFace.getMovies());
+        model.addAttribute("pageTitle", "Delete movie");
+
         return "redirect:/";
     }
 
     @PutMapping("/editmovie")
-    public String editMovie(@ModelAttribute Movie movie, Model model){
+        public String editMovie(@ModelAttribute Movie movie, Model model){
 
-    movieDBRepoFace.updateMovie(movie);
+        movieDBRepoFace.updateMovie(movie);
 
-    model.addAttribute("movies", movieDBRepoFace.getMovies());
-    return "redirect:/";
+        model.addAttribute("movies", movieDBRepoFace.getMovies());
+        model.addAttribute("pageTitle", "Edit movie");
+
+        return "redirect:/";
     }
 
     @GetMapping("/editActor")
