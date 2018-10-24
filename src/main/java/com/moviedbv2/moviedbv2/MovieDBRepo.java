@@ -83,6 +83,50 @@ public class MovieDBRepo implements MovieDBRepoFace {
         return movie;
    }
 
+
+
+    @Override
+    public List<Actor> getActors() {
+        String sql = "SELECT * FROM actors";
+
+        // Fra sql til list.
+        // Manuelt i stedet.
+        return this.template.query(sql, new ResultSetExtractor<List<Actor>>(){
+            @Override
+            public List<Actor> extractData(ResultSet rs) throws SQLException, DataAccessException {
+                int actorId;
+                String firstName, lastName;
+                ArrayList<Actor> actors = new ArrayList<>();
+
+                while(rs.next()){
+                    actorId = rs.getInt("actorId");
+                    firstName = rs.getString("firstName");
+                    lastName = rs.getString("lastName");
+
+                    actors.add(new Actor(actorId, firstName, lastName));
+                }
+                return actors;
+            }
+        });
+
+    }
+
+    @Override
+    public Actor createActor(Actor actor) {
+        Logger log = Logger.getLogger(MovieDBService.class.getName());
+
+        String sql = "INSERT INTO actors VALUE(default, ?, ?)";
+        String firstName= actor.getFirstName();
+        String lastName= actor.getLastName();
+
+        log.info("create actor" + firstName + lastName);
+        this.template.update(sql, firstName, lastName);
+
+        return actor;
+    }
+
+
+
     @Override
     public void deleteMovie(int id) {
         String sql = "DELETE FROM movies WHERE movieId=?";

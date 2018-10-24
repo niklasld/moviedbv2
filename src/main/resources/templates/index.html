@@ -23,14 +23,13 @@
                     <a class="nav-link" href="/">Search movie</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Actor List</a>
+                    <a class="nav-link" href="/actors">Actor List</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Login</a>
+                    <a class="nav-link" href="/createActor">Login</a>
                 </li>
             </ul>
         </nav>
-
         <h1>Search Movie</h1>
 
         <form class="form-inline" method="Post" th:action="@{/}">
@@ -75,6 +74,7 @@
         <a href="/createMovie">
             <button class="btn btn-success"><span class="fas fa-plus"></span> Create new movie</button>
         </a>
+
 
     </div>
     <script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>

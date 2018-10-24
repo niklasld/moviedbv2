@@ -8,13 +8,8 @@ public class Actor {
     public Actor() {
     }
 
-    public Actor(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
     public Actor(int actorId, String firstName, String lastName) {
-        this.actorId = actorId;
+        this.actorId= actorId;
         this.firstName = firstName;
         this.lastName = lastName;
     }

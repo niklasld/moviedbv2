@@ -20,6 +20,7 @@ public class MovieDBController {
     private final String INDEX = "index";
     private final String CREATEMOVIE = "createmovie";
     private final String DISPLAY = "display";
+    private final String ACTORS= "actors";
     private final String CREATEACTOR = "createactor";
     private final String EDITMOVIE = "editmovie";
     private final String EDITACTOR = "editactor";
@@ -69,7 +70,7 @@ public class MovieDBController {
         return CREATEMOVIE;
     }
 
-    @PostMapping("/createmovie")
+    @PostMapping("/createMovie")
     public String createMovie(@ModelAttribute Movie movie, Model model){
         log.info("create movie postmapping called");
         movieDBRepoFace.createMovie(movie);
@@ -84,12 +85,35 @@ public class MovieDBController {
         return DISPLAY;
     }
 
-    @GetMapping("/createActor")
-    public String createActor(Model model) {
+
+    @GetMapping("/actors")
+    public String actors(Model model) {
+        log.info("actors called...");
+        //movies = movieDBService.fetchAll();
+
+        List<Actor> actors = movieDBRepoFace.getActors();
+        model.addAttribute("actors", actors);
+
+        return ACTORS;
+    }
+
+
+    @PostMapping("/createActor")
+    public String createActor(@ModelAttribute Actor actor, Model model) {
         log.info("Create actor called...");
+        movieDBRepoFace.createActor(actor);
+        model.addAttribute("actor",movieDBRepoFace.getActors());
+        return "redirect:/actors";
+    }
+
+    @GetMapping("/createActor")
+    public String createActor (Model model){
+        log.info("createActor getmapping called...");
+        model.addAttribute("actor", new Actor());
 
         return CREATEACTOR;
     }
+
 
     @GetMapping("/editMovie/{id}")
     public String editMovie(@PathVariable Integer id, Model model) {

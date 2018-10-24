@@ -1,11 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <head>
+        <link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+        <body>
+        <h2>Write the Actor name and last name</h2>
+            <form method="Post" th:action="@{/createActor}">
+                <tr>
+                    <input type="text" class="form-control mr-sm-2"  th:name="firstName" placeholder="First name:"/>
+                </tr>
 
-</body>
+                <tr>
+                    <input type="text" class="form-control mr-sm-2"  th:name="lastName" placeholder="Last name:"/>
+                </tr>
+
+                <tr>
+                    <button class="btn btn-primary" type="submit" value="Create Actor">Submit</button>
+                </tr>
+            </form>
+
+
+        </body>
 </html>
