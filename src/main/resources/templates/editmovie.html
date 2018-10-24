@@ -54,36 +54,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr th:each="relatedActor : ${relatedActors}">
                         <span>
-                            <td>Hans Petersen</td>
+                            <td th:text="${relatedActor.firstName + ' ' + relatedActor.lastName}" />
                             <td>
-                                <a href="#" class="text-danger">
+                                <!--<a href="#" class="text-danger">
                                     <i class="fas fa-minus-circle"></i> Remove from movie
-                                </a>
+                                </a>-->
+                                <form method="Post" th:action="@{/removerelation}">
+                                    <input type="hidden" th:name="movieId" th:value="${movie.movieId}"/>
 
-                            </td>
-                        </span>
-                    </tr>
-                    <tr>
-                        <span>
-                            <td>Peter Poulsen</td>
-                            <td>
-                                <a href="#" class="text-danger">
-                                    <i class="fas fa-minus-circle"></i> Remove from movie
-                                </a>
+                                    <input type="hidden" th:name="actorId" th:value="${relatedActor.actorId}"/>
 
-                            </td>
-                        </span>
-                    </tr>
-                    <tr>
-                        <span>
-                            <td>Rikke Svendsen</td>
-                            <td>
-                                <a href="#" class="text-danger">
-                                    <i class="fas fa-minus-circle"></i> Remove from movie
-                                </a>
-
+                                    <button class="btn btn-link btn-sm text-danger" type="submit"><i class="fas fa-minus-circle"></i> Remove from movie</button>
+                                </form>
                             </td>
                         </span>
                     </tr>

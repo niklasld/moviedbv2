@@ -135,11 +135,31 @@ public class MovieDBController {
         log.info("Edit movie called..."+id);
 
         model.addAttribute("movie", movieDBRepoFace.findMovie(id));
+
+        model.addAttribute("relatedActors", movieDBRepoFace.getRelatedMovieActor(id));
+
         String movieTitle = movieDBRepoFace.findMovie(id).getMovieTitle();
         model.addAttribute("pageTitle", "Edit movie (" + movieTitle + ")");
         model.addAttribute("movieTitle", movieTitle);
 
         return EDITMOVIE;
+    }
+
+    @RequestMapping(value = "/removerelation", method = RequestMethod.POST)
+    public String removeRelation(@RequestParam("movieId") int movieId, @RequestParam("actorId") int actorId, Model model){
+        //log.info("search title: " + search);
+
+        movieDBRepoFace.removeRelation(actorId, movieId);
+
+        model.addAttribute("movie", movieDBRepoFace.findMovie(movieId));
+
+        model.addAttribute("relatedActors", movieDBRepoFace.getRelatedMovieActor(movieId));
+
+        String movieTitle = movieDBRepoFace.findMovie(movieId).getMovieTitle();
+        model.addAttribute("pageTitle", "Edit movie (" + movieTitle + ")");
+        model.addAttribute("movieTitle", movieTitle);
+
+        return "redirect:/editMovie/" + movieId;
     }
 
     @GetMapping("/deleteMovie/{id}")
