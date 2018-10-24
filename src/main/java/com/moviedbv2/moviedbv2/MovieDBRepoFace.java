@@ -17,6 +17,7 @@ public interface MovieDBRepoFace {
     Movie createMovie(Movie movie);
     Movie updateMovie(Movie movie);
 
+    List<Actor> getActors();
     Actor createActor(Actor actor);
 
     void deleteMovie(int id);

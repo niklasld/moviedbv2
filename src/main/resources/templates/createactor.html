@@ -6,17 +6,19 @@
         <title>Title</title>
     </head>
         <body>
+        <h2>Write the Actor name and last name</h2>
+            <form method="Post" th:action="@{/createActor}">
+                <tr>
+                    <input type="text" class="form-control mr-sm-2"  th:name="firstName" placeholder="First name:"/>
+                </tr>
 
-                 <h2>Write the Actor name and last name</h2>
+                <tr>
+                    <input type="text" class="form-control mr-sm-2"  th:name="lastName" placeholder="Last name:"/>
+                </tr>
 
-            <form>
-                First name:<br>
-                <input type="text" name="firstname">
-                <br>
-                Last name:<br>
-                <input type="text" name="lastname">
-                <br><br>
-                <input type="submit">
+                <tr>
+                    <button class="btn btn-primary" type="submit" value="Create Actor">Submit</button>
+                </tr>
             </form>
 
 
