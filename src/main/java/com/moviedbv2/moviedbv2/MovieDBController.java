@@ -137,6 +137,7 @@ public class MovieDBController {
         model.addAttribute("movie", movieDBRepoFace.findMovie(id));
 
         model.addAttribute("relatedActors", movieDBRepoFace.getRelatedMovieActor(id));
+        model.addAttribute("unrelatedActors", movieDBRepoFace.getUnrelatedMovieActor(id));
 
         String movieTitle = movieDBRepoFace.findMovie(id).getMovieTitle();
         model.addAttribute("pageTitle", "Edit movie (" + movieTitle + ")");
@@ -154,6 +155,25 @@ public class MovieDBController {
         model.addAttribute("movie", movieDBRepoFace.findMovie(movieId));
 
         model.addAttribute("relatedActors", movieDBRepoFace.getRelatedMovieActor(movieId));
+        model.addAttribute("unrelatedActors", movieDBRepoFace.getUnrelatedMovieActor(movieId));
+
+        String movieTitle = movieDBRepoFace.findMovie(movieId).getMovieTitle();
+        model.addAttribute("pageTitle", "Edit movie (" + movieTitle + ")");
+        model.addAttribute("movieTitle", movieTitle);
+
+        return "redirect:/editMovie/" + movieId;
+    }
+
+    @RequestMapping(value = "/addrelation", method = RequestMethod.POST)
+    public String addRelation(@RequestParam("movieId") int movieId, @RequestParam("actorId") int actorId, Model model){
+        //log.info("search title: " + search);
+
+        movieDBRepoFace.createRelation(actorId, movieId);
+
+        model.addAttribute("movie", movieDBRepoFace.findMovie(movieId));
+
+        model.addAttribute("relatedActors", movieDBRepoFace.getRelatedMovieActor(movieId));
+        model.addAttribute("unrelatedActors", movieDBRepoFace.getUnrelatedMovieActor(movieId));
 
         String movieTitle = movieDBRepoFace.findMovie(movieId).getMovieTitle();
         model.addAttribute("pageTitle", "Edit movie (" + movieTitle + ")");

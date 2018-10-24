@@ -207,12 +207,39 @@ public class MovieDBRepo implements MovieDBRepoFace {
 
     @Override
     public List<Actor> getUnrelatedMovieActor(int movieId) {
-        return null;
+        String sql = "SELECT * FROM actors\n" +
+                "CROSS JOIN movies\n" +
+                "WHERE (actorId, movieId) NOT IN (\n" +
+                "    SELECT fk_actorId, fk_movieId\n" +
+                "    FROM movieActorRelation\n" +
+                "    )\n" +
+                "AND movieId = ?";
+
+        // Fra sql til list.
+        // Manuelt i stedet.
+        return this.template.query(sql, new ResultSetExtractor<List<Actor>>() {
+            @Override
+            public List<Actor> extractData(ResultSet rs) throws SQLException, DataAccessException {
+                int actorId;
+                String firstName, lastName;
+                List<Actor> actors = new ArrayList<>();
+
+                while (rs.next()) {
+                    actorId = rs.getInt("actorId");
+                    firstName = rs.getString("firstName");
+                    lastName = rs.getString("lastName");
+
+                    actors.add(new Actor(actorId, firstName, lastName));
+                }
+                return actors;
+            }
+        }, movieId);
     }
 
     @Override
     public void createRelation(int actorId, int movieId) {
-
+        String sql = "INSERT INTO movieActorRelation VALUES (DEFAULT, ?, ?)";
+        this.template.update(sql, movieId, actorId);
     }
 
     @Override

@@ -44,7 +44,7 @@
 
         <div class="actorRelations">
 
-        <h3>Related actors</h3>
+        <h4>Related actors</h4>
 
             <table class="table table-borderless table-hover">
                 <thead class="">
@@ -74,7 +74,7 @@
                 </tbody>
             </table>
 
-            <h3>Unrelated actors</h3>
+            <h4>Unrelated actors</h4>
 
             <table class="table table-borderless table-hover">
                 <thead class="">
@@ -84,36 +84,20 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
+                <tr th:each="unrelatedActor : ${unrelatedActors}">
                     <span>
-                        <td>Allan Simonsen</td>
+                        <td th:text="${unrelatedActor.firstName + ' ' + unrelatedActor.lastName}" />
                         <td>
-                            <a href="#" class="text-success">
+                            <!--<a href="#" class="text-success">
                                 <i class="fas fa-plus-circle"></i> Add to movie
-                            </a>
+                            </a>-->
+                            <form method="Post" th:action="@{/addrelation}">
+                                <input type="hidden" th:name="movieId" th:value="${movie.movieId}"/>
 
-                        </td>
-                    </span>
-                </tr>
-                <tr>
-                    <span>
-                        <td>Güstav porresen</td>
-                        <td>
-                            <a href="#" class="text-success">
-                                <i class="fas fa-plus-circle"></i> Add to movie
-                            </a>
+                                <input type="hidden" th:name="actorId" th:value="${unrelatedActor.actorId}"/>
 
-                        </td>
-                    </span>
-                </tr>
-                <tr>
-                    <span>
-                        <td>Mads Mikkelsen</td>
-                        <td>
-                            <a href="#" class="text-success">
-                                <i class="fas fa-plus-circle"></i> Add to movie
-                            </a>
-
+                                <button class="btn btn-link btn-sm text-success" type="submit"><i class="fas fa-plus-circle"></i> Add to movie</button>
+                            </form>
                         </td>
                     </span>
                 </tr>
