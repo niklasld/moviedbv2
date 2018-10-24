@@ -13,15 +13,15 @@ public interface MovieDBRepoFace {
     Movie createMovie(Movie movie);
     Movie updateMovie(Movie movie);
 
-    Actor createActor(Actor actor);
+    //Actor createActor(Actor actor);
 
     void deleteMovie(int id);
     Movie findMovie(int id);
     List<Movie> searchMovie(String search);
 
     //Actors
-    /*List<Actor> getActors();
-    Actor createActor(Actor actor);
+    //List<Actor> getActors();
+    /*Actor createActor(Actor actor);
     Actor updateActor(Actor actor);
     void deleteActor(int id);
     Actor findActor(int id);

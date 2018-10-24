@@ -10,9 +10,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Repository
 public class ActorRepo implements ActorRepoFace {
+
+    @Autowired
+    JdbcTemplate template;
+
+    Logger log = Logger.getLogger(ActorRepo.class.getName());
 
     @Override
     public List<Actor> getActors() {
@@ -21,6 +27,7 @@ public class ActorRepo implements ActorRepoFace {
         // Fra sql til list.
         // Manuelt i stedet.
         return this.template.query(sql, new ResultSetExtractor<List<Actor>>(){
+
             @Override
             public List<Actor> extractData(ResultSet rs) throws SQLException, DataAccessException {
                 int actorId;
@@ -40,13 +47,57 @@ public class ActorRepo implements ActorRepoFace {
 
     }
 
-    @Autowired
-    JdbcTemplate template;
+    @Override
+    public List<Actor> actorsNotRelatedToMovie(int movieId) {
+        String sql = "SELECT actors.actorId, firstName, lastName FROM actors\n" +
+                "INNER JOIN actormovierelations ON actors.actorId = actormovierelations.fk_actorId\n" +
+                "WHERE fk_movieId <> ?";
+
+        // Fra sql til list.
+        // Manuelt i stedet.
+        return this.template.query(sql, new ResultSetExtractor<List<Actor>>(){
+
+            @Override
+            public List<Actor> extractData(ResultSet rs) throws SQLException, DataAccessException {
+                int actorId;
+                String firstName, lastName;
+                ArrayList<Actor> actors = new ArrayList<>();
+
+                while(rs.next()){
+                    actorId = rs.getInt("actorId");
+                    firstName = rs.getString("firstName");
+                    lastName = rs.getString("lastName");
+
+                    actors.add(new Actor(actorId, firstName, lastName));
+                }
+                return actors;
+            }
+        }, movieId);
+
+    }
 
     @Override
-    public Movie createActor(Actor actor) {
-        return null;
+    public Actor createActor(Actor actor) {
+
+        String sql = "INSERT INTO actors VALUE(default, ?, ?)";
+        String firstName= actor.getFirstName();
+        String lastName= actor.getLastName();
+
+        log.info("create actor" + firstName + lastName);
+        this.template.update(sql, firstName, lastName);
+
+        return actor;
     }
+
+   /*@Override
+    public List<Actor> getActors() {
+        return null;
+    }*/
+
+    /*@Override
+    public Actor createActor(Actor actor) {
+        return null;
+    }*/
 
     @Override
     public Movie updateActor(Actor actor) {
@@ -66,6 +117,28 @@ public class ActorRepo implements ActorRepoFace {
     @Override
     public List<Movie> searchActor(String actor) {
         return null;
+    }
+
+    /*@Override
+    public void addActorMovieRelation(int movieId, int actorId) {
+
+        String sql = "INSET INTO actormovierelations VALUE(default, ?, ?)";
+
+        log.info("creating actor movie relations movieId="+movieId+" actorId="+actorId);
+        this.template.update(sql, movieId, actorId);
+    }*/
+
+    public void addActorMovieRelation(int movieId, int actorId) {
+        String sql = "INSERT INTO actormovierelations VALUE(default, ?, ?)";
+
+        /*
+        int movieId = actorMovieRelation.getMovieId();
+        int actorId = actorMovieRelation.getActorId();
+        */
+        log.info("creating actor movie relations movieId="+movieId+" actorId="+actorId);
+
+        this.template.update(sql,movieId,actorId);
+
     }
 
 }

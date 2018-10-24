@@ -14,8 +14,6 @@ public class MovieDBController {
 
     @Autowired
     MovieDBRepoFace movieDBRepoFace;
-    MovieDBServiceFace movieDBServiceFace;
-    ActorRepoFace actorRepoFace;
 
     private final String INDEX = "index";
     private final String CREATEMOVIE = "createmovie";
@@ -56,18 +54,18 @@ public class MovieDBController {
         return "index";
     }
 
-    @GetMapping("/addactortomovie/{movieId}")
+    /*@GetMapping("/addactortomovie/{movieId}")
     public String addActorToMovie(@PathVariable("movieId") int movieId, Model model) {
         log.info("Add actor to movie called for movie id: "+ movieId);
 
         List<Actor> actors = actorRepoFace.getActors();
 
-        model.addAttribute("movieid", movieId);
+        model.addAttribute("movieId", movieId);
         model.addAttribute("actors", actors);
 
 
         return ADDACTORTOMOVIE;
-    }
+    }*/
 
     @GetMapping("/createMovie")
     public String createMovie(Model model) {
@@ -93,7 +91,7 @@ public class MovieDBController {
     }
 
 
-    @GetMapping("/actors")
+    /*@GetMapping("/actors")
     public String actors(Model model) {
         log.info("actors called...");
         //movies = movieDBService.fetchAll();
@@ -108,7 +106,7 @@ public class MovieDBController {
     @PostMapping("/createActor")
     public String createActor(@ModelAttribute Actor actor, Model model) {
         log.info("Create actor called...");
-        movieDBRepoFace.createActor(actor);
+        actorRepoFace.createActor(actor);
         model.addAttribute("actor",actorRepoFace.getActors());
         return "redirect:/actors";
     }
@@ -119,7 +117,7 @@ public class MovieDBController {
         model.addAttribute("actor", new Actor());
 
         return CREATEACTOR;
-    }
+    }*/
 
 
     @GetMapping("/editMovie/{id}")

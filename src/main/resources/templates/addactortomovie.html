@@ -32,7 +32,7 @@
     </nav>
 
     <h1>Search Movie</h1>
-    <!--
+
     <form class="form-inline" method="Post" th:action="@{/}">
         <input type="text" class="form-control mr-sm-2"  th:name="movieTitle" placeholder="Search title"/>
 
@@ -52,7 +52,7 @@
                             <td th:text="${actors.firstName}" />
                             <td th:text="${actors.lastName}" />
                             <td>
-                                <a th:href="${'addactortomovie/' + actors.actorId}" class="btn btn-light btn-sm">
+                                <a th:href="${'/addactortomovie/' + movieId + '/' + actors.actorId}" class="btn btn-light btn-sm">
                                     <span class="fas fa-plus-square"></span> Add actor to movie
                                 </a>
                                 <a th:href="${'display/' + actors.actorId}" class="btn btn-light btn-sm">
@@ -72,7 +72,7 @@
     </table>
     <a href="/createActor">
         <button class="btn btn-success"><span class="fas fa-plus"></span> Create new Actor</button>
-    </a>-->
+    </a>
 
 </div>
 <script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
