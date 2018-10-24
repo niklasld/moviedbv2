@@ -12,10 +12,20 @@ h1{
     padding: 10px 0 18px 0;
 }
 
+li.nav-item.active{
+    border-bottom: solid 3px #318DAB;
+}
+
 .btn-light{
     border: 1px solid #dee2e6;
 }
 
 .form-control{
     max-width: 400px;
+}
+
+.actorRelations{
+    max-width: 555px;
+
+    position: relative;
 }

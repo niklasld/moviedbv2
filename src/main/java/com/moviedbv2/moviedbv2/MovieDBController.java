@@ -43,6 +43,7 @@ public class MovieDBController {
         List<Movie> movies = movieDBRepoFace.getMovies();
         model.addAttribute("movies", movies);
         model.addAttribute("pageTitle", "index");
+        model.addAttribute("isMovies", true);
 
         return INDEX;
     }
@@ -106,6 +107,7 @@ public class MovieDBController {
 
         List<Actor> actors = movieDBRepoFace.getActors();
         model.addAttribute("actors", actors);
+        model.addAttribute("isActors", true);
 
         return ACTORS;
     }
@@ -135,6 +137,7 @@ public class MovieDBController {
         model.addAttribute("movie", movieDBRepoFace.findMovie(id));
         String movieTitle = movieDBRepoFace.findMovie(id).getMovieTitle();
         model.addAttribute("pageTitle", "Edit movie (" + movieTitle + ")");
+        model.addAttribute("movieTitle", movieTitle);
 
         return EDITMOVIE;
     }

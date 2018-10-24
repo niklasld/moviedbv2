@@ -7,7 +7,7 @@
     <div class="container">
         <header th:include="fragments/header :: navbar"></header>
 
-        <h1>Edit Movie</h1>
+        <h1 th:text="${'Edit movie (' + movieTitle + ')'}"></h1>
 
         <form th:method="put" th:action="@{/editmovie}" th:object="${movie}">
 
@@ -42,7 +42,10 @@
 
         <h2>Movie actors</h2>
 
-        <div>
+        <div class="actorRelations">
+
+        <h3>Related actors</h3>
+
             <table class="table table-borderless table-hover">
                 <thead class="">
                     <tr>
@@ -55,8 +58,8 @@
                         <span>
                             <td>Hans Petersen</td>
                             <td>
-                                <a href="#" class="btn btn-danger btn-sm">
-                                    <span class="fas fa-trash-alt"></span> Remove from movie
+                                <a href="#" class="text-danger">
+                                    <i class="fas fa-minus-circle"></i> Remove from movie
                                 </a>
 
                             </td>
@@ -66,8 +69,8 @@
                         <span>
                             <td>Peter Poulsen</td>
                             <td>
-                                <a href="#" class="btn btn-danger btn-sm">
-                                    <span class="fas fa-trash-alt"></span> Remove from movie
+                                <a href="#" class="text-danger">
+                                    <i class="fas fa-minus-circle"></i> Remove from movie
                                 </a>
 
                             </td>
@@ -77,8 +80,8 @@
                         <span>
                             <td>Rikke Svendsen</td>
                             <td>
-                                <a href="#" class="btn btn-danger btn-sm">
-                                    <span class="fas fa-trash-alt"></span> Remove from movie
+                                <a href="#" class="text-danger">
+                                    <i class="fas fa-minus-circle"></i> Remove from movie
                                 </a>
 
                             </td>
@@ -86,11 +89,58 @@
                     </tr>
                 </tbody>
             </table>
+
+            <h3>Unrelated actors</h3>
+
+            <table class="table table-borderless table-hover">
+                <thead class="">
+                <tr>
+                    <th>Actor name</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <span>
+                        <td>Allan Simonsen</td>
+                        <td>
+                            <a href="#" class="text-success">
+                                <i class="fas fa-plus-circle"></i> Add to movie
+                            </a>
+
+                        </td>
+                    </span>
+                </tr>
+                <tr>
+                    <span>
+                        <td>Güstav porresen</td>
+                        <td>
+                            <a href="#" class="text-success">
+                                <i class="fas fa-plus-circle"></i> Add to movie
+                            </a>
+
+                        </td>
+                    </span>
+                </tr>
+                <tr>
+                    <span>
+                        <td>Mads Mikkelsen</td>
+                        <td>
+                            <a href="#" class="text-success">
+                                <i class="fas fa-plus-circle"></i> Add to movie
+                            </a>
+
+                        </td>
+                    </span>
+                </tr>
+                </tbody>
+            </table>
+
         </div>
 
-        <a href="#" class="btn btn-success">
+        <!--<a href="#" class="btn btn-success">
             <span class="fas fa-plus"></span> add actor to movie
-        </a>
+        </a>-->
 
     </div>
 </body>
