@@ -18,9 +18,7 @@
     <input type="number" class="form-control mr-sm-2"  th:field="${movie.movieDuration}"/>
     </tr>
     <tr>
-        <text type="number" class="form-control mr-sm-2"  th:field="${movie.movieYear}"/>
-    </tr>
-    <tr>
+        <input type="number" class="form-control mr-sm-2"  th:field="${movie.movieYear}"/>
     </tr>
     <tr>
         <input type="text" class="form-control mr-sm-2"  th:field="${movie.movieGenre}"/>
@@ -28,15 +26,9 @@
     <tr>
 
 
-</form>-->
-<tr class="active" th:each="movies : ${movies}">
-                        <span>
-                            <td th:text="${movies.movieTitle}" />
-                            <td th:text="${movies.movieYear}" />
-                            <td th:text="${movies.movieDuration}" />
-                            <td th:text="${movies.movieGenre}" />
-                            <td>
+</form>
 
-        <img th:src="${movie.moviePosterLink}"/>
+
+        <img th:src="${movie.moviePosterLink}" width="200" height = "350"/>
 </body>
 </html>
