@@ -3,9 +3,7 @@ package com.moviedbv2.moviedbv2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -19,6 +17,7 @@ public class ActorController {
     private final String ACTORS= "actors";
     private final String CREATEACTOR = "createactor";
     private final String EDITACTOR = "editactor";
+    private final String REDIRECT = "redirect:/";
     private final String DELETEACTOR = "deleteactor";
     private final String ADDACTORTOMOVIE = "addactortomovie";
     private final String ADDACTORTOMOVIECONFIRM = "addactortomovieconfirm";
@@ -65,10 +64,23 @@ public class ActorController {
         return CREATEACTOR;
     }
 
-    @GetMapping("/editActor")
-    public String editActor(Model model) {
+    @GetMapping("/editActor/{id}")
+    public String editActor(@PathVariable("id") int id, Model model) {
         log.info("Edit actor Called");
+        model.addAttribute("actor",actorServiceFace.findActor(id));
+        model.addAttribute("pageTitle","Edit Actor");
+
         return EDITACTOR;
 
+    }
+
+    @PutMapping("/editActor")
+    public String editActor(@ModelAttribute Actor actor, Model model) {
+        actorServiceFace.updateActor(actor);
+
+        model.addAttribute("",actorServiceFace.getActors());
+        model.addAttribute("pageTitle","Edit Actor");
+
+        return REDIRECT+ACTORS;
     }
 }

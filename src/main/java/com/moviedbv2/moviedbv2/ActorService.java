@@ -25,7 +25,8 @@ public class ActorService implements ActorServiceFace {
 
     @Override
     public Actor updateActor(Actor actor) {
-        return null;
+        Actor actor_ = actorRepoFace.updateActor(actor);
+        return actor_;
     }
 
     @Override
@@ -35,7 +36,8 @@ public class ActorService implements ActorServiceFace {
 
     @Override
     public Actor findActor(int id) {
-        return null;
+        Actor actor = actorRepoFace.findActor(id);
+        return actor;
     }
 
     @Override

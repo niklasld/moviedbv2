@@ -60,7 +60,16 @@ public class ActorRepo implements ActorRepoFace {
 
     @Override
     public Actor updateActor(Actor actor) {
-        return null;
+
+        String sql = "UPDATE actors SET firstName = ?, lastName = ? WHERE actorId = ?";
+        String firstName = actor.getFirstName();
+        String lastName = actor.getLastName();
+
+        int actorId = actor.getActorId();
+
+        this.template.update(sql, firstName, lastName, actorId);
+
+        return actor;
     }
 
     @Override
