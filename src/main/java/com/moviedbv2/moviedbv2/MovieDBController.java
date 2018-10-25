@@ -85,16 +85,18 @@ public class MovieDBController {
         return REDIRECT;
     }
 
+
+
+
     @GetMapping("display/{id}")
     public String display(@PathVariable("id") int id, Model model) {
-        log.info("Display called, id="+id);
+        log.info("Display called, id=" + id);
 
-
-        model.addAttribute("pageTitle", "Movie details");
+        model.addAttribute(("movie"), movieDBServiceFace.findMovie(id));
+        model.addAttribute(("actor"), movieDBServiceFace.getRelatedMovieActor(id));
 
         return DISPLAY;
     }
-
 
     @GetMapping("/editMovie/{id}")
     public String editMovie(@PathVariable Integer id, Model model) {

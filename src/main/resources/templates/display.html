@@ -6,30 +6,40 @@
     <div class="container">
         <header th:include="fragments/header :: navbar"></header>
 
-    </div>
-    <h1>Display Movie</h1>
-    <form th:method="get" th:action="@{/display}" th:object="${movie}">
+        <h1>Display Movie</h1>
 
         <input type="hidden" th:field="${movie.movieId}">
 
-        <label>Title</label>
-        <input type="text" class="form-control mr-sm-2"  th:field="${movie.movieTitle}">
+            <p th:text="${'Title: ' + movie.movieTitle}"></p>
+            <p th:text="${'Duration: ' + movie.movieDuration}"></p>
+            <p th:text="${'Release year: ' + movie.movieYear}"></p>
+            <p th:text="${'Genre: ' + movie.movieGenre}"></p>
 
-        <input type="number" class="form-control mr-sm-2"  th:field="${movie.movieDuration}"/>
-        </tr>
-        <tr>
-            <input type="number" class="form-control mr-sm-2"  th:field="${movie.movieYear}"/>
-        </tr>
-        <tr>
-            <input type="text" class="form-control mr-sm-2"  th:field="${movie.movieGenre}"/>
-        </tr>
-        <tr>
+        <img th:src="${movie.moviePosterLink}" width="200" height = "350"/>
+
+        <iframe width="420" height="315"
+                src="${movie.movieTrailerLink}">
+        </iframe>
 
 
-    </form>
 
 
-    <img th:src="${movie.moviePosterLink}" width="200" height = "350"/>
+
+        <tr th:each="relatedActor : ${relatedActors}">
+                            <td th:text="${relatedActor.firstName + ' ' + relatedActor.lastName}" />
+                            <td>
+
+                                <form method="Get" th:action="@{/display/{id}}">
+                                    <input type="hidden" th:name="movieId" th:value="${movie.movieId}"/>
+
+                                    <input type="hidden" th:name="actorId" th:value="${relatedActor.actorId}"/>
+
+
+
+
+
+
+    </div>
 </body>
 
 </html>
