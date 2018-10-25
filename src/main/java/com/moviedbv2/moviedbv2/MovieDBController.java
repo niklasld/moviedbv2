@@ -13,9 +13,9 @@ import java.util.logging.Logger;
 public class MovieDBController {
 
     @Autowired
-    MovieDBRepoFace movieDBRepoFace;
+    //MovieDBRepoFace movieDBRepoFace;
     MovieDBServiceFace movieDBServiceFace;
-    ActorRepoFace actorRepoFace;
+    //ActorRepoFace actorRepoFace;
 
     private final String INDEX = "index";
     private final String CREATEMOVIE = "createmovie";
@@ -40,7 +40,7 @@ public class MovieDBController {
         log.info("Index called...");
         //movies = movieDBService.fetchAll();
 
-        List<Movie> movies = movieDBRepoFace.getMovies();
+        List<Movie> movies = movieDBServiceFace.getMovies();
         model.addAttribute("movies", movies);
         model.addAttribute("pageTitle", "index");
         model.addAttribute("isMovies", true);
@@ -52,7 +52,9 @@ public class MovieDBController {
     public String index(@RequestParam("movieTitle")String search, Model model){
         log.info("search title: " + search);
 
-        List<Movie> movies = movieDBRepoFace.searchMovie(search);
+        //List<Movie> movies = movieDBRepoFace.searchMovie(search);
+        List<Movie> movies = movieDBServiceFace.searchMovie(search);
+
         model.addAttribute("movies", movies);
         model.addAttribute("pageTitle", "Search for: " + search);
 
@@ -63,7 +65,7 @@ public class MovieDBController {
     @GetMapping("/addActorToMovie")
     public String addActorToMovie(int movieId, Model model) {
         log.info("Add actor to movie called for movie id: "+ movieId);
-        List<Actor> actors = actorRepoFace.getActors();
+        //List<Actor> actors = actorRepoFace.getActors();
         return ADDACTORTOMOVIE;
     }
 
@@ -81,9 +83,9 @@ public class MovieDBController {
     public String createMovie(@ModelAttribute Movie movie, Model model){
         log.info("create movie postmapping called");
 
-        movieDBRepoFace.createMovie(movie);
+        movieDBServiceFace.createMovie(movie);
 
-        model.addAttribute("movies",movieDBRepoFace.getMovies());
+        model.addAttribute("movies", movieDBServiceFace.getMovies());
         model.addAttribute("pageTitle", "Create movie");
 
         return "redirect:/";
@@ -105,8 +107,8 @@ public class MovieDBController {
         log.info("actors called...");
         //movies = movieDBService.fetchAll();
 
-        List<Actor> actors = movieDBRepoFace.getActors();
-        model.addAttribute("actors", actors);
+        //List<Actor> actors = movieDBRepoFace.getActors();
+        //model.addAttribute("actors", actors);
         model.addAttribute("isActors", true);
 
         return ACTORS;
@@ -116,8 +118,8 @@ public class MovieDBController {
     @PostMapping("/createActor")
     public String createActor(@ModelAttribute Actor actor, Model model) {
         log.info("Create actor called...");
-        movieDBRepoFace.createActor(actor);
-        model.addAttribute("actor",movieDBRepoFace.getActors());
+        //movieDBRepoFace.createActor(actor);
+        //model.addAttribute("actor",movieDBRepoFace.getActors());
         return "redirect:/actors";
     }
 
@@ -134,12 +136,12 @@ public class MovieDBController {
     public String editMovie(@PathVariable Integer id, Model model) {
         log.info("Edit movie called..."+id);
 
-        model.addAttribute("movie", movieDBRepoFace.findMovie(id));
+        model.addAttribute("movie", movieDBServiceFace.findMovie(id));
 
-        model.addAttribute("relatedActors", movieDBRepoFace.getRelatedMovieActor(id));
-        model.addAttribute("unrelatedActors", movieDBRepoFace.getUnrelatedMovieActor(id));
+        model.addAttribute("relatedActors", movieDBServiceFace.getRelatedMovieActor(id));
+        model.addAttribute("unrelatedActors", movieDBServiceFace.getUnrelatedMovieActor(id));
 
-        String movieTitle = movieDBRepoFace.findMovie(id).getMovieTitle();
+        String movieTitle = movieDBServiceFace.findMovie(id).getMovieTitle();
         model.addAttribute("pageTitle", "Edit movie (" + movieTitle + ")");
         model.addAttribute("movieTitle", movieTitle);
 
@@ -150,14 +152,14 @@ public class MovieDBController {
     public String removeRelation(@RequestParam("movieId") int movieId, @RequestParam("actorId") int actorId, Model model){
         //log.info("search title: " + search);
 
-        movieDBRepoFace.removeRelation(actorId, movieId);
+        movieDBServiceFace.removeRelation(actorId, movieId);
 
-        model.addAttribute("movie", movieDBRepoFace.findMovie(movieId));
+        model.addAttribute("movie", movieDBServiceFace.findMovie(movieId));
 
-        model.addAttribute("relatedActors", movieDBRepoFace.getRelatedMovieActor(movieId));
-        model.addAttribute("unrelatedActors", movieDBRepoFace.getUnrelatedMovieActor(movieId));
+        model.addAttribute("relatedActors", movieDBServiceFace.getRelatedMovieActor(movieId));
+        model.addAttribute("unrelatedActors", movieDBServiceFace.getUnrelatedMovieActor(movieId));
 
-        String movieTitle = movieDBRepoFace.findMovie(movieId).getMovieTitle();
+        String movieTitle = movieDBServiceFace.findMovie(movieId).getMovieTitle();
         model.addAttribute("pageTitle", "Edit movie (" + movieTitle + ")");
         model.addAttribute("movieTitle", movieTitle);
 
@@ -168,14 +170,14 @@ public class MovieDBController {
     public String addRelation(@RequestParam("movieId") int movieId, @RequestParam("actorId") int actorId, Model model){
         //log.info("search title: " + search);
 
-        movieDBRepoFace.createRelation(actorId, movieId);
+        movieDBServiceFace.createRelation(actorId, movieId);
 
-        model.addAttribute("movie", movieDBRepoFace.findMovie(movieId));
+        model.addAttribute("movie", movieDBServiceFace.findMovie(movieId));
 
-        model.addAttribute("relatedActors", movieDBRepoFace.getRelatedMovieActor(movieId));
-        model.addAttribute("unrelatedActors", movieDBRepoFace.getUnrelatedMovieActor(movieId));
+        model.addAttribute("relatedActors", movieDBServiceFace.getRelatedMovieActor(movieId));
+        model.addAttribute("unrelatedActors", movieDBServiceFace.getUnrelatedMovieActor(movieId));
 
-        String movieTitle = movieDBRepoFace.findMovie(movieId).getMovieTitle();
+        String movieTitle = movieDBServiceFace.findMovie(movieId).getMovieTitle();
         model.addAttribute("pageTitle", "Edit movie (" + movieTitle + ")");
         model.addAttribute("movieTitle", movieTitle);
 
@@ -186,8 +188,8 @@ public class MovieDBController {
     public String deleteMovie(@PathVariable Integer id, Model model) {
         log.info("Delete movie wits id: "+id+"?");
 
-        model.addAttribute("movie", movieDBRepoFace.findMovie(id));
-        String movieTitle = movieDBRepoFace.findMovie(id).getMovieTitle();
+        model.addAttribute("movie", movieDBServiceFace.findMovie(id));
+        String movieTitle = movieDBServiceFace.findMovie(id).getMovieTitle();
         model.addAttribute("pageTitle", "Delete movie (" + movieTitle + ")");
 
         return DELETEMOVIE;
@@ -198,9 +200,9 @@ public class MovieDBController {
         log.info("delete confirmed deleting movie "+movie.getMovieId());
         int id = movie.getMovieId();
 
-        movieDBRepoFace.deleteMovie(id);
+        movieDBServiceFace.deleteMovie(id);
 
-        model.addAttribute("movies", movieDBRepoFace.getMovies());
+        model.addAttribute("movies", movieDBServiceFace.getMovies());
         model.addAttribute("pageTitle", "Delete movie");
 
         return "redirect:/";
@@ -209,9 +211,9 @@ public class MovieDBController {
     @PutMapping("/editmovie")
         public String editMovie(@ModelAttribute Movie movie, Model model){
 
-        movieDBRepoFace.updateMovie(movie);
+        movieDBServiceFace.updateMovie(movie);
 
-        model.addAttribute("movies", movieDBRepoFace.getMovies());
+        model.addAttribute("movies", movieDBServiceFace.getMovies());
         model.addAttribute("pageTitle", "Edit movie");
 
         return "redirect:/";
