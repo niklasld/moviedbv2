@@ -207,7 +207,7 @@ public class MovieDBRepo implements MovieDBRepoFace {
 
     @Override
     public List<Actor> getUnrelatedMovieActor(int movieId) {
-        String sql = "SELECT * FROM actors\n" +
+        String sql = "SELECT actorId, firstName, lastName FROM actors\n" +
                 "CROSS JOIN movies\n" +
                 "WHERE (actorId, movieId) NOT IN (\n" +
                 "    SELECT fk_actorId, fk_movieId\n" +
