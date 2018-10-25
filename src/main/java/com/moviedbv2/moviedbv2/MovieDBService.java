@@ -21,8 +21,8 @@ public class MovieDBService implements MovieDBServiceFace {
 
     @Override
     public Movie createMovie(Movie movie) {
-        movieDBRepoFace.createMovie(movie);
-        return movie;
+        Movie movie_ = movieDBRepoFace.createMovie(movie);
+        return movie_;
     }
 
     @Override

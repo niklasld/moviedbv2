@@ -8,7 +8,7 @@
 
         <h1>Create movie</h1>
 
-        <form method="Post" th:action="@{/createmovie}" th:object="${movie}">
+        <form method="Post" th:action="@{/createMovie}" th:object="${movie}">
 
             <label>Duration:</label>
             <input type="number" class="form-control mr-sm-2"  th:name="movieDuration" placeholder="120"/>

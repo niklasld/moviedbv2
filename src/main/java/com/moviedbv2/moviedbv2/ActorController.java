@@ -6,6 +6,6 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class ActorController {
 
-    @Autowired
-    ActorServiceFace actorServiceFace;
+    /*@Autowired
+    ActorServiceFace actorServiceFace;*/
 }
