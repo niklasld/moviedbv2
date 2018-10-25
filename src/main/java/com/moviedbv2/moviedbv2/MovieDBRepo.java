@@ -22,14 +22,14 @@ public class MovieDBRepo implements MovieDBRepoFace {
 
         // Fra sql til list.
         // Manuelt i stedet.
-        return this.template.query(sql, new ResultSetExtractor<List<Movie>>(){
+        return this.template.query(sql, new ResultSetExtractor<List<Movie>>() {
             @Override
             public List<Movie> extractData(ResultSet rs) throws SQLException, DataAccessException {
                 int movieId, movieYear, movieDuration;
                 String movieTitle, movieTrailerLink, moviePosterLink, movieGenre;
                 ArrayList<Movie> movies = new ArrayList<>();
 
-                while(rs.next()){
+                while (rs.next()) {
                     movieId = rs.getInt("movieId");
                     movieTitle = rs.getString("movieTitle");
                     movieYear = rs.getInt("movieYear");
@@ -62,7 +62,7 @@ public class MovieDBRepo implements MovieDBRepoFace {
         String trailerLink = movie.getMovieTrailerLink();
         String posterLink = movie.getMoviePosterLink();
 
-        log.info("create movie"+movieTitle+releaseYear+genre+duration+trailerLink+posterLink);
+        log.info("create movie" + movieTitle + releaseYear + genre + duration + trailerLink + posterLink);
         this.template.update(sql, movieTitle, releaseYear, genre, duration, trailerLink, posterLink);
 
         return movie;
@@ -81,8 +81,7 @@ public class MovieDBRepo implements MovieDBRepoFace {
         int movieDuration = movie.getMovieDuration();
         this.template.update(sql, movieTitle, movieYear, movieGenre, movieDuration, movieTrailerLink, moviePosterLink, movieId);
         return movie;
-   }
-
+    }
 
 
     @Override
@@ -91,14 +90,14 @@ public class MovieDBRepo implements MovieDBRepoFace {
 
         // Fra sql til list.
         // Manuelt i stedet.
-        return this.template.query(sql, new ResultSetExtractor<List<Actor>>(){
+        return this.template.query(sql, new ResultSetExtractor<List<Actor>>() {
             @Override
             public List<Actor> extractData(ResultSet rs) throws SQLException, DataAccessException {
                 int actorId;
                 String firstName, lastName;
                 ArrayList<Actor> actors = new ArrayList<>();
 
-                while(rs.next()){
+                while (rs.next()) {
                     actorId = rs.getInt("actorId");
                     firstName = rs.getString("firstName");
                     lastName = rs.getString("lastName");
@@ -116,15 +115,14 @@ public class MovieDBRepo implements MovieDBRepoFace {
         Logger log = Logger.getLogger(MovieDBService.class.getName());
 
         String sql = "INSERT INTO actors VALUE(default, ?, ?)";
-        String firstName= actor.getFirstName();
-        String lastName= actor.getLastName();
+        String firstName = actor.getFirstName();
+        String lastName = actor.getLastName();
 
         log.info("create actor" + firstName + lastName);
         this.template.update(sql, firstName, lastName);
 
         return actor;
     }
-
 
 
     @Override
@@ -156,14 +154,14 @@ public class MovieDBRepo implements MovieDBRepoFace {
 
         // Fra sql til list.
         // Manuelt i stedet.
-        return this.template.query(sql, new ResultSetExtractor<List<Movie>>(){
+        return this.template.query(sql, new ResultSetExtractor<List<Movie>>() {
             @Override
             public List<Movie> extractData(ResultSet rs) throws SQLException, DataAccessException {
                 int movieId, movieYear, movieDuration;
                 String movieTitle, movieTrailerLink, moviePosterLink, movieGenre;
                 ArrayList<Movie> movies = new ArrayList<>();
 
-                while(rs.next()){
+                while (rs.next()) {
                     movieId = rs.getInt("movieId");
                     movieTitle = rs.getString("movieTitle");
                     movieYear = rs.getInt("movieYear");
@@ -180,4 +178,74 @@ public class MovieDBRepo implements MovieDBRepoFace {
 
     }
 
+    @Override
+    public List<Actor> getRelatedMovieActor(int movieId) {
+        String sql = "SELECT actors.actorId, firstName, lastName FROM actors\n" +
+                "INNER JOIN movieActorRelation ON actors.actorId = movieActorRelation.fk_actorId\n" +
+                "WHERE fk_movieId = ?";
+
+        // Fra sql til list.
+        // Manuelt i stedet.
+        return this.template.query(sql, new ResultSetExtractor<List<Actor>>() {
+            @Override
+            public List<Actor> extractData(ResultSet rs) throws SQLException, DataAccessException {
+                int actorId;
+                String firstName, lastName;
+                List<Actor> actors = new ArrayList<>();
+
+                while (rs.next()) {
+                    actorId = rs.getInt("actorId");
+                    firstName = rs.getString("firstName");
+                    lastName = rs.getString("lastName");
+
+                    actors.add(new Actor(actorId, firstName, lastName));
+                }
+                return actors;
+            }
+        }, movieId);
+    }
+
+    @Override
+    public List<Actor> getUnrelatedMovieActor(int movieId) {
+        String sql = "SELECT actorId, firstName, lastName FROM actors\n" +
+                "CROSS JOIN movies\n" +
+                "WHERE (actorId, movieId) NOT IN (\n" +
+                "    SELECT fk_actorId, fk_movieId\n" +
+                "    FROM movieActorRelation\n" +
+                "    )\n" +
+                "AND movieId = ?";
+
+        // Fra sql til list.
+        // Manuelt i stedet.
+        return this.template.query(sql, new ResultSetExtractor<List<Actor>>() {
+            @Override
+            public List<Actor> extractData(ResultSet rs) throws SQLException, DataAccessException {
+                int actorId;
+                String firstName, lastName;
+                List<Actor> actors = new ArrayList<>();
+
+                while (rs.next()) {
+                    actorId = rs.getInt("actorId");
+                    firstName = rs.getString("firstName");
+                    lastName = rs.getString("lastName");
+
+                    actors.add(new Actor(actorId, firstName, lastName));
+                }
+                return actors;
+            }
+        }, movieId);
+    }
+
+    @Override
+    public void createRelation(int actorId, int movieId) {
+        String sql = "INSERT INTO movieActorRelation VALUES (DEFAULT, ?, ?)";
+        this.template.update(sql, movieId, actorId);
+    }
+
+    @Override
+    public void removeRelation(int actorId, int movieId) {
+        String sql = "DELETE FROM movieActorRelation WHERE fk_movieId = ? AND fk_actorId = ?";
+        this.template.update(sql, movieId, actorId);
+
+    }
 }
