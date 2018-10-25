@@ -10,9 +10,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Repository
 public class ActorRepo implements ActorRepoFace {
+
+    Logger log = Logger.getLogger(ActorRepo.class.getName());
 
         @Override
         public List<Actor> getActors() {
@@ -44,12 +47,19 @@ public class ActorRepo implements ActorRepoFace {
     JdbcTemplate template;
 
     @Override
-    public Movie createActor(Actor actor) {
-        return null;
+    public Actor createActor(Actor actor) {
+        String sql = "INSERT INTO actors VALUE(default, ?, ?)";
+        String firstName = actor.getFirstName();
+        String lastName = actor.getLastName();
+
+        log.info("create actor" + firstName + lastName);
+        this.template.update(sql, firstName, lastName);
+
+        return actor;
     }
 
     @Override
-    public Movie updateActor(Actor actor) {
+    public Actor updateActor(Actor actor) {
         return null;
     }
 
@@ -59,12 +69,12 @@ public class ActorRepo implements ActorRepoFace {
     }
 
     @Override
-    public Movie findActor(int id) {
+    public Actor findActor(int id) {
         return null;
     }
 
     @Override
-    public List<Movie> searchActor(String actor) {
+    public List<Actor> searchActor(String actor) {
         return null;
     }
 

@@ -7,9 +7,9 @@ import java.util.List;
 @Repository
 public interface ActorRepoFace {
     List<Actor> getActors();
-    Movie createActor(Actor actor);
-    Movie updateActor(Actor actor);
+    Actor createActor(Actor actor);
+    Actor updateActor(Actor actor);
     void deleteActor(int id);
-    Movie findActor(int id);
-    List<Movie> searchActor(String actor);
+    Actor findActor(int id);
+    List<Actor> searchActor(String actor);
 }

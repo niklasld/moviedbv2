@@ -102,7 +102,7 @@ public class MovieDBController {
     }
 
 
-    @GetMapping("/actors")
+    /*@GetMapping("/actors")
     public String actors(Model model) {
         log.info("actors called...");
         //movies = movieDBService.fetchAll();
@@ -112,10 +112,10 @@ public class MovieDBController {
         model.addAttribute("isActors", true);
 
         return ACTORS;
-    }
+    }*/
 
 
-    @PostMapping("/createActor")
+    /*@PostMapping("/createActor")
     public String createActor(@ModelAttribute Actor actor, Model model) {
         log.info("Create actor called...");
         //movieDBRepoFace.createActor(actor);
@@ -129,7 +129,7 @@ public class MovieDBController {
         model.addAttribute("actor", new Actor());
 
         return CREATEACTOR;
-    }
+    }*/
 
 
     @GetMapping("/editMovie/{id}")
@@ -217,12 +217,5 @@ public class MovieDBController {
         model.addAttribute("pageTitle", "Edit movie");
 
         return "redirect:/";
-    }
-
-    @GetMapping("/editActor")
-    public String editActor(Model model) {
-        log.info("Edit actor Called");
-        return EDITACTOR;
-
     }
 }
