@@ -13,19 +13,15 @@ import java.util.logging.Logger;
 public class MovieDBController {
 
     @Autowired
-    //MovieDBRepoFace movieDBRepoFace;
     MovieDBServiceFace movieDBServiceFace;
-    //ActorRepoFace actorRepoFace;
 
+    private final String REDIRECT = "redirect:/";
     private final String INDEX = "index";
     private final String CREATEMOVIE = "createmovie";
+
     private final String DISPLAY = "display";
-    private final String ACTORS= "actors";
-    private final String CREATEACTOR = "createactor";
     private final String EDITMOVIE = "editmovie";
-    private final String EDITACTOR = "editactor";
     private final String DELETEMOVIE = "deletemovie";
-    private final String DELETEACTOR = "deleteactor";
     private final String ADDACTORTOMOVIE = "addActorToMovie";
 
     Logger log = Logger.getLogger(MovieDBController.class.getName());
@@ -38,7 +34,6 @@ public class MovieDBController {
     @GetMapping("/")
     public String index(Model model) {
         log.info("Index called...");
-        //movies = movieDBService.fetchAll();
 
         List<Movie> movies = movieDBServiceFace.getMovies();
         model.addAttribute("movies", movies);
@@ -52,7 +47,6 @@ public class MovieDBController {
     public String index(@RequestParam("movieTitle")String search, Model model){
         log.info("search title: " + search);
 
-        //List<Movie> movies = movieDBRepoFace.searchMovie(search);
         List<Movie> movies = movieDBServiceFace.searchMovie(search);
 
         model.addAttribute("movies", movies);
@@ -65,7 +59,7 @@ public class MovieDBController {
     @GetMapping("/addActorToMovie")
     public String addActorToMovie(int movieId, Model model) {
         log.info("Add actor to movie called for movie id: "+ movieId);
-        //List<Actor> actors = actorRepoFace.getActors();
+
         return ADDACTORTOMOVIE;
     }
 
@@ -88,7 +82,7 @@ public class MovieDBController {
         model.addAttribute("movies", movieDBServiceFace.getMovies());
         model.addAttribute("pageTitle", "Create movie");
 
-        return "redirect:/";
+        return REDIRECT;
     }
 
     @GetMapping("display/{id}")
@@ -100,36 +94,6 @@ public class MovieDBController {
 
         return DISPLAY;
     }
-
-
-    /*@GetMapping("/actors")
-    public String actors(Model model) {
-        log.info("actors called...");
-        //movies = movieDBService.fetchAll();
-
-        //List<Actor> actors = movieDBRepoFace.getActors();
-        //model.addAttribute("actors", actors);
-        model.addAttribute("isActors", true);
-
-        return ACTORS;
-    }*/
-
-
-    /*@PostMapping("/createActor")
-    public String createActor(@ModelAttribute Actor actor, Model model) {
-        log.info("Create actor called...");
-        //movieDBRepoFace.createActor(actor);
-        //model.addAttribute("actor",movieDBRepoFace.getActors());
-        return "redirect:/actors";
-    }
-
-    @GetMapping("/createActor")
-    public String createActor (Model model){
-        log.info("createActor getmapping called...");
-        model.addAttribute("actor", new Actor());
-
-        return CREATEACTOR;
-    }*/
 
 
     @GetMapping("/editMovie/{id}")
@@ -150,7 +114,7 @@ public class MovieDBController {
 
     @RequestMapping(value = "/removerelation", method = RequestMethod.POST)
     public String removeRelation(@RequestParam("movieId") int movieId, @RequestParam("actorId") int actorId, Model model){
-        //log.info("search title: " + search);
+        log.info("Remove relation called");
 
         movieDBServiceFace.removeRelation(actorId, movieId);
 
@@ -163,12 +127,12 @@ public class MovieDBController {
         model.addAttribute("pageTitle", "Edit movie (" + movieTitle + ")");
         model.addAttribute("movieTitle", movieTitle);
 
-        return "redirect:/editMovie/" + movieId;
+        return REDIRECT + EDITMOVIE + "/" + movieId;
     }
 
     @RequestMapping(value = "/addrelation", method = RequestMethod.POST)
     public String addRelation(@RequestParam("movieId") int movieId, @RequestParam("actorId") int actorId, Model model){
-        //log.info("search title: " + search);
+        log.info("Add relation called");
 
         movieDBServiceFace.createRelation(actorId, movieId);
 
@@ -181,7 +145,7 @@ public class MovieDBController {
         model.addAttribute("pageTitle", "Edit movie (" + movieTitle + ")");
         model.addAttribute("movieTitle", movieTitle);
 
-        return "redirect:/editMovie/" + movieId;
+        return REDIRECT + EDITMOVIE + "/" + movieId;
     }
 
     @GetMapping("/deleteMovie/{id}")
@@ -205,7 +169,7 @@ public class MovieDBController {
         model.addAttribute("movies", movieDBServiceFace.getMovies());
         model.addAttribute("pageTitle", "Delete movie");
 
-        return "redirect:/";
+        return REDIRECT;
     }
 
     @PutMapping("/editmovie")
@@ -216,6 +180,6 @@ public class MovieDBController {
         model.addAttribute("movies", movieDBServiceFace.getMovies());
         model.addAttribute("pageTitle", "Edit movie");
 
-        return "redirect:/";
+        return REDIRECT;
     }
 }

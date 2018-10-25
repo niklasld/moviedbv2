@@ -33,7 +33,6 @@ public class ActorController {
     @GetMapping("/actors")
     public String actors(Model model) {
         log.info("actors called...");
-        //movies = movieDBService.fetchAll();
 
         List<Actor> actors = actorServiceFace.getActors();
         model.addAttribute("actors", actors);
