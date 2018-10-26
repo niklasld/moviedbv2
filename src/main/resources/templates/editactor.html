@@ -11,13 +11,13 @@
 
     <form th:method="put" th:action="@{/editActor}" th:object="${actor}">
 
-        <input type="hidden" th:field="${actor.actorId}">
+        <input type="hidden" th:field="${actor.ActorId}">
 
         <label>First Name:</label>
-        <input type="text" class="form-control mr-sm-2"  th:field="${actor.firstName}">
+        <input type="text" class="form-control mr-sm-2"  th:field="${actor.FirstName}">
 
         <label>Last Name:</label>
-        <input type="number" class="form-control mr-sm-2"  th:field="${actor.lastName}"/>
+        <input type="number" class="form-control mr-sm-2"  th:field="${actor.LastName}"/>
 
         <input class="btn btn-light" type="button" value="Cancel" onclick="location.href='/';"/>
 
