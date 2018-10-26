@@ -25,8 +25,8 @@ public class ActorService implements ActorServiceFace {
 
     @Override
     public Actor updateActor(Actor actor) {
-        Actor actor_ = actorRepoFace.updateActor(actor);
-        return actor_;
+        actor = actorRepoFace.updateActor(actor);
+        return actor;
     }
 
     @Override
