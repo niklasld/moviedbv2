@@ -93,7 +93,7 @@ public class MovieDBController {
         log.info("Display called, id=" + id);
 
         model.addAttribute(("movie"), movieDBServiceFace.findMovie(id));
-        model.addAttribute(("actor"), movieDBServiceFace.getRelatedMovieActor(id));
+        model.addAttribute(("relatedActors"), movieDBServiceFace.getRelatedMovieActor(id));
 
         return DISPLAY;
     }
