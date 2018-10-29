@@ -2,8 +2,10 @@ package com.moviedbv2.moviedbv2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -63,14 +65,41 @@ public class ActorRepo implements ActorRepoFace {
         return null;
     }
 
+
     @Override
     public void deleteActor(int id) {
+        String sql = "DELETE FROM actors WHERE actorId = ?";
+        this.template.update(sql, id);
 
     }
 
     @Override
     public Actor findActor(int id) {
-        return null;
+        String sql = "SELECT * FROM actors WHERE actorId = ?";
+
+        // Fra sql til list.
+        // Manuelt i stedet.
+        return this.template.query(sql, new ResultSetExtractor<Actor>() {
+            @Override
+            public Actor extractData(ResultSet rs) throws SQLException, DataAccessException {
+                int actorId;
+                String firstName, lastName;
+                Actor actor = new Actor();
+
+                while (rs.next()) {
+                    actorId = rs.getInt("actorId");
+                    firstName = rs.getString("firstName");
+                    lastName = rs.getString("lastName");
+
+                    actor.setFirstName(firstName);
+                    actor.setLastName(lastName);
+                    actor.setActorId(actorId);
+                }
+                return actor;
+            }
+        },id);
+
+
     }
 
     @Override

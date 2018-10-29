@@ -83,7 +83,7 @@ public class MovieDBRepo implements MovieDBRepoFace {
         return movie;
     }
 
-
+    /*
     @Override
     public List<Actor> getActors() {
         String sql = "SELECT * FROM actors";
@@ -108,8 +108,8 @@ public class MovieDBRepo implements MovieDBRepoFace {
             }
         });
 
-    }
-
+    }*/
+    /*
     @Override
     public Actor createActor(Actor actor) {
         Logger log = Logger.getLogger(MovieDBService.class.getName());
@@ -122,7 +122,7 @@ public class MovieDBRepo implements MovieDBRepoFace {
         this.template.update(sql, firstName, lastName);
 
         return actor;
-    }
+    }*/
 
 
     @Override

@@ -29,13 +29,12 @@ public class ActorService implements ActorServiceFace {
     }
 
     @Override
-    public void deleteActor(int id) {
-
-    }
+    public void deleteActor(int id) {actorRepoFace.deleteActor(id);}
 
     @Override
-    public Actor findActor(int id) {
-        return null;
+    public Actor findActor(int id){
+    Actor actor = actorRepoFace.findActor(id);
+        return actor;
     }
 
     @Override

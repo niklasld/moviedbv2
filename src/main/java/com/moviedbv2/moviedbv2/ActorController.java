@@ -3,9 +3,7 @@ package com.moviedbv2.moviedbv2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -16,6 +14,7 @@ public class ActorController {
     @Autowired
     ActorServiceFace actorServiceFace;
 
+    private final String REDIRECT = "redirect:/actors";
     private final String ACTORS= "actors";
     private final String CREATEACTOR = "createactor";
     private final String EDITACTOR = "editactor";
@@ -71,4 +70,39 @@ public class ActorController {
         return EDITACTOR;
 
     }
+
+
+
+
+    @GetMapping("/deleteActor/{id}")
+    public String deleteActor(@PathVariable Integer id, Model model) {
+        log.info("Delete Actor with id: "+id+"?");
+
+        model.addAttribute("actor", actorServiceFace.findActor(id));
+        String firstName = actorServiceFace.findActor(id).getFirstName();
+        model.addAttribute("pageTitle", "Delete actor (" + firstName + ")");
+
+        return DELETEACTOR;
+    }
+
+    @PutMapping("/deleteActor")
+    public String delete(@ModelAttribute Actor actor, Model model) {
+        log.info("delete confirmed deleting actor "+actor.getActorId());
+        int id = actor.getActorId();
+        String first = actor.getFirstName();
+        log.info("id is "+id+ " first: "+actor.getLastName());
+
+        actorServiceFace.deleteActor(id);
+
+        model.addAttribute("actors", actorServiceFace.getActors());
+        model.addAttribute("pageTitle", "Delete actor");
+
+        return REDIRECT;
+        //redirect
+    }
+
+
+
+
+
 }
