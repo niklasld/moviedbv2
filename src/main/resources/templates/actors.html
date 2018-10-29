@@ -21,6 +21,8 @@
         <tr>
             <th>First Name</th>
             <th>Last Name</th>
+            <th>Settings</th>
+
 
         </tr>
         </thead>
@@ -29,6 +31,16 @@
                         <span>
                             <td th:text="${actor.firstName}" />
                             <td th:text="${actor.lastName}" />
+                            <td>
+
+                                <a th:href="${'/editActor/'+ actor.actorId}" class="btn btn-light btn-sm">
+                                    <span class="fas fa-pen"></span> Edit
+                                </a>
+                                <a th:href="${'/deleteActor/'+ actor.actorId}" class="btn btn-danger btn-sm">
+                                    <span class="fas fa-trash-alt"></span> Delete
+                                </a>
+
+                            </td>
                         </span>
         </tr>
         </tbody>

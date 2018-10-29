@@ -29,7 +29,6 @@ public class ActorController {
 
     }
 
-
     Logger log = Logger.getLogger(ActorController.class.getName());
 
     @GetMapping("/actors")
@@ -54,7 +53,7 @@ public class ActorController {
         model.addAttribute("actor",actorServiceFace.getActors());
         model.addAttribute("pageTitle", "Create actor");
 
-        return "redirect:/actors";
+        return REDIRECT+ACTORS;
     }
 
     @GetMapping("/createActor")
@@ -69,8 +68,10 @@ public class ActorController {
 
     @GetMapping("/editActor/{id}")
     public String editActor(@PathVariable("id") int id, Model model) {
-        log.info("Edit actor Called");
-        model.addAttribute("actor",actorServiceFace.findActor(id));
+        log.info("Edit actor Called. id="+id);
+        Actor actor = actorServiceFace.findActor(id);
+        log.info("actorId = "+actor.getActorId());
+        model.addAttribute("actor", actor);
         model.addAttribute("pageTitle","Edit Actor");
 
         return EDITACTOR;
@@ -80,9 +81,36 @@ public class ActorController {
     @PutMapping("/editActor")
     public String editActor(@ModelAttribute Actor actor, Model model) {
         actorServiceFace.updateActor(actor);
-
+        log.info("Edit actor put mapping called (actor updated in sql) id="+actor.getActorId()+" firstname = "+actor.getFirstName());
         model.addAttribute("",actorServiceFace.getActors());
         model.addAttribute("pageTitle","Edit Actor");
+
+        return REDIRECT+ACTORS;
+    }
+
+
+    @GetMapping("/deleteActor/{id}")
+    public String deleteActor(@PathVariable Integer id, Model model) {
+        log.info("Delete Actor with id: "+id+"?");
+
+        model.addAttribute("actor", actorServiceFace.findActor(id));
+        String firstName = actorServiceFace.findActor(id).getFirstName();
+        model.addAttribute("pageTitle", "Delete actor (" + firstName + ")");
+
+        return DELETEACTOR;
+    }
+
+    @PutMapping("/deleteActor")
+    public String delete(@ModelAttribute Actor actor, Model model) {
+        log.info("delete confirmed deleting actor "+actor.getActorId());
+        int id = actor.getActorId();
+        String first = actor.getFirstName();
+        log.info("id is "+id+ " first: "+actor.getLastName());
+
+        actorServiceFace.deleteActor(id);
+
+        model.addAttribute("actors", actorServiceFace.getActors());
+        model.addAttribute("pageTitle", "Delete actor");
 
         return REDIRECT+ACTORS;
     }

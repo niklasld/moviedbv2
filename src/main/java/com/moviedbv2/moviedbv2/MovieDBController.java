@@ -134,9 +134,8 @@ public class MovieDBController {
             String movieTitle = movieDBServiceFace.findMovie(movieId).getMovieTitle();
             model.addAttribute("pageTitle", "Edit movie (" + movieTitle + ")");
             model.addAttribute("movieTitle", movieTitle);
-
-            return REDIRECT + EDITMOVIE + "/" + movieId;
-        }
+        return REDIRECT + "editMovie" + "/" + movieId;
+    }
 
         @RequestMapping(value = "/addrelation", method = RequestMethod.POST)
         public String addRelation ( @RequestParam("movieId") int movieId, @RequestParam("actorId") int actorId, Model
@@ -153,9 +152,8 @@ public class MovieDBController {
             String movieTitle = movieDBServiceFace.findMovie(movieId).getMovieTitle();
             model.addAttribute("pageTitle", "Edit movie (" + movieTitle + ")");
             model.addAttribute("movieTitle", movieTitle);
-
-            return REDIRECT + EDITMOVIE + "/" + movieId;
-        }
+            return REDIRECT + "editMovie" + "/" + movieId;
+    }
 
         @GetMapping("/deleteMovie/{id}")
         public String deleteMovie (@PathVariable Integer id, Model model){
