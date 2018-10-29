@@ -4,12 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class ActorService implements ActorServiceFace {
 
     @Autowired
     ActorRepoFace actorRepoFace;
+
+    Logger log = Logger.getLogger(ActorService.class.getName());
+
 
     @Override
     public List<Actor> getActors() {
@@ -25,7 +29,8 @@ public class ActorService implements ActorServiceFace {
 
     @Override
     public Actor updateActor(Actor actor) {
-        return null;
+        actor = actorRepoFace.updateActor(actor);
+        return actor;
     }
 
     @Override
@@ -33,7 +38,8 @@ public class ActorService implements ActorServiceFace {
 
     @Override
     public Actor findActor(int id){
-    Actor actor = actorRepoFace.findActor(id);
+        Actor actor = actorRepoFace.findActor(id);
+
         return actor;
     }
 

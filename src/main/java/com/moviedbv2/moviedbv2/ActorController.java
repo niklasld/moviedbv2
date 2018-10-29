@@ -14,10 +14,10 @@ public class ActorController {
     @Autowired
     ActorServiceFace actorServiceFace;
 
-    private final String REDIRECT = "redirect:/actors";
     private final String ACTORS= "actors";
     private final String CREATEACTOR = "createactor";
     private final String EDITACTOR = "editactor";
+    private final String REDIRECT = "redirect:/";
     private final String DELETEACTOR = "deleteactor";
     private final String ADDACTORTOMOVIE = "addactortomovie";
     private final String ADDACTORTOMOVIECONFIRM = "addactortomovieconfirm";
@@ -25,7 +25,6 @@ public class ActorController {
     public ActorController() {
 
     }
-
 
     Logger log = Logger.getLogger(ActorController.class.getName());
 
@@ -51,7 +50,7 @@ public class ActorController {
         model.addAttribute("actor",actorServiceFace.getActors());
         model.addAttribute("pageTitle", "Create actor");
 
-        return "redirect:/actors";
+        return REDIRECT+ACTORS;
     }
 
     @GetMapping("/createActor")
@@ -64,15 +63,27 @@ public class ActorController {
         return CREATEACTOR;
     }
 
-    @GetMapping("/editActor")
-    public String editActor(Model model) {
-        log.info("Edit actor Called");
+    @GetMapping("/editActor/{id}")
+    public String editActor(@PathVariable("id") int id, Model model) {
+        log.info("Edit actor Called. id="+id);
+        Actor actor = actorServiceFace.findActor(id);
+        log.info("actorId = "+actor.getActorId());
+        model.addAttribute("actor", actor);
+        model.addAttribute("pageTitle","Edit Actor");
+
         return EDITACTOR;
 
     }
 
+    @PutMapping("/editActor")
+    public String editActor(@ModelAttribute Actor actor, Model model) {
+        actorServiceFace.updateActor(actor);
+        log.info("Edit actor put mapping called (actor updated in sql) id="+actor.getActorId()+" firstname = "+actor.getFirstName());
+        model.addAttribute("",actorServiceFace.getActors());
+        model.addAttribute("pageTitle","Edit Actor");
 
-
+        return REDIRECT+ACTORS;
+    }
 
     @GetMapping("/deleteActor/{id}")
     public String deleteActor(@PathVariable Integer id, Model model) {
@@ -98,11 +109,6 @@ public class ActorController {
         model.addAttribute("pageTitle", "Delete actor");
 
         return REDIRECT;
-        //redirect
     }
-
-
-
-
 
 }

@@ -1,9 +1,30 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:include="fragments/head :: styles">
+    <!--<link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>-->
 </head>
 <body>
+<div class="container">
     <header th:include="fragments/header :: navbar"></header>
 
+    <h1 th:text="${'Edit Actor'}"></h1>
+
+    <form th:method="Put" th:action="@{/editActor}" th:object="${actor}">
+
+        <input type="hidden" name="actorId" th:field="${actor.actorId}"/>
+
+        <label>First Name:</label>
+        <input type="text" class="form-control mr-sm-2"  name="firstName" th:field="${actor.firstName}"/>
+
+        <label>Last Name:</label>
+        <input type="text" class="form-control mr-sm-2"  name="lastName" th:field="${actor.lastName}"/>
+
+        <input class="btn btn-light" type="button" value="Cancel" onclick="location.href='/';"/>
+
+        <button class="btn btn-primary" type="submit">Save</button>
+
+    </form>
+
+</div>
 </body>
 </html>

@@ -62,7 +62,17 @@ public class ActorRepo implements ActorRepoFace {
 
     @Override
     public Actor updateActor(Actor actor) {
-        return null;
+
+        String sql = "UPDATE actors SET firstName = ?, lastName = ? WHERE actorId = ?";
+        String firstName = actor.getFirstName();
+        String lastName = actor.getLastName();
+
+        int actorId = actor.getActorId();
+        log.info("updating SQL for actorId="+actor.getActorId()+" firstname="+firstName+" lastname="+lastName);
+        this.template.update(sql, firstName, lastName, actorId);
+
+
+        return actor;
     }
 
 
@@ -72,6 +82,7 @@ public class ActorRepo implements ActorRepoFace {
         this.template.update(sql, id);
 
     }
+
 
     @Override
     public Actor findActor(int id) {
@@ -98,8 +109,6 @@ public class ActorRepo implements ActorRepoFace {
                 return actor;
             }
         },id);
-
-
     }
 
     @Override
