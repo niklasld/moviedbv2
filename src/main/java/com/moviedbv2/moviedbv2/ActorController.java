@@ -108,7 +108,7 @@ public class ActorController {
         model.addAttribute("actors", actorServiceFace.getActors());
         model.addAttribute("pageTitle", "Delete actor");
 
-        return REDIRECT;
+        return REDIRECT+ACTORS;
     }
 
 }

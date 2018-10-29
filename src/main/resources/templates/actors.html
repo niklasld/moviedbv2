@@ -33,7 +33,7 @@
                             <td th:text="${actor.lastName}" />
                             <td>
 
-                                <a th:href="${'#'}" class="btn btn-light btn-sm">
+                                <a th:href="${'/editActor/'+ actor.actorId}" class="btn btn-light btn-sm">
                                     <span class="fas fa-pen"></span> Edit
                                 </a>
                                 <a th:href="${'/deleteActor/'+ actor.actorId}" class="btn btn-danger btn-sm">
