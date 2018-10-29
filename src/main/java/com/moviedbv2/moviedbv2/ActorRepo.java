@@ -70,6 +70,7 @@ public class ActorRepo implements ActorRepoFace {
         this.template.update(sql, firstName, lastName, actorId);
 
         return actor;
+
     }
 
     @Override
