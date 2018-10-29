@@ -74,8 +74,48 @@ public class ActorRepo implements ActorRepoFace {
     }
 
     @Override
-    public List<Actor> searchActor(String actor) {
-        return null;
+    public List<Actor> searchActor(String search) {
+        log.info("Repo searchActor: " + search);
+
+        String sql;
+
+        /*if(search.contains(" ")){
+            sql = "SET @fullName = ?;\n" +
+                    "SET @firstName = SUBSTRING_INDEX(@fullName, ' ', 1);\n" +
+                    "SET @firstName = concat('%',@firstName,'%');\n" +
+                    "SET @lastName = SUBSTRING_INDEX(@fullName, ' ', -1);\n" +
+                    "SET @lastName = concat('%',@lastName,'%');\n" +
+                    "SELECT * FROM actors\n" +
+                    "WHERE firstName LIKE @firstName\n" +
+                    "AND lastName LIKE @lastName";
+        } else {
+            sql = "SET @strName = ?;\n" +
+                    "SET @strName = concat('%',@strName,'%');\n" +
+                    "SELECT * FROM actors WHERE firstName LIKE @strName OR lastName LIKE @strName;";
+        }*/
+
+        search = "%" + search + "%";
+        sql = "SELECT * FROM actors WHERE firstName LIKE ?";
+
+        // Fra sql til list.
+        // Manuelt i stedet.
+        return this.template.query(sql, new ResultSetExtractor<List<Actor>>() {
+            @Override
+            public List<Actor> extractData(ResultSet rs) throws SQLException, DataAccessException {
+                int actorId;
+                String firstName, lastName;
+                ArrayList<Actor> actors = new ArrayList<>();
+
+                while (rs.next()) {
+                    actorId = rs.getInt("actorId");
+                    firstName = rs.getString("firstName");
+                    lastName = rs.getString("lastNAme");
+
+                    actors.add(new Actor(actorId, firstName, lastName));
+                }
+                return actors;
+            }
+        }, search);
     }
 
 }

@@ -3,9 +3,7 @@ package com.moviedbv2.moviedbv2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -39,6 +37,21 @@ public class ActorController {
         model.addAttribute("isActors", true);
 
         model.addAttribute("pageTitle", "Actors");
+
+        return ACTORS;
+    }
+
+    @RequestMapping(value = "/actors", method = RequestMethod.POST)
+    public String actors(@RequestParam("actorName")String search, Model model){
+        log.info("search name: " + search);
+
+        List<Actor> actors = actorServiceFace.searchActor(search);
+
+        model.addAttribute("actors", actors);
+        model.addAttribute("isActors", true);
+
+        model.addAttribute("pageTitle", "Search for: " + search);
+
 
         return ACTORS;
     }

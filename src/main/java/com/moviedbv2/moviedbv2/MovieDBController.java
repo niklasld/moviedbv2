@@ -127,7 +127,7 @@ public class MovieDBController {
         model.addAttribute("pageTitle", "Edit movie (" + movieTitle + ")");
         model.addAttribute("movieTitle", movieTitle);
 
-        return REDIRECT + EDITMOVIE + "/" + movieId;
+        return REDIRECT + "editMovie" + "/" + movieId;
     }
 
     @RequestMapping(value = "/addrelation", method = RequestMethod.POST)
@@ -145,7 +145,7 @@ public class MovieDBController {
         model.addAttribute("pageTitle", "Edit movie (" + movieTitle + ")");
         model.addAttribute("movieTitle", movieTitle);
 
-        return REDIRECT + EDITMOVIE + "/" + movieId;
+        return REDIRECT + "editMovie" + "/" + movieId;
     }
 
     @GetMapping("/deleteMovie/{id}")
