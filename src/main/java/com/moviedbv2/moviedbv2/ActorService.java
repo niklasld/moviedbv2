@@ -45,6 +45,7 @@ public class ActorService implements ActorServiceFace {
 
     @Override
     public List<Actor> searchActor(String name) {
-        return null;
+        List<Actor> actors = actorRepoFace.searchActor(name);
+        return actors;
     }
 }

@@ -11,5 +11,5 @@ public interface ActorRepoFace {
     Actor updateActor(Actor actor);
     void deleteActor(int id);
     Actor findActor(int id);
-    List<Actor> searchActor(String actor);
+    List<Actor> searchActor(String search);
 }

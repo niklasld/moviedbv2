@@ -44,6 +44,21 @@ public class ActorController {
         return ACTORS;
     }
 
+    @RequestMapping(value = "/actors", method = RequestMethod.POST)
+    public String actors(@RequestParam("actorName")String search, Model model){
+        log.info("search name: " + search);
+
+        List<Actor> actors = actorServiceFace.searchActor(search);
+
+        model.addAttribute("actors", actors);
+        model.addAttribute("isActors", true);
+
+        model.addAttribute("pageTitle", "Search for: " + search);
+
+
+        return ACTORS;
+    }
+
     @PostMapping("/createActor")
     public String createActor(@ModelAttribute Actor actor, Model model) {
         log.info("Create actor called...");
