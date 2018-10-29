@@ -2,12 +2,9 @@ package com.moviedbv2.moviedbv2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -81,15 +78,41 @@ public class ActorRepo implements ActorRepoFace {
 
     }
 
-    @Override
+    /*@Override
     public Actor findActor(int id) {
         String sql = "SELECT * FROM actors WHERE actorId = ?";
 
         RowMapper<Actor> rowMapper = new BeanPropertyRowMapper<>(Actor.class);
 
         Actor actor = template.queryForObject(sql, rowMapper, id);
-        log.info(""+actor.getActorId());
+        log.info("repo actor.getActorId()"+actor.getActorId()+" imput id="+id);
         return actor;
+    }*/
+    @Override
+    public Actor findActor(int id) {
+        String sql = "SELECT * FROM actors WHERE actorId = ?";
+
+        // Fra sql til list.
+        // Manuelt i stedet.
+        return this.template.query(sql, new ResultSetExtractor<Actor>() {
+            @Override
+            public Actor extractData(ResultSet rs) throws SQLException, DataAccessException {
+                int actorId;
+                String firstName, lastName;
+                Actor actor = new Actor();
+
+                while (rs.next()) {
+                    actorId = rs.getInt("actorId");
+                    firstName = rs.getString("firstName");
+                    lastName = rs.getString("lastName");
+
+                    actor.setFirstName(firstName);
+                    actor.setLastName(lastName);
+                    actor.setActorId(actorId);
+                }
+                return actor;
+            }
+        },id);
     }
 
     @Override

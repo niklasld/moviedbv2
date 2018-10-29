@@ -68,6 +68,7 @@ public class ActorController {
     public String editActor(@PathVariable("id") int id, Model model) {
         log.info("Edit actor Called. id="+id);
         Actor actor = actorServiceFace.findActor(id);
+        log.info("actorId = "+actor.getActorId());
         model.addAttribute("actor", actor);
         model.addAttribute("pageTitle","Edit Actor");
 
@@ -78,7 +79,7 @@ public class ActorController {
     @PutMapping("/editActor")
     public String editActor(@ModelAttribute Actor actor, Model model) {
         actorServiceFace.updateActor(actor);
-        log.info("Edit actor put mapping called (actor updated in sql) id="+actor.getActorId());
+        log.info("Edit actor put mapping called (actor updated in sql) id="+actor.getActorId()+" firstname = "+actor.getFirstName());
         model.addAttribute("",actorServiceFace.getActors());
         model.addAttribute("pageTitle","Edit Actor");
 

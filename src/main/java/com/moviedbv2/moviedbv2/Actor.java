@@ -18,6 +18,8 @@ public class Actor {
         return actorId;
     }
 
+    public void setActorId(int id) {this.actorId = id;}
+
     public String getFirstName() {
         return firstName;
     }
