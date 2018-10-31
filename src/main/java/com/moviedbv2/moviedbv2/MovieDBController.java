@@ -24,6 +24,8 @@ public class MovieDBController {
     private final String DELETEMOVIE = "deletemovie";
     private final String ADDACTORTOMOVIE = "addActorToMovie";
 
+    private final String LOGIN = "login";
+
     Logger log = Logger.getLogger(MovieDBController.class.getName());
 
     public MovieDBController() {
@@ -41,6 +43,29 @@ public class MovieDBController {
         model.addAttribute("isMovies", true);
 
         return INDEX;
+    }
+
+    @GetMapping("/login")
+    public String login(Model model) {
+        log.info("login called...");
+
+        model.addAttribute("users", new User());
+        model.addAttribute("pageTitle", "Login");
+
+        return LOGIN;
+    }
+
+    @PostMapping("/login")
+    public String login(@ModelAttribute User user, Model model) {
+        boolean loginMatch = false;
+        loginMatch = movieDBServiceFace.loginMatch(user);
+
+        if(loginMatch == true) {
+            return INDEX;
+        }
+        else {
+            return LOGIN;
+        }
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)

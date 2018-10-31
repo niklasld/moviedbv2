@@ -3,6 +3,7 @@ package com.moviedbv2.moviedbv2;
 import java.util.List;
 
 public interface MovieDBServiceFace {
+    //Movies
     List<Movie> getMovies();
     Movie createMovie(Movie movie);
     Movie updateMovie(Movie movie);
@@ -10,6 +11,10 @@ public interface MovieDBServiceFace {
     Movie findMovie(int id);
     List<Movie> searchMovie(String search);
 
+    //Users
+    boolean loginMatch(User user);
+
+    //Movie actor relations
     List<Actor> getRelatedMovieActor(int movieId);
     List<Actor> getUnrelatedMovieActor(int movieId);
     void createRelation(int actorId, int movieId);

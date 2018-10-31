@@ -49,6 +49,22 @@ public class MovieDBService implements MovieDBServiceFace {
     }
 
     @Override
+    public boolean loginMatch(User user) {
+        boolean loginMatch;
+
+        User loginUser = movieDBRepoFace.findLogin(user.getUserName(),user.getUserPassword());
+
+        if(loginUser.getUserName() != null && loginUser.userPassword != null) {
+            loginMatch = true;
+        }
+        else{
+            loginMatch = false;
+        }
+
+        return loginMatch;
+    }
+
+    @Override
     public List<Actor> getRelatedMovieActor(int movieId) {
         List<Actor> actors = movieDBRepoFace.getRelatedMovieActor(movieId);
         return actors;
