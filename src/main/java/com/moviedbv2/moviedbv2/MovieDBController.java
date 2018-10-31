@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -14,6 +15,8 @@ public class MovieDBController {
 
     @Autowired
     MovieDBServiceFace movieDBServiceFace;
+
+    User loggedIn = new User();
 
     private final String REDIRECT = "redirect:/";
     private final String INDEX = "index";
@@ -41,6 +44,9 @@ public class MovieDBController {
         model.addAttribute("movies", movies);
         model.addAttribute("pageTitle", "index");
         model.addAttribute("isMovies", true);
+        if(loggedIn.getUserState() == 1) {
+            model.addAttribute("isLoggedin", true);
+        }
 
         return INDEX;
     }
@@ -51,20 +57,29 @@ public class MovieDBController {
 
         model.addAttribute("users", new User());
         model.addAttribute("pageTitle", "Login");
+        model.addAttribute("isLogin", true);
 
         return LOGIN;
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute User user, Model model) {
+    public String login(@ModelAttribute User user, Model model, RedirectAttributes redirAttr) {
         boolean loginMatch = false;
         loginMatch = movieDBServiceFace.loginMatch(user);
 
         if(loginMatch == true) {
-            return INDEX;
+            redirAttr.addFlashAttribute("loginsuccess", true);
+            redirAttr.addFlashAttribute("userName", user.getUserName());
+
+            loggedIn = movieDBServiceFace.loggedIn(user);
+
+            return REDIRECT;
         }
         else {
-            return LOGIN;
+
+            redirAttr.addFlashAttribute("loginError", true);
+
+            return REDIRECT + LOGIN;
         }
     }
 
@@ -102,7 +117,11 @@ public class MovieDBController {
     public String createMovie(@ModelAttribute Movie movie, Model model){
         log.info("create movie postmapping called");
 
-        movieDBServiceFace.createMovie(movie);
+        if(loggedIn.getUserState() == 1) {
+            movieDBServiceFace.createMovie(movie);
+        } else {
+            log.info("You shall not pass here!");
+        }
 
         model.addAttribute("movies", movieDBServiceFace.getMovies());
         model.addAttribute("pageTitle", "Create movie");

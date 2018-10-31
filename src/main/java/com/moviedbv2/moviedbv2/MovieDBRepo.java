@@ -16,6 +16,10 @@ import java.util.logging.Logger;
 
 @Repository
 public class MovieDBRepo implements MovieDBRepoFace {
+
+    Logger log = Logger.getLogger(MovieDBRepo.class.getName());
+
+
     @Override
     public List<Movie> getMovies() {
         String sql = "SELECT * FROM movies";
@@ -140,11 +144,29 @@ public class MovieDBRepo implements MovieDBRepoFace {
     public User findLogin(String userName, String userPassword) {
         String sql = "SELECT * FROM users WHERE userName = ? AND userPassword = ?";
 
-        RowMapper<User> rowMapper = new BeanPropertyRowMapper<>(User.class);
+        return this.template.query(sql, new ResultSetExtractor<User>() {
+            @Override
+            public User extractData(ResultSet rs) throws SQLException, DataAccessException {
+                String userName, userPassword, userEmail;
+                int id, userState;
+                User user = new User();
 
-        User user = template.queryForObject(sql, rowMapper, userName, userPassword);
+                while (rs.next()) {
+                    userName = rs.getString("userName");
+                    userPassword = rs.getString("userPassword");
+                    id = rs.getInt("userId");
+                    userState = rs.getInt("userState");
+                    userEmail = rs.getString("userEmail");
 
-        return user;
+                    user.setUserName(userName);
+                    user.setUserPassword(userPassword);
+                    user.setId(id);
+                    user.setUserState(userState);
+                    user.setUserEmail(userEmail);
+                }
+                return user;
+            }
+        },userName, userPassword);
     }
 
     @Override

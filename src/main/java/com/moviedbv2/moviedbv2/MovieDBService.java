@@ -65,6 +65,13 @@ public class MovieDBService implements MovieDBServiceFace {
     }
 
     @Override
+    public User loggedIn(User user) {
+
+        user = movieDBRepoFace.findLogin(user.getUserName(),user.getUserPassword());
+        return user;
+    }
+
+    @Override
     public List<Actor> getRelatedMovieActor(int movieId) {
         List<Actor> actors = movieDBRepoFace.getRelatedMovieActor(movieId);
         return actors;

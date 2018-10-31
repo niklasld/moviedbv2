@@ -9,21 +9,25 @@
 
     <header th:include="fragments/header :: navbar"></header>
 
-    <h1 th:text="${'Edit Actor'}"></h1>
+    <h1>Login</h1>
 
-    <form th:method="Put" th:action="@{/editActor}" th:object="${actor}">
+    <div class="alert alert-danger" th:classappend="${loginError} ? '' : 'd-none'">
+        <strong>Login Error!</strong> Wrong username or password, you little bitch...
+    </div>
 
-        <input type="hidden" name="actorId" th:field="${actor.actorId}"/>
+    <form method="Post" th:action="@{/login}">
 
-        <label>First Name:</label>
-        <input type="text" class="form-control mr-sm-2"  name="firstName" th:field="${actor.firstName}"/>
+        <label>Username:</label>
+        <input type="text" class="form-control mr-sm-2" th:name="userName"/>
 
-        <label>Last Name:</label>
-        <input type="text" class="form-control mr-sm-2"  name="lastName" th:field="${actor.lastName}"/>
+        <label>Password:</label>
+        <input type="password" class="form-control mr-sm-2" th:name="userPassword"/>
 
-        <input class="btn btn-light" type="button" value="Cancel" onclick="location.href='/';"/>
+        <br>
 
-        <button class="btn btn-primary" type="submit">Save</button>
+        <input class="btn btn-light" type="reset" value="Reset">
+
+        <button class="btn btn-primary" type="submit">Login</button>
 
     </form>
 

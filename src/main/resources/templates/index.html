@@ -9,6 +9,10 @@
 
         <h1><span class="fas fa-film"></span> Movies</h1>
 
+        <div class="alert alert-success" th:classappend="${loginsuccess} ? '' : 'd-none'">
+            <strong>Login success!</strong> You are now logged in as <span th:text="${userName}"></span>
+        </div>
+
         <form class="form-inline" method="Post" th:action="@{/}">
             <input type="text" class="form-control mr-sm-2"  th:name="movieTitle" placeholder="Search title or genre"/>
 
@@ -36,10 +40,10 @@
                                 <a th:href="${'display/' + movies.movieId}" class="btn btn-light btn-sm">
                                     <span class="far fa-eye"></span> Details
                                 </a>
-                                <a th:href="${'editMovie/' + movies.movieId}" class="btn btn-light btn-sm">
+                                <a th:href="${'editMovie/' + movies.movieId}" class="btn btn-light btn-sm" th:classappend="${isLoggedin} ? '' : 'd-none'">
                                     <span class="fas fa-pen"></span> Edit
                                 </a>
-                                <a th:href="${'deleteMovie/' + movies.movieId}" class="btn btn-danger btn-sm">
+                                <a th:href="${'deleteMovie/' + movies.movieId}" class="btn btn-danger btn-sm" th:classappend="${isLoggedin} ? '' : 'd-none'">
                                     <span class="fas fa-trash-alt"></span> Delete
                                 </a>
 
@@ -49,7 +53,7 @@
             </tbody>
         </table>
 
-        <a href="/createMovie" class="btn btn-success">
+        <a href="/createMovie" class="btn btn-success" th:classappend="${isLoggedin} ? '' : 'd-none'">
             <span class="fas fa-plus"></span> Create new movie
         </a>
 
