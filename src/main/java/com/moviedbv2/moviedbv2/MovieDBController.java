@@ -29,6 +29,8 @@ public class MovieDBController {
 
     private final String LOGIN = "login";
 
+    private final String CREATEUSER = "createuser";
+
     Logger log = Logger.getLogger(MovieDBController.class.getName());
 
     public MovieDBController() {
@@ -233,4 +235,26 @@ public class MovieDBController {
 
             return REDIRECT;
         }
+
+    @GetMapping("/createuser")
+    public String createUser(Model model) {
+        log.info("createUser getmapping called...");
+
+        model.addAttribute("user", new User());
+        model.addAttribute("pageTitle", "Create user");
+
+        return CREATEUSER;
+    }
+
+    @PostMapping("/createuser")
+    public String createUser(@ModelAttribute User user, Model model){
+        log.info("create user postmapping called");
+
+        movieDBServiceFace.createUser(user);
+
+        model.addAttribute("movies", movieDBServiceFace.getUsers());
+        model.addAttribute("pageTitle", "Create movie");
+
+        return REDIRECT + LOGIN;
+    }
     }

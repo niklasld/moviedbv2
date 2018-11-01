@@ -48,6 +48,28 @@ public class MovieDBService implements MovieDBServiceFace {
         return movies;
     }
 
+
+
+
+
+
+    @Override
+    public List<User> getUsers() {
+        List<User> users = movieDBRepoFace.getUsers();
+
+        return users;
+    }
+
+    @Override
+    public User createUser(User user) {
+        user = movieDBRepoFace.createUser(user);
+        return user;
+    }
+
+
+
+
+
     @Override
     public boolean loginMatch(User user) {
         boolean loginMatch;

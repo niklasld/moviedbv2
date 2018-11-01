@@ -12,6 +12,9 @@ public interface MovieDBServiceFace {
     List<Movie> searchMovie(String search);
 
     //Users
+    List<User> getUsers();
+    User createUser(User user);
+
     boolean loginMatch(User user);
     User loggedIn(User user);
 
@@ -20,4 +23,5 @@ public interface MovieDBServiceFace {
     List<Actor> getUnrelatedMovieActor(int movieId);
     void createRelation(int actorId, int movieId);
     void removeRelation(int actorId, int movieId);
+
 }
