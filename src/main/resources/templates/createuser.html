@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:include="fragments/head :: styles">
+</head>
+<body>
+<div class="container">
+    <header th:include="fragments/header :: navbar"></header>
+
+    <h2>Write your username, password and email</h2>
+    <br>
+
+    <form method="Post" th:action="@{/createuser}">
+
+        <input type="text" class="form-control mr-sm-2"  th:name="userName" placeholder="Username"/>
+        <br>
+
+        <input type="password" class="form-control mr-sm-2"  th:name="userPassword" placeholder="User password"/>
+        <br>
+
+        <input type="text" class="form-control mr-sm-2"  th:name="userEmail" placeholder="UserEmail"/>
+        <br>
+
+        <input class="btn btn-light" type="button" value="Cancel" onclick="location.href='/login';"/>
+
+        <button class="btn btn-primary" type="submit" value="Create User">Create</button>
+
+    </form>
+
+</div>
+</body>
+</html>

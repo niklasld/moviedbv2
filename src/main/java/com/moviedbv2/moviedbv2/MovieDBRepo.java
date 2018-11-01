@@ -55,6 +55,28 @@ public class MovieDBRepo implements MovieDBRepoFace {
     JdbcTemplate template;
 
     @Override
+    public User createUser(User user) {
+        Logger log = Logger.getLogger(MovieDBService.class.getName());
+
+        String sql = "INSERT INTO users VALUE(default, ?, ?, ?, ?)";
+        String userName = user.getUserName();
+        String userPassword = user.getUserPassword();
+        int userState = 0;
+        String userEmail = user.getUserEmail();
+
+
+        log.info("create user" + userName + userPassword + userState + userEmail);
+        this.template.update(sql, userName, userPassword, userState, userEmail);
+
+        return user;
+    }
+    @Override
+    public List<User> getUsers() {
+        return null;
+    }
+
+
+    @Override
     public Movie createMovie(Movie movie) {
         Logger log = Logger.getLogger(MovieDBService.class.getName());
 
@@ -139,6 +161,7 @@ public class MovieDBRepo implements MovieDBRepoFace {
         }, search, search);
 
     }
+
 
     @Override
     public User findLogin(String userName, String userPassword) {
