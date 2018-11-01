@@ -90,7 +90,9 @@ public class MovieDBController {
         log.info("search title: " + search);
 
         List<Movie> movies = movieDBServiceFace.searchMovie(search);
-
+        if(loggedIn.getUserState() == 1) {
+            model.addAttribute("isLoggedin", true);
+        }
         model.addAttribute("movies", movies);
         model.addAttribute("pageTitle", "Search for: " + search);
 
