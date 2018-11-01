@@ -33,10 +33,10 @@
                             <td th:text="${actor.lastName}" />
                             <td>
 
-                                <a th:href="${'/editActor/'+ actor.actorId}" class="btn btn-light btn-sm">
+                                <a th:href="${'/editActor/'+ actor.actorId}" class="btn btn-light btn-sm" th:classappend="${isAdmin} ? '' : 'd-none'">
                                     <span class="fas fa-pen"></span> Edit
                                 </a>
-                                <a th:href="${'/deleteActor/'+ actor.actorId}" class="btn btn-danger btn-sm">
+                                <a th:href="${'/deleteActor/'+ actor.actorId}" class="btn btn-danger btn-sm" th:classappend="${isAdmin} ? '' : 'd-none'">
                                     <span class="fas fa-trash-alt"></span> Delete
                                 </a>
 
@@ -47,7 +47,7 @@
     </table>
 
     <a href="/createActor">
-        <button class="btn btn-success"><span class="fas fa-plus"></span> Create new actor</button>
+        <button class="btn btn-success" th:classappend="${isAdmin} ? '' : 'd-none'"><span class="fas fa-plus"></span> Create new actor</button>
     </a>
 
 </div>

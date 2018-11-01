@@ -12,14 +12,19 @@ public interface MovieDBServiceFace {
     List<Movie> searchMovie(String search);
 
     //Users
-    boolean loginMatch(User user);
     List<User> getUsers();
+    User createUser(User user);
+
+    boolean loginMatch(User user);
     User loggedIn(User user);
     List<User> searchUser(String search);
+    User findUser(int userId);
+    User updateUser(User user);
 
     //Movie actor relations
     List<Actor> getRelatedMovieActor(int movieId);
     List<Actor> getUnrelatedMovieActor(int movieId);
     void createRelation(int actorId, int movieId);
     void removeRelation(int actorId, int movieId);
+
 }

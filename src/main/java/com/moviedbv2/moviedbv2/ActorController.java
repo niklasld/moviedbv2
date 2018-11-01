@@ -17,6 +17,8 @@ public class ActorController {
     @Autowired
     ActorServiceFace actorServiceFace;
 
+    User loggedIn = new User();
+
     private final String ACTORS= "actors";
     private final String CREATEACTOR = "createactor";
     private final String EDITACTOR = "editactor";
@@ -40,6 +42,14 @@ public class ActorController {
         model.addAttribute("isActors", true);
 
         model.addAttribute("pageTitle", "Actors");
+        if(loggedIn.getUserState() == 1) {
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("isAdmin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+        } else if (loggedIn.getUserState() == 0){
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+        }
 
         return ACTORS;
     }
@@ -54,6 +64,14 @@ public class ActorController {
         model.addAttribute("isActors", true);
 
         model.addAttribute("pageTitle", "Search for: " + search);
+        if(loggedIn.getUserState() == 1) {
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("isAdmin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+        } else if (loggedIn.getUserState() == 0){
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+        }
 
 
         return ACTORS;
@@ -77,6 +95,14 @@ public class ActorController {
 
         model.addAttribute("actor", new Actor());
         model.addAttribute("pageTitle", "Create actor");
+        if(loggedIn.getUserState() == 1) {
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("isAdmin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+        } else if (loggedIn.getUserState() == 0){
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+        }
 
         return CREATEACTOR;
     }
@@ -88,6 +114,14 @@ public class ActorController {
         log.info("actorId = "+actor.getActorId());
         model.addAttribute("actor", actor);
         model.addAttribute("pageTitle","Edit Actor");
+        if(loggedIn.getUserState() == 1) {
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("isAdmin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+        } else if (loggedIn.getUserState() == 0){
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+        }
 
         return EDITACTOR;
 
@@ -111,6 +145,14 @@ public class ActorController {
         model.addAttribute("actor", actorServiceFace.findActor(id));
         String firstName = actorServiceFace.findActor(id).getFirstName();
         model.addAttribute("pageTitle", "Delete actor (" + firstName + ")");
+        if(loggedIn.getUserState() == 1) {
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("isAdmin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+        } else if (loggedIn.getUserState() == 0){
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+        }
 
         return DELETEACTOR;
     }

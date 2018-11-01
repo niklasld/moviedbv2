@@ -49,6 +49,28 @@ public class MovieDBService implements MovieDBServiceFace {
         return movies;
     }
 
+
+
+
+
+
+    @Override
+    public List<User> getUsers() {
+        List<User> users = movieDBRepoFace.getUsers();
+
+        return users;
+    }
+
+    @Override
+    public User createUser(User user) {
+        user = movieDBRepoFace.createUser(user);
+        return user;
+    }
+
+
+
+
+
     @Override
     public boolean loginMatch(User user) {
         boolean loginMatch;
@@ -66,13 +88,6 @@ public class MovieDBService implements MovieDBServiceFace {
     }
 
     @Override
-    public List<User> getUsers() {
-        List<User> users = movieDBRepoFace.getUsers();
-
-        return users;
-    }
-
-    @Override
     public User loggedIn(User user) {
 
         user = movieDBRepoFace.findLogin(user.getUserName(),user.getUserPassword());
@@ -83,6 +98,22 @@ public class MovieDBService implements MovieDBServiceFace {
     public List<User> searchUser(String search) {
         List<User> users = movieDBRepoFace.searchUser(search);
         return users;
+    }
+
+    @Override
+    public User findUser(int userId) {
+        User foundUser = new User();
+
+        foundUser = movieDBRepoFace.findUser(userId);
+
+        return foundUser;
+    }
+
+    @Override
+    public User updateUser(User user) {
+        user = movieDBRepoFace.updateUser(user);
+
+        return user;
     }
 
     @Override

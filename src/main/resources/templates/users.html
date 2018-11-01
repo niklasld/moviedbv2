@@ -11,7 +11,7 @@
 
     <h1><i class="fas fa-user-circle"></i> <span th:text="${userName}"></span></h1>
 
-    <a th:href="${'editUser/' + userId}"><span class="fas fa-pen"></span> Edit information</a>
+    <a th:href="${'edituser/' + userId}"><span class="fas fa-pen"></span> Edit information</a>
 
     <p><b>Username:</b> <span th:text="${userName}"></span></p>
 
@@ -59,10 +59,10 @@
                                     <!--<a th:href="${'display/' + movies.movieId}" class="btn btn-light btn-sm">
                                         <span class="fas fa-pen"></span> change password
                                     </a>-->
-                                    <a th:href="${'editUser/' + users.id}" class="btn btn-light btn-sm" th:classappend="${isAdmin} ? '' : 'd-none'">
+                                    <a th:href="${'edituser/' + users.id}" class="btn btn-light btn-sm" th:classappend="${isAdmin} ? '' : 'd-none'">
                                         <span class="fas fa-pen"></span> Edit
                                     </a>
-                                    <a th:href="${'deleteUser/' + users.id}" class="btn btn-danger btn-sm" th:classappend="${isAdmin} ? '' : 'd-none'">
+                                    <a th:href="${'deleteuser/' + users.id}" class="btn btn-danger btn-sm" th:classappend="${isAdmin} ? '' : 'd-none'">
                                         <span class="fas fa-trash-alt"></span> Delete
                                     </a>
 
@@ -72,7 +72,7 @@
             </tbody>
         </table>
 
-        <a href="/createMovie" class="btn btn-success" th:classappend="${isLoggedin} ? '' : 'd-none'">
+        <a href="/createuser" class="btn btn-success" th:classappend="${isLoggedin} ? '' : 'd-none'">
             <span class="fas fa-plus"></span> Create new movie
         </a>
     </span>

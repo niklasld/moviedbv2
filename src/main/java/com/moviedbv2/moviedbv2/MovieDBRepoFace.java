@@ -20,7 +20,9 @@ public interface MovieDBRepoFace {
     List<User> getUsers();
     User findLogin(String userName, String userPassword);
     List<User> searchUser(String search);
-
+    User createUser(User user);
+    User findUser(int userId);
+    User updateUser(User user);
 
     //Movie actor relation
     List<Actor> getRelatedMovieActor(int movieId);

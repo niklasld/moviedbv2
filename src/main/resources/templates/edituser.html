@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<head th:include="fragments/head :: styles">
+    <!--<link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>-->
+</head>
+<body>
+<div class="container">
+    </head>
+
+    <header th:include="fragments/header :: navbar"></header>
+
+    <h1 th:text="${'Edit User'}"></h1>
+
+    <form th:method="Put" th:action="@{/edituser}" th:object="${user}">
+
+        <input type="hidden" name="userId" th:field="${user.id}"/>
+
+        <label>Username:</label>
+        <input type="text" class="form-control mr-sm-2"  name="userName" th:field="${user.userName}"/>
+
+        <label>User Email:</label>
+        <input type="text" class="form-control mr-sm-2"  name="userEmail" th:field="${user.userEmail}"/>
+
+        <label>User State:</label>
+        <br/><select id="userState" name="userState" th:field="${user.userState}" th:classappend="${isAdmin} ? '' : 'd-none'">>
+            <option value="0">0 - Normal User</option>
+            <option value="1">1 - Admin user</option>
+        </select>
+
+        <br/><input class="btn btn-light" type="button" value="Cancel" onclick="location.href='/users';"/>
+
+        <button class="btn btn-primary" type="submit">Save</button>
+
+    </form>
+
+</div>
+</body>
+</html>
