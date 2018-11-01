@@ -14,6 +14,8 @@ public interface MovieDBServiceFace {
     //Users
     boolean loginMatch(User user);
     User loggedIn(User user);
+    User findUser(int userId);
+    User updateUser(User user);
 
     //Movie actor relations
     List<Actor> getRelatedMovieActor(int movieId);

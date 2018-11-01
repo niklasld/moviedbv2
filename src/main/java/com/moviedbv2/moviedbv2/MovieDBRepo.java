@@ -170,6 +170,52 @@ public class MovieDBRepo implements MovieDBRepoFace {
     }
 
     @Override
+    public User findUser(int userId) {
+        String sql = "SELECT * FROM users WHERE userId = ?";
+
+        return this.template.query(sql, new ResultSetExtractor<User>() {
+            @Override
+            public User extractData(ResultSet rs) throws SQLException, DataAccessException {
+                String userName, userPassword, userEmail;
+                int id, userState;
+                User user = new User();
+
+                while (rs.next()) {
+                    userName = rs.getString("userName");
+                    userPassword = rs.getString("userPassword");
+                    id = rs.getInt("userId");
+                    userState = rs.getInt("userState");
+                    userEmail = rs.getString("userEmail");
+
+                    user.setUserName(userName);
+                    user.setUserPassword(userPassword);
+                    user.setId(id);
+                    user.setUserState(userState);
+                    user.setUserEmail(userEmail);
+                }
+                return user;
+            }
+        },userId);
+    }
+
+    @Override
+    public User updateUser(User user) {
+
+        String sql = "UPDATE users SET userState = ?, userName = ?, userEmail = ? WHERE userId = ?";
+        int userState = user.getUserState();
+        int userId = user.getId();
+
+        String userName = user.getUserName();
+        String userEmail = user.getUserEmail();
+
+
+
+        this.template.update(sql, userState, userName, userEmail, userId);
+
+        return user;
+    }
+
+    @Override
     public List<Actor> getRelatedMovieActor(int movieId) {
         String sql = "SELECT actors.actorId, firstName, lastName FROM actors\n" +
                 "INNER JOIN movieActorRelation ON actors.actorId = movieActorRelation.fk_actorId\n" +

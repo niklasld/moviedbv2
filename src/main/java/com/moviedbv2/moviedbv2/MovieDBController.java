@@ -27,6 +27,8 @@ public class MovieDBController {
     private final String DELETEMOVIE = "deletemovie";
     private final String ADDACTORTOMOVIE = "addActorToMovie";
 
+    private final String EDITUSER = "edituser";
+
     private final String LOGIN = "login";
 
     Logger log = Logger.getLogger(MovieDBController.class.getName());
@@ -230,6 +232,26 @@ public class MovieDBController {
 
             model.addAttribute("movies", movieDBServiceFace.getMovies());
             model.addAttribute("pageTitle", "Edit movie");
+
+            return REDIRECT;
+        }
+
+        @GetMapping("/edituser/{userId}")
+        public String editUser (@PathVariable("userId") int userId, Model model) {
+
+            log.info("Edit user called with id="+userId);
+
+            model.addAttribute("user",movieDBServiceFace.findUser(userId));
+            model.addAttribute("pageTitle", "Edit User");
+
+            return EDITUSER;
+        }
+
+        @PutMapping("/edituser")
+        public String editUser(@ModelAttribute User user, Model model) {
+            movieDBServiceFace.updateUser(user);
+
+            model.addAttribute("pageTitle", "Edit User");
 
             return REDIRECT;
         }

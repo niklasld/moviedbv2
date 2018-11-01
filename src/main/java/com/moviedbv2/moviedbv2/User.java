@@ -8,6 +8,12 @@ public class User {
     public User() {
     }
 
+    public User(int userState, String userName, String userEmail) {
+        this.userState = userState;
+        this.userName = userName;
+        this.userEmail = userEmail;
+    }
+
     public User(int userState, String userName, String userPassword, String userEmail) {
         this.userState = userState;
         this.userName = userName;
