@@ -11,7 +11,8 @@
 
     <h1>Login</h1>
 
-    <div class="alert alert-danger" th:classappend="${loginError} ? '' : 'd-none'">
+    <div class="alert alert-danger alert-dismissible" th:classappend="${loginError} ? '' : 'd-none'">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
         <strong>Login Error!</strong> Wrong username or password, you little bitch...
     </div>
 

@@ -17,7 +17,10 @@ public interface MovieDBRepoFace {
     List<Movie> searchMovie(String search);
 
     //Users
+    List<User> getUsers();
     User findLogin(String userName, String userPassword);
+    List<User> searchUser(String search);
+
 
     //Movie actor relation
     List<Actor> getRelatedMovieActor(int movieId);

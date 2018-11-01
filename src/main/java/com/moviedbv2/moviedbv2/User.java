@@ -2,7 +2,8 @@ package com.moviedbv2.moviedbv2;
 
 public class User {
 
-    int id, userState;
+    int id;
+    int userState = -1;
     String userName, userPassword, userEmail;
 
     public User() {

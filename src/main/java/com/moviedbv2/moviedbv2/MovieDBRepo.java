@@ -170,6 +170,64 @@ public class MovieDBRepo implements MovieDBRepoFace {
     }
 
     @Override
+    public List<User> getUsers() {
+        String sql = "SELECT * FROM users";
+
+        // Fra sql til list.
+        // Manuelt i stedet.
+        return this.template.query(sql, new ResultSetExtractor<List<User>>() {
+            @Override
+            public List<User> extractData(ResultSet rs) throws SQLException, DataAccessException {
+                int userId, userState;
+                String userName, userPassword, userEmail;
+                ArrayList<User> users = new ArrayList<>();
+
+                while (rs.next()) {
+                    userId = rs.getInt("userId");
+                    userState = rs.getInt("userState");
+                    userName = rs.getString("userName");
+                    userPassword = rs.getString("userPassword");
+                    userEmail = rs.getString("userEmail");
+
+                    users.add(new User(userId, userState, userName, userPassword, userEmail));
+                }
+                return users;
+            }
+        });
+
+    }
+
+    @Override
+    public List<User> searchUser(String search) {
+        String sql = "SELECT * FROM users WHERE userName LIKE ?";
+
+        search = "%" + search + "%";
+
+        // Fra sql til list.
+        // Manuelt i stedet.
+        return this.template.query(sql, new ResultSetExtractor<List<User>>() {
+            @Override
+            public List<User> extractData(ResultSet rs) throws SQLException, DataAccessException {
+                int userId, userState;
+                String userName, userPassword, userEmail;
+                ArrayList<User> users = new ArrayList<>();
+
+                while (rs.next()) {
+                    userId = rs.getInt("userId");
+                    userState = rs.getInt("userState");
+                    userName = rs.getString("userName");
+                    userPassword = rs.getString("userPassword");
+                    userEmail = rs.getString("userEmail");
+
+                    users.add(new User(userId, userState, userName, userPassword, userEmail));
+                }
+                return users;
+            }
+        }, search);
+
+    }
+
+    @Override
     public List<Actor> getRelatedMovieActor(int movieId) {
         String sql = "SELECT actors.actorId, firstName, lastName FROM actors\n" +
                 "INNER JOIN movieActorRelation ON actors.actorId = movieActorRelation.fk_actorId\n" +

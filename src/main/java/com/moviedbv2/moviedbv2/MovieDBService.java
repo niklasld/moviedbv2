@@ -1,5 +1,6 @@
 package com.moviedbv2.moviedbv2;
 
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,10 +66,23 @@ public class MovieDBService implements MovieDBServiceFace {
     }
 
     @Override
+    public List<User> getUsers() {
+        List<User> users = movieDBRepoFace.getUsers();
+
+        return users;
+    }
+
+    @Override
     public User loggedIn(User user) {
 
         user = movieDBRepoFace.findLogin(user.getUserName(),user.getUserPassword());
         return user;
+    }
+
+    @Override
+    public List<User> searchUser(String search) {
+        List<User> users = movieDBRepoFace.searchUser(search);
+        return users;
     }
 
     @Override
