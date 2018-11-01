@@ -20,6 +20,7 @@ public interface MovieDBServiceFace {
     List<User> searchUser(String search);
     User findUser(int userId);
     User updateUser(User user);
+    void deleteUser(int id);
 
     //Movie actor relations
     List<Actor> getRelatedMovieActor(int movieId);

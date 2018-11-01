@@ -293,6 +293,12 @@ public class MovieDBRepo implements MovieDBRepoFace {
     }
 
     @Override
+    public void deleteUser(int id) {
+        String sql = "DELETE FROM users WHERE userId = ?";
+        this.template.update(sql, id);
+    }
+
+    @Override
     public List<Actor> getRelatedMovieActor(int movieId) {
         String sql = "SELECT actors.actorId, firstName, lastName FROM actors\n" +
                 "INNER JOIN movieActorRelation ON actors.actorId = movieActorRelation.fk_actorId\n" +

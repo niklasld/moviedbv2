@@ -21,7 +21,7 @@
         <label>User Email:</label>
         <input type="text" class="form-control mr-sm-2"  name="userEmail" th:field="${user.userEmail}"/>
 
-        <label>User State:</label>
+        <label th:classappend="${isAdmin} ? '' : 'd-none'">User State:</label>
         <br/><select id="userState" name="userState" th:field="${user.userState}" th:classappend="${isAdmin} ? '' : 'd-none'">>
             <option value="0">0 - Normal User</option>
             <option value="1">1 - Admin user</option>

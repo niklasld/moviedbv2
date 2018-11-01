@@ -20,7 +20,9 @@
         <input type="text" class="form-control mr-sm-2"  th:name="userEmail" placeholder="UserEmail"/>
         <br>
 
-        <input class="btn btn-light" type="button" value="Cancel" onclick="location.href='/login';"/>
+        <input class="btn btn-light" th:classappend="${isAdmin} ? 'd-none' : ''" type="button" value="Cancel" onclick="location.href='/login';"/>
+
+        <input class="btn btn-light" th:classappend="${isAdmin} ? '' : 'd-none'" type="button" value="Cancel" onclick="location.href='/users';"/>
 
         <button class="btn btn-primary" type="submit" value="Create User">Create</button>
 

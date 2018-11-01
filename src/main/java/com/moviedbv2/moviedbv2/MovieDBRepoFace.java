@@ -23,6 +23,7 @@ public interface MovieDBRepoFace {
     User createUser(User user);
     User findUser(int userId);
     User updateUser(User user);
+    void deleteUser(int id);
 
     //Movie actor relation
     List<Actor> getRelatedMovieActor(int movieId);

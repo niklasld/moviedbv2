@@ -21,18 +21,18 @@ public class MovieDBController {
     private final String REDIRECT = "redirect:/";
     private final String INDEX = "index";
     private final String CREATEMOVIE = "createmovie";
-    private final String USERS = "users";
 
     private final String DISPLAY = "display";
     private final String EDITMOVIE = "editmovie";
     private final String DELETEMOVIE = "deletemovie";
     private final String ADDACTORTOMOVIE = "addActorToMovie";
 
-    private final String EDITUSER = "edituser";
-
     private final String LOGIN = "login";
+    private final String USERS = "users";
 
     private final String CREATEUSER = "createuser";
+    private final String EDITUSER = "edituser";
+    private final String DELETEUSER = "deleteuser";
 
     Logger log = Logger.getLogger(MovieDBController.class.getName());
 
@@ -59,114 +59,6 @@ public class MovieDBController {
         }
 
         return INDEX;
-    }
-
-    @GetMapping("/login")
-    public String login(Model model) {
-        log.info("login called...");
-
-        model.addAttribute("users", new User());
-        model.addAttribute("pageTitle", "Login");
-        model.addAttribute("isLogin", true);
-        if(loggedIn.getUserState() == 1) {
-            model.addAttribute("isLoggedin", true);
-            model.addAttribute("isAdmin", true);
-            model.addAttribute("userName", loggedIn.getUserName());
-        } else if (loggedIn.getUserState() == 0){
-            model.addAttribute("isLoggedin", true);
-            model.addAttribute("userName", loggedIn.getUserName());
-        }
-
-        return LOGIN;
-    }
-
-    @PostMapping("/login")
-    public String login(@ModelAttribute User user, Model model, RedirectAttributes redirAttr) {
-        boolean loginMatch = false;
-        loginMatch = movieDBServiceFace.loginMatch(user);
-
-        if(loginMatch == true) {
-            redirAttr.addFlashAttribute("loginsuccess", true);
-            redirAttr.addFlashAttribute("userName", user.getUserName());
-
-            loggedIn = movieDBServiceFace.loggedIn(user);
-
-            return REDIRECT;
-        }
-        else {
-
-            redirAttr.addFlashAttribute("loginError", true);
-
-            return REDIRECT + LOGIN;
-        }
-    }
-
-    @GetMapping("/users")
-    public String users(Model model) {
-        log.info("users called...");
-
-
-        if(loggedIn.getUserState() == 1) {
-            List<User> users = movieDBServiceFace.getUsers();
-            model.addAttribute("users", users);
-            model.addAttribute("pageTitle", "Users");
-            model.addAttribute("isLoggedin", true);
-            model.addAttribute("isAdmin", true);
-            model.addAttribute("userName", loggedIn.getUserName());
-            model.addAttribute("userEmail", loggedIn.getUserEmail());
-            model.addAttribute("userState", loggedIn.getUserState());
-            model.addAttribute("userId", loggedIn.getId());
-            return USERS;
-        } else if (loggedIn.getUserState() == 0){
-            model.addAttribute("pageTitle", "Users");
-            model.addAttribute("isLoggedin", true);
-            model.addAttribute("userName", loggedIn.getUserName());
-            model.addAttribute("userEmail", loggedIn.getUserEmail());
-            model.addAttribute("userState", loggedIn.getUserState());
-            model.addAttribute("userId", loggedIn.getId());
-            return USERS;
-        } else {
-            return REDIRECT;
-        }
-
-    }
-
-    @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public String users(@RequestParam("userName")String search, Model model){
-        log.info("search name: " + search);
-
-        if(loggedIn.getUserState() == 1) {
-            List<User> users = movieDBServiceFace.searchUser(search);
-            model.addAttribute("users", users);
-            model.addAttribute("pageTitle", "Users");
-            model.addAttribute("isLoggedin", true);
-            model.addAttribute("isAdmin", true);
-            model.addAttribute("userName", loggedIn.getUserName());
-            model.addAttribute("userEmail", loggedIn.getUserEmail());
-            model.addAttribute("userState", loggedIn.getUserState());
-            model.addAttribute("userId", loggedIn.getId());
-            return USERS;
-        } else if (loggedIn.getUserState() == 0){
-            model.addAttribute("pageTitle", "Users");
-            model.addAttribute("isLoggedin", true);
-            model.addAttribute("userName", loggedIn.getUserName());
-            model.addAttribute("userEmail", loggedIn.getUserEmail());
-            model.addAttribute("userState", loggedIn.getUserState());
-            model.addAttribute("userId", loggedIn.getId());
-            return USERS;
-        } else {
-            return REDIRECT;
-        }
-
-
-        //return INDEX;
-    }
-
-    @GetMapping("/logout")
-    public String logout(Model model){
-        loggedIn = new User();
-
-        return REDIRECT;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
@@ -371,6 +263,114 @@ public class MovieDBController {
             return REDIRECT;
         }
 
+    @GetMapping("/login")
+    public String login(Model model) {
+        log.info("login called...");
+
+        model.addAttribute("users", new User());
+        model.addAttribute("pageTitle", "Login");
+        model.addAttribute("isLogin", true);
+        if(loggedIn.getUserState() == 1) {
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("isAdmin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+        } else if (loggedIn.getUserState() == 0){
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+        }
+
+        return LOGIN;
+    }
+
+    @PostMapping("/login")
+    public String login(@ModelAttribute User user, Model model, RedirectAttributes redirAttr) {
+        boolean loginMatch = false;
+        loginMatch = movieDBServiceFace.loginMatch(user);
+
+        if(loginMatch == true) {
+            redirAttr.addFlashAttribute("loginsuccess", true);
+            redirAttr.addFlashAttribute("userName", user.getUserName());
+
+            loggedIn = movieDBServiceFace.loggedIn(user);
+
+            return REDIRECT;
+        }
+        else {
+
+            redirAttr.addFlashAttribute("loginError", true);
+
+            return REDIRECT + LOGIN;
+        }
+    }
+
+    @GetMapping("/users")
+    public String users(Model model) {
+        log.info("users called...");
+
+
+        if(loggedIn.getUserState() == 1) {
+            List<User> users = movieDBServiceFace.getUsers();
+            model.addAttribute("users", users);
+            model.addAttribute("pageTitle", "Users");
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("isAdmin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+            model.addAttribute("userEmail", loggedIn.getUserEmail());
+            model.addAttribute("userState", loggedIn.getUserState());
+            model.addAttribute("userId", loggedIn.getId());
+            return USERS;
+        } else if (loggedIn.getUserState() == 0){
+            model.addAttribute("pageTitle", "Users");
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+            model.addAttribute("userEmail", loggedIn.getUserEmail());
+            model.addAttribute("userState", loggedIn.getUserState());
+            model.addAttribute("userId", loggedIn.getId());
+            return USERS;
+        } else {
+            return REDIRECT;
+        }
+
+    }
+
+    @RequestMapping(value = "/users", method = RequestMethod.POST)
+    public String users(@RequestParam("userName")String search, Model model){
+        log.info("search name: " + search);
+
+        if(loggedIn.getUserState() == 1) {
+            List<User> users = movieDBServiceFace.searchUser(search);
+            model.addAttribute("users", users);
+            model.addAttribute("pageTitle", "Users");
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("isAdmin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+            model.addAttribute("userEmail", loggedIn.getUserEmail());
+            model.addAttribute("userState", loggedIn.getUserState());
+            model.addAttribute("userId", loggedIn.getId());
+            return USERS;
+        } else if (loggedIn.getUserState() == 0){
+            model.addAttribute("pageTitle", "Users");
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+            model.addAttribute("userEmail", loggedIn.getUserEmail());
+            model.addAttribute("userState", loggedIn.getUserState());
+            model.addAttribute("userId", loggedIn.getId());
+            return USERS;
+        } else {
+            return REDIRECT;
+        }
+
+
+        //return INDEX;
+    }
+
+    @GetMapping("/logout")
+    public String logout(Model model){
+        loggedIn = new User();
+
+        return REDIRECT;
+    }
+
         @GetMapping("/edituser/{userId}")
         public String editUser (@PathVariable("userId") int userId, Model model) {
 
@@ -393,6 +393,14 @@ public class MovieDBController {
         @PutMapping("/edituser")
         public String editUser(@ModelAttribute User user, Model model) {
             movieDBServiceFace.updateUser(user);
+
+            if(loggedIn.getUserState() == 1) {
+                model.addAttribute("users", movieDBServiceFace.getUsers());
+            }
+
+            if(loggedIn.getId() == user.getId()) {
+                loggedIn = movieDBServiceFace.findUser(user.getId());
+            }
 
             model.addAttribute("pageTitle", "Edit User");
 
@@ -431,6 +439,46 @@ public class MovieDBController {
         } else {
             return REDIRECT;
         }
+    }
+
+    @GetMapping("/deleteuser/{id}")
+    public String deleteuser (@PathVariable Integer id, Model model){
+        log.info("Delete movie wits id: " + id + "?");
+
+        model.addAttribute("user", movieDBServiceFace.findUser(id));
+        String userName = movieDBServiceFace.findUser(id).getUserName();
+        model.addAttribute("pageTitle", "Delete movie (" + userName + ")");
+        if(loggedIn.getUserState() == 1) {
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("isAdmin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+        } else if (loggedIn.getUserState() == 0){
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+        }
+
+        return DELETEUSER;
+    }
+
+    @PutMapping("/deleteuser")
+    public String deleteuser (@ModelAttribute User user, Model model){
+        log.info("delete confirmed deleting movie " + user.getId());
+        int id = user.getId();
+
+        movieDBServiceFace.deleteUser(id);
+
+        model.addAttribute("users", movieDBServiceFace.getUsers());
+        model.addAttribute("pageTitle", "Delete user");
+        if(loggedIn.getUserState() == 1) {
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("isAdmin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+        } else if (loggedIn.getUserState() == 0){
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+        }
+
+        return REDIRECT + USERS;
     }
 
     }

@@ -117,6 +117,11 @@ public class MovieDBService implements MovieDBServiceFace {
     }
 
     @Override
+    public void deleteUser(int id) {
+        movieDBRepoFace.deleteUser(id);
+    }
+
+    @Override
     public List<Actor> getRelatedMovieActor(int movieId) {
         List<Actor> actors = movieDBRepoFace.getRelatedMovieActor(movieId);
         return actors;
