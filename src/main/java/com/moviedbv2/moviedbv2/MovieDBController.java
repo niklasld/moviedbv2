@@ -396,7 +396,7 @@ public class MovieDBController {
 
             model.addAttribute("pageTitle", "Edit User");
 
-            return REDIRECT;
+            return REDIRECT + USERS;
         }
 
     @GetMapping("/createuser")
@@ -426,7 +426,11 @@ public class MovieDBController {
         model.addAttribute("movies", movieDBServiceFace.getUsers());
         model.addAttribute("pageTitle", "Create movie");
 
-        return REDIRECT + LOGIN;
+        if(loggedIn.getUserState() == 1){
+            return REDIRECT + USERS;
+        } else {
+            return REDIRECT;
+        }
     }
 
     }
