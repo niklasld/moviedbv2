@@ -49,6 +49,7 @@ public class MovieDBController {
         model.addAttribute("movies", movies);
         model.addAttribute("pageTitle", "index");
         model.addAttribute("isMovies", true);
+
         if(loggedIn.getUserState() == 1) {
             model.addAttribute("isLoggedin", true);
             model.addAttribute("isAdmin", true);
@@ -72,6 +73,7 @@ public class MovieDBController {
         model.addAttribute("movies", movies);
         model.addAttribute("pageTitle", "Search for: " + search);
         model.addAttribute("isMovies", true);
+
         if(loggedIn.getUserState() == 1) {
             model.addAttribute("isLoggedin", true);
             model.addAttribute("isAdmin", true);
@@ -98,11 +100,13 @@ public class MovieDBController {
 
         model.addAttribute("movie", new Movie());
         model.addAttribute("pageTitle", "Create movie");
+
         if(loggedIn.getUserState() == 1) {
             model.addAttribute("isLoggedin", true);
             model.addAttribute("isAdmin", true);
             model.addAttribute("userName", loggedIn.getUserName());
-        } else if (loggedIn.getUserState() == 0){
+        }
+        else if (loggedIn.getUserState() == 0){
             model.addAttribute("isLoggedin", true);
             model.addAttribute("userName", loggedIn.getUserName());
         }
@@ -136,8 +140,8 @@ public class MovieDBController {
         model.addAttribute(("movie"), movieDBServiceFace.findMovie(id));
         model.addAttribute(("relatedActors"), movieDBServiceFace.getRelatedMovieActor(id));
 
-
         model.addAttribute("pageTitle", "Movie details");
+
         if(loggedIn.getUserState() == 1) {
             model.addAttribute("isLoggedin", true);
             model.addAttribute("isAdmin", true);
@@ -151,117 +155,122 @@ public class MovieDBController {
     }
 
 
-        @GetMapping("/editMovie/{id}")
-        public String editMovie (@PathVariable Integer id, Model model){
-            log.info("Edit movie called..." + id);
+    @GetMapping("/editMovie/{id}")
+    public String editMovie (@PathVariable Integer id, Model model){
+        log.info("Edit movie called..." + id);
 
-            model.addAttribute("movie", movieDBServiceFace.findMovie(id));
+        model.addAttribute("movie", movieDBServiceFace.findMovie(id));
 
-            model.addAttribute("relatedActors", movieDBServiceFace.getRelatedMovieActor(id));
-            model.addAttribute("unrelatedActors", movieDBServiceFace.getUnrelatedMovieActor(id));
+        model.addAttribute("relatedActors", movieDBServiceFace.getRelatedMovieActor(id));
+        model.addAttribute("unrelatedActors", movieDBServiceFace.getUnrelatedMovieActor(id));
 
-            String movieTitle = movieDBServiceFace.findMovie(id).getMovieTitle();
-            model.addAttribute("pageTitle", "Edit movie (" + movieTitle + ")");
-            model.addAttribute("movieTitle", movieTitle);
-            if(loggedIn.getUserState() == 1) {
-                model.addAttribute("isLoggedin", true);
-                model.addAttribute("isAdmin", true);
-                model.addAttribute("userName", loggedIn.getUserName());
-            } else if (loggedIn.getUserState() == 0){
-                model.addAttribute("isLoggedin", true);
-                model.addAttribute("userName", loggedIn.getUserName());
-            }
+        String movieTitle = movieDBServiceFace.findMovie(id).getMovieTitle();
+        model.addAttribute("pageTitle", "Edit movie (" + movieTitle + ")");
+        model.addAttribute("movieTitle", movieTitle);
 
-            return EDITMOVIE;
+        if(loggedIn.getUserState() == 1) {
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("isAdmin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+        } else if (loggedIn.getUserState() == 0){
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
         }
 
+        return EDITMOVIE;
+    }
 
-        @RequestMapping(value = "/removerelation", method = RequestMethod.POST)
-        public String removeRelation ( @RequestParam("movieId") int movieId, @RequestParam("actorId") int actorId, Model
-        model){
-            log.info("Remove relation called");
 
-            movieDBServiceFace.removeRelation(actorId, movieId);
+    @RequestMapping(value = "/removerelation", method = RequestMethod.POST)
+    public String removeRelation ( @RequestParam("movieId") int movieId, @RequestParam("actorId") int actorId, Model
+    model){
+        log.info("Remove relation called");
 
-            model.addAttribute("movie", movieDBServiceFace.findMovie(movieId));
+        movieDBServiceFace.removeRelation(actorId, movieId);
 
-            model.addAttribute("relatedActors", movieDBServiceFace.getRelatedMovieActor(movieId));
-            model.addAttribute("unrelatedActors", movieDBServiceFace.getUnrelatedMovieActor(movieId));
+        model.addAttribute("movie", movieDBServiceFace.findMovie(movieId));
 
-            String movieTitle = movieDBServiceFace.findMovie(movieId).getMovieTitle();
-            model.addAttribute("pageTitle", "Edit movie (" + movieTitle + ")");
-            model.addAttribute("movieTitle", movieTitle);
+        model.addAttribute("relatedActors", movieDBServiceFace.getRelatedMovieActor(movieId));
+        model.addAttribute("unrelatedActors", movieDBServiceFace.getUnrelatedMovieActor(movieId));
+
+        String movieTitle = movieDBServiceFace.findMovie(movieId).getMovieTitle();
+        model.addAttribute("pageTitle", "Edit movie (" + movieTitle + ")");
+        model.addAttribute("movieTitle", movieTitle);
+
         return REDIRECT + "editMovie" + "/" + movieId;
     }
 
-        @RequestMapping(value = "/addrelation", method = RequestMethod.POST)
-        public String addRelation ( @RequestParam("movieId") int movieId, @RequestParam("actorId") int actorId, Model
-        model){
-            log.info("Add relation called");
+    @RequestMapping(value = "/addrelation", method = RequestMethod.POST)
+    public String addRelation ( @RequestParam("movieId") int movieId, @RequestParam("actorId") int actorId, Model
+    model){
+        log.info("Add relation called");
 
-            movieDBServiceFace.createRelation(actorId, movieId);
+        movieDBServiceFace.createRelation(actorId, movieId);
 
-            model.addAttribute("movie", movieDBServiceFace.findMovie(movieId));
+        model.addAttribute("movie", movieDBServiceFace.findMovie(movieId));
 
-            model.addAttribute("relatedActors", movieDBServiceFace.getRelatedMovieActor(movieId));
-            model.addAttribute("unrelatedActors", movieDBServiceFace.getUnrelatedMovieActor(movieId));
+        model.addAttribute("relatedActors", movieDBServiceFace.getRelatedMovieActor(movieId));
+        model.addAttribute("unrelatedActors", movieDBServiceFace.getUnrelatedMovieActor(movieId));
 
-            String movieTitle = movieDBServiceFace.findMovie(movieId).getMovieTitle();
-            model.addAttribute("pageTitle", "Edit movie (" + movieTitle + ")");
-            model.addAttribute("movieTitle", movieTitle);
-            return REDIRECT + "editMovie" + "/" + movieId;
+        String movieTitle = movieDBServiceFace.findMovie(movieId).getMovieTitle();
+        model.addAttribute("pageTitle", "Edit movie (" + movieTitle + ")");
+        model.addAttribute("movieTitle", movieTitle);
+
+        return REDIRECT + EDITMOVIE + "/" + movieId;
     }
 
-        @GetMapping("/deleteMovie/{id}")
-        public String deleteMovie (@PathVariable Integer id, Model model){
-            log.info("Delete movie wits id: " + id + "?");
+    @GetMapping("/deleteMovie/{id}")
+    public String deleteMovie (@PathVariable Integer id, Model model){
+        log.info("Delete movie wits id: " + id + "?");
 
-            model.addAttribute("movie", movieDBServiceFace.findMovie(id));
-            String movieTitle = movieDBServiceFace.findMovie(id).getMovieTitle();
-            model.addAttribute("pageTitle", "Delete movie (" + movieTitle + ")");
-            if(loggedIn.getUserState() == 1) {
-                model.addAttribute("isLoggedin", true);
-                model.addAttribute("isAdmin", true);
-                model.addAttribute("userName", loggedIn.getUserName());
-            } else if (loggedIn.getUserState() == 0){
-                model.addAttribute("isLoggedin", true);
-                model.addAttribute("userName", loggedIn.getUserName());
-            }
+        model.addAttribute("movie", movieDBServiceFace.findMovie(id));
+        String movieTitle = movieDBServiceFace.findMovie(id).getMovieTitle();
+        model.addAttribute("pageTitle", "Delete movie (" + movieTitle + ")");
 
-            return DELETEMOVIE;
+        if(loggedIn.getUserState() == 1) {
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("isAdmin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+        } else if (loggedIn.getUserState() == 0){
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
         }
 
-        @PutMapping("/deleteMovie")
-        public String delete (@ModelAttribute Movie movie, Model model){
-            log.info("delete confirmed deleting movie " + movie.getMovieId());
-            int id = movie.getMovieId();
+        return DELETEMOVIE;
+    }
 
-            movieDBServiceFace.deleteMovie(id);
+    @PutMapping("/deleteMovie")
+    public String delete (@ModelAttribute Movie movie, Model model){
+        log.info("delete confirmed deleting movie " + movie.getMovieId());
+        int id = movie.getMovieId();
 
-            model.addAttribute("movies", movieDBServiceFace.getMovies());
-            model.addAttribute("pageTitle", "Delete movie");
-            if(loggedIn.getUserState() == 1) {
-                model.addAttribute("isLoggedin", true);
-                model.addAttribute("isAdmin", true);
-                model.addAttribute("userName", loggedIn.getUserName());
-            } else if (loggedIn.getUserState() == 0){
-                model.addAttribute("isLoggedin", true);
-                model.addAttribute("userName", loggedIn.getUserName());
-            }
+        movieDBServiceFace.deleteMovie(id);
 
-            return REDIRECT;
+        model.addAttribute("movies", movieDBServiceFace.getMovies());
+        model.addAttribute("pageTitle", "Delete movie");
+
+        if(loggedIn.getUserState() == 1) {
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("isAdmin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+        } else if (loggedIn.getUserState() == 0){
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
         }
 
-        @PutMapping("/editmovie")
-        public String editMovie (@ModelAttribute Movie movie, Model model){
+        return REDIRECT;
+    }
 
-            movieDBServiceFace.updateMovie(movie);
+    @PutMapping("/editmovie")
+    public String editMovie (@ModelAttribute Movie movie, Model model){
 
-            model.addAttribute("movies", movieDBServiceFace.getMovies());
-            model.addAttribute("pageTitle", "Edit movie");
+        movieDBServiceFace.updateMovie(movie);
 
-            return REDIRECT;
-        }
+        model.addAttribute("movies", movieDBServiceFace.getMovies());
+        model.addAttribute("pageTitle", "Edit movie");
+
+        return REDIRECT;
+    }
 
     @GetMapping("/login")
     public String login(Model model) {
@@ -270,6 +279,7 @@ public class MovieDBController {
         model.addAttribute("users", new User());
         model.addAttribute("pageTitle", "Login");
         model.addAttribute("isLogin", true);
+
         if(loggedIn.getUserState() == 1) {
             model.addAttribute("isLoggedin", true);
             model.addAttribute("isAdmin", true);
@@ -310,6 +320,7 @@ public class MovieDBController {
 
         if(loggedIn.getUserState() == 1) {
             List<User> users = movieDBServiceFace.getUsers();
+
             model.addAttribute("users", users);
             model.addAttribute("pageTitle", "Users");
             model.addAttribute("isLoggedin", true);
@@ -318,16 +329,22 @@ public class MovieDBController {
             model.addAttribute("userEmail", loggedIn.getUserEmail());
             model.addAttribute("userState", loggedIn.getUserState());
             model.addAttribute("userId", loggedIn.getId());
+
             return USERS;
-        } else if (loggedIn.getUserState() == 0){
+        }
+
+        else if (loggedIn.getUserState() == 0){
             model.addAttribute("pageTitle", "Users");
             model.addAttribute("isLoggedin", true);
             model.addAttribute("userName", loggedIn.getUserName());
             model.addAttribute("userEmail", loggedIn.getUserEmail());
             model.addAttribute("userState", loggedIn.getUserState());
             model.addAttribute("userId", loggedIn.getId());
+
             return USERS;
-        } else {
+        }
+
+        else {
             return REDIRECT;
         }
 
@@ -339,6 +356,7 @@ public class MovieDBController {
 
         if(loggedIn.getUserState() == 1) {
             List<User> users = movieDBServiceFace.searchUser(search);
+
             model.addAttribute("users", users);
             model.addAttribute("pageTitle", "Users");
             model.addAttribute("isLoggedin", true);
@@ -347,21 +365,25 @@ public class MovieDBController {
             model.addAttribute("userEmail", loggedIn.getUserEmail());
             model.addAttribute("userState", loggedIn.getUserState());
             model.addAttribute("userId", loggedIn.getId());
+
             return USERS;
-        } else if (loggedIn.getUserState() == 0){
+        }
+
+        else if (loggedIn.getUserState() == 0){
             model.addAttribute("pageTitle", "Users");
             model.addAttribute("isLoggedin", true);
             model.addAttribute("userName", loggedIn.getUserName());
             model.addAttribute("userEmail", loggedIn.getUserEmail());
             model.addAttribute("userState", loggedIn.getUserState());
             model.addAttribute("userId", loggedIn.getId());
+
             return USERS;
-        } else {
+        }
+
+        else {
             return REDIRECT;
         }
 
-
-        //return INDEX;
     }
 
     @GetMapping("/logout")
@@ -371,41 +393,43 @@ public class MovieDBController {
         return REDIRECT;
     }
 
-        @GetMapping("/edituser/{userId}")
-        public String editUser (@PathVariable("userId") int userId, Model model) {
+    @GetMapping("/edituser/{userId}")
+    public String editUser (@PathVariable("userId") int userId, Model model) {
 
-            log.info("Edit user called with id="+userId);
+        log.info("Edit user called with id="+userId);
 
-            model.addAttribute("user",movieDBServiceFace.findUser(userId));
-            model.addAttribute("pageTitle", "Edit User");
-            if(loggedIn.getUserState() == 1) {
-                model.addAttribute("isLoggedin", true);
-                model.addAttribute("isAdmin", true);
-                model.addAttribute("userName", loggedIn.getUserName());
-            } else if (loggedIn.getUserState() == 0){
-                model.addAttribute("isLoggedin", true);
-                model.addAttribute("userName", loggedIn.getUserName());
-            }
+        model.addAttribute("user",movieDBServiceFace.findUser(userId));
+        model.addAttribute("pageTitle", "Edit User");
 
-            return EDITUSER;
+        if(loggedIn.getUserState() == 1) {
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("isAdmin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
+        }
+        else if (loggedIn.getUserState() == 0){
+            model.addAttribute("isLoggedin", true);
+            model.addAttribute("userName", loggedIn.getUserName());
         }
 
-        @PutMapping("/edituser")
-        public String editUser(@ModelAttribute User user, Model model) {
-            movieDBServiceFace.updateUser(user);
+        return EDITUSER;
+    }
 
-            if(loggedIn.getUserState() == 1) {
-                model.addAttribute("users", movieDBServiceFace.getUsers());
-            }
+    @PutMapping("/edituser")
+    public String editUser(@ModelAttribute User user, Model model) {
+        movieDBServiceFace.updateUser(user);
 
-            if(loggedIn.getId() == user.getId()) {
-                loggedIn = movieDBServiceFace.findUser(user.getId());
-            }
-
-            model.addAttribute("pageTitle", "Edit User");
-
-            return REDIRECT + USERS;
+        if(loggedIn.getUserState() == 1) {
+            model.addAttribute("users", movieDBServiceFace.getUsers());
         }
+
+        if(loggedIn.getId() == user.getId()) {
+            loggedIn = movieDBServiceFace.findUser(user.getId());
+        }
+
+        model.addAttribute("pageTitle", "Edit User");
+
+        return REDIRECT + USERS;
+    }
 
     @GetMapping("/createuser")
     public String createUser(Model model) {
@@ -413,11 +437,14 @@ public class MovieDBController {
 
         model.addAttribute("user", new User());
         model.addAttribute("pageTitle", "Create user");
+
         if(loggedIn.getUserState() == 1) {
             model.addAttribute("isLoggedin", true);
             model.addAttribute("isAdmin", true);
             model.addAttribute("userName", loggedIn.getUserName());
-        } else if (loggedIn.getUserState() == 0){
+        }
+
+        else if (loggedIn.getUserState() == 0){
             model.addAttribute("isLoggedin", true);
             model.addAttribute("userName", loggedIn.getUserName());
         }
@@ -436,7 +463,9 @@ public class MovieDBController {
 
         if(loggedIn.getUserState() == 1){
             return REDIRECT + USERS;
-        } else {
+        }
+
+        else {
             return REDIRECT;
         }
     }
@@ -447,12 +476,15 @@ public class MovieDBController {
 
         model.addAttribute("user", movieDBServiceFace.findUser(id));
         String userName = movieDBServiceFace.findUser(id).getUserName();
-        model.addAttribute("pageTitle", "Delete movie (" + userName + ")");
+
+
         if(loggedIn.getUserState() == 1) {
             model.addAttribute("isLoggedin", true);
             model.addAttribute("isAdmin", true);
             model.addAttribute("userName", loggedIn.getUserName());
-        } else if (loggedIn.getUserState() == 0){
+        }
+
+        else if (loggedIn.getUserState() == 0){
             model.addAttribute("isLoggedin", true);
             model.addAttribute("userName", loggedIn.getUserName());
         }
@@ -469,11 +501,14 @@ public class MovieDBController {
 
         model.addAttribute("users", movieDBServiceFace.getUsers());
         model.addAttribute("pageTitle", "Delete user");
+
         if(loggedIn.getUserState() == 1) {
             model.addAttribute("isLoggedin", true);
             model.addAttribute("isAdmin", true);
             model.addAttribute("userName", loggedIn.getUserName());
-        } else if (loggedIn.getUserState() == 0){
+        }
+
+        else if (loggedIn.getUserState() == 0){
             model.addAttribute("isLoggedin", true);
             model.addAttribute("userName", loggedIn.getUserName());
         }
@@ -481,4 +516,4 @@ public class MovieDBController {
         return REDIRECT + USERS;
     }
 
-    }
+}

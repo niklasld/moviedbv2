@@ -2,10 +2,8 @@ package com.moviedbv2.moviedbv2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -117,21 +115,6 @@ public class ActorRepo implements ActorRepoFace {
         log.info("Repo searchActor: " + search);
 
         String sql;
-
-        /*if(search.contains(" ")){
-            sql = "SET @fullName = ?;\n" +
-                    "SET @firstName = SUBSTRING_INDEX(@fullName, ' ', 1);\n" +
-                    "SET @firstName = concat('%',@firstName,'%');\n" +
-                    "SET @lastName = SUBSTRING_INDEX(@fullName, ' ', -1);\n" +
-                    "SET @lastName = concat('%',@lastName,'%');\n" +
-                    "SELECT * FROM actors\n" +
-                    "WHERE firstName LIKE @firstName\n" +
-                    "AND lastName LIKE @lastName";
-        } else {
-            sql = "SET @strName = ?;\n" +
-                    "SET @strName = concat('%',@strName,'%');\n" +
-                    "SELECT * FROM actors WHERE firstName LIKE @strName OR lastName LIKE @strName;";
-        }*/
 
         search = "%" + search + "%";
         sql = "SELECT * FROM actors WHERE firstName LIKE ?";
